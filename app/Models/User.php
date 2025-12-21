@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Các thuộc tính có thể gán hàng loạt
      *
      * @var array<int,string>
      */
@@ -20,11 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // thêm role nếu dùng phân quyền admin/customer
+        'role', // admin hoặc customer
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Các thuộc tính bị ẩn khi trả về JSON
      *
      * @var array<int,string>
      */
@@ -34,7 +34,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Các thuộc tính cần cast kiểu dữ liệu
      *
      * @var array<string,string>
      */
@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Quan hệ 1-n với Booking
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }
