@@ -1,174 +1,239 @@
-@extends('layouts.app')
-
-@section('content')
-<style>
-    .booking-page { background-color: #efe6f5; padding: 30px 0; min-height: 100vh; padding-bottom: 100px; }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt vé - BKL Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    /* Header thông tin vé */
-    .ticket-summary {
-        background: white; border-radius: 25px; padding: 20px;
-        display: flex; gap: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        margin-bottom: 30px;
-    }
-    .summary-poster { width: 100px; height: 150px; border-radius: 10px; object-fit: cover; }
-    .info-grid { display: grid; grid-template-columns: 80px 1fr; gap: 5px; font-size: 0.85rem; }
-    .info-label { color: #888; }
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f4f4f9; overflow-x: hidden; }
+        .booking-page { padding: 30px 0 160px 0; min-height: 100vh; position: relative; }
 
-    /* Chú thích ghế */
-    .seat-legend { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; font-size: 0.8rem; }
-    .legend-item { display: flex; align-items: center; gap: 8px; }
-    .seat-demo { width: 30px; height: 30px; border-radius: 5px; }
+        /* SIDEBAR */
+        .side-menu { position: fixed; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 2000; }
+        .side-menu.left { left: 30px; }
+        .side-menu.right { right: 30px; }
+        .menu-btn { 
+            width: 50px; height: 50px; background: white; border: none; border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; 
+            justify-content: center; font-size: 1.2rem; transition: 0.3s; cursor: pointer; 
+            text-decoration: none; color: #333;
+        }
+        .menu-btn:hover { background: #90ff00; color: #000; transform: scale(1.1); }
 
-    /* Sơ đồ ghế */
-    .screen { 
-        width: 60%; height: 8px; background: #fff; margin: 0 auto 50px; 
-        box-shadow: 0 10px 20px rgba(255,255,255,0.8); text-align: center;
-        border-radius: 10px; line-height: 8px; font-size: 0.6rem; color: #aaa;
-    }
-    .seat-grid { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .seat-row { display: flex; gap: 8px; }
-    .seat { 
-        width: 35px; height: 35px; border-radius: 6px; 
-        display: flex; align-items: center; justify-content: center;
-        font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: 0.2s;
-        user-select: none;
-    }
-    
-    /* Màu sắc ghế theo ảnh cậu gửi */
-    .seat-normal { background: #90ff00; color: #444; } 
-    .seat-vip { background: #ff0000; color: white; }    
-    .seat-double { background: #ff9999; color: white; width: 80px; } 
-    .seat-selected { background: #333 !important; color: #fff !important; }
-    .seat-sold { background: #bbb; color: #fff; cursor: not-allowed; opacity: 0.5; } 
+        /* --- FIX LỖI Ô TRẮNG DẤU X TOAST --- */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+        .custom-toast { 
+            pointer-events: auto; background: #1e293b; color: white; padding: 15px 20px; 
+            border-radius: 12px; min-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            display: flex; align-items: center; justify-content: space-between; 
+            position: relative; overflow: hidden; border-left: 5px solid #ff3131; 
+            animation: slideIn 0.4s ease-out forwards; 
+        }
+        @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+        
+        /* Sửa lỗi ô trắng: Ép background về trong suốt và xóa shadow */
+        .close-btn { 
+            background: transparent !important; border: none !important; color: #94a3b8; 
+            font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; 
+            outline: none !important; box-shadow: none !important; appearance: none !important;
+        }
+        .close-btn:hover { color: #ff3131; }
+        .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
+        @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
-    .seat:hover:not(.seat-sold) { transform: scale(1.1); }
+        /* HEADER & CÁC THÀNH PHẦN KHÁC GIỮ NGUYÊN */
+        .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
+        .summary-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
+        .movie-title { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 15px; }
+        .info-details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .info-box { background: #f8f9fa; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
+        .info-box label { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; font-weight: 700; }
+        .info-box span { display: block; font-size: 0.9rem; font-weight: 700; color: #333; }
 
-    /* Footer thanh toán */
-    .booking-footer {
-        position: fixed; bottom: 0; left: 0; width: 100%;
-        background: white; padding: 15px 0; border-top: 1px solid #eee; z-index: 1000;
-    }
-    .btn-next { 
-        background: #d4ff7a; color: #000; text-decoration: none;
-        padding: 10px 40px; border-radius: 10px; font-weight: bold; 
-        display: inline-block; transition: 0.3s;
-    }
-    .btn-next:hover { background: #90ff00; }
-</style>
+        .seat-legend { display: flex; justify-content: center; gap: 25px; margin: 0 auto 40px; padding: 15px 30px; background: #fff; border-radius: 50px; width: fit-content; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; }
+        .seat-demo { width: 20px; height: 20px; border-radius: 5px; }
+
+        .screen-container { width: 100%; perspective: 500px; margin-bottom: 60px; text-align: center; }
+        .screen { width: 70%; height: 10px; background: #ddd; margin: 0 auto; transform: rotateX(-30deg); box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-radius: 5px; }
+        .screen-text { color: #bbb; font-size: 0.75rem; margin-top: 20px; letter-spacing: 10px; font-weight: 800; }
+
+        .zoom-wrapper { width: 100%; display: flex; justify-content: center; }
+        .seat-grid { display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.3s ease; transform-origin: top center; }
+        .seat-row { display: flex; gap: 8px; align-items: center; }
+        .seat-row .seat:nth-child(4), .seat-row .seat:nth-child(8) { margin-left: 25px; }
+        .seat { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .seat-normal { background: #90ff00; color: #000; } 
+        .seat-vip { background: #ff4d4d; color: white; }    
+        .seat-double { background: #ff66cc; color: white; width: 84px; } 
+        .seat-selected { background: #1a1a1a !important; color: #fff !important; transform: scale(1.15); box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
+        .seat-sold { background: #e0e0e0 !important; color: #aaa !important; cursor: not-allowed; } 
+
+        .checkout-card { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px 10%; box-shadow: 0 -10px 30px rgba(0,0,0,0.1); border-top: 1px solid #eee; z-index: 1000; }
+        .total-price { color: #ff0000; font-size: 2rem; font-weight: 800; }
+        .btn-next-step { border-radius: 12px; background: #90ff00; color: #000; border: none; padding: 15px 60px; font-weight: 800; font-size: 1.1rem; transition: 0.2s; }
+        .btn-next-step:hover { background: #82e600; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
 
 <div class="booking-page">
+    <div class="toast-container" id="toast-wrapper"></div>
+
+    <div class="side-menu left">
+        <button class="menu-btn" onclick="window.history.back()" title="Quay lại">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <a href="/movies/status" class="menu-btn" title="Thoát về danh sách phim">
+            <i class="bi bi-x-lg"></i>
+        </a>
+    </div>
+
+    <div class="side-menu right">
+        <button class="menu-btn" onclick="zoomGrid(0.1)" title="Phóng to"><i class="bi bi-plus-lg"></i></button>
+        <button class="menu-btn" onclick="zoomGrid(-0.1)" title="Thu nhỏ"><i class="bi bi-dash-lg"></i></button>
+        <button class="menu-btn" onclick="window.location.reload()" title="Tải lại"><i class="bi bi-arrow-clockwise"></i></button>
+    </div>
+
     <div class="container">
-        <div class="ticket-summary">
+        <div class="ticket-header">
             <img src="{{ asset($showtime->movie->poster_url) }}" class="summary-poster">
-            <div>
-                <h5 class="fw-bold mb-3">{{ $showtime->movie->title }} <span class="badge bg-primary" style="font-size: 0.6rem;">T13</span></h5>
-                <div class="info-grid">
-                    <span class="info-label">Suất chiếu:</span> <strong>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</strong>
-                    <span class="info-label">Rạp chiếu:</span> <strong>BKL Hà Đông</strong>
-                    <span class="info-label">Ngày:</span> <strong>{{ \Carbon\Carbon::parse($showtime->date)->format('d/m/Y') }}</strong>
-                    <span class="info-label">Phòng:</span> <strong>{{ $showtime->room->name }}</strong>
+            <div class="flex-grow-1">
+                <div style="color: #d63384; font-weight: 600;">BKL CINEMA HÀ ĐÔNG</div>
+                <h2 class="movie-title">{{ $showtime->movie->title }}</h2>
+                <div class="info-details-grid">
+                    <div class="info-box"><label>Suất chiếu</label><span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span></div>
+                    <div class="info-box"><label>Ngày</label><span>{{ \Carbon\Carbon::parse($showtime->date)->format('d/m/Y') }}</span></div>
+                    <div class="info-box"><label>Phòng</label><span>{{ $showtime->room->name }}</span></div>
+                    <div class="info-box"><label>Rạp</label><span>BKL Hà Đông</span></div>
                 </div>
             </div>
         </div>
 
         <div class="seat-legend">
-            <div class="legend-item"><div class="seat-demo" style="background:#333"></div> Ghế đã chọn</div>
-            <div class="legend-item"><div class="seat-demo seat-normal"></div> Ghế thường<br>36.000đ</div>
-            <div class="legend-item"><div class="seat-demo seat-vip"></div> Ghế VIP<br>49.000đ</div>
-            <div class="legend-item"><div class="seat-demo seat-double"></div> Ghế đôi<br>95.000đ</div>
+            <div class="legend-item"><div class="seat-demo" style="background:#1a1a1a"></div> Đang chọn</div>
+            <div class="legend-item"><div class="seat-demo seat-normal"></div> Thường</div>
+            <div class="legend-item"><div class="seat-demo seat-vip"></div> VIP</div>
+            <div class="legend-item"><div class="seat-demo seat-double"></div> Ghế đôi</div>
+            <div class="legend-item"><div class="seat-demo seat-sold"></div> Đã bán</div>
         </div>
 
-        <div class="screen">Màn hình</div>
+        <div class="screen-container">
+            <div class="screen"></div>
+            <div class="screen-text">MÀN HÌNH</div>
+        </div>
 
-        <div class="seat-grid">
-            @php
-                $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-                $vipRows = ['D', 'E', 'F'];
-            @endphp
-
-            @foreach($rows as $row)
-                <div class="seat-row">
-                    @for($i=1; $i<=12; $i++)
-                        @php 
-                            $seatCode = $row . sprintf("%02d", $i);
-                            $typeClass = in_array($row, $vipRows) ? 'seat-vip' : 'seat-normal';
-                            $price = in_array($row, $vipRows) ? 49000 : 36000;
-                        @endphp
-                        <div class="seat {{ $typeClass }}" data-name="{{ $seatCode }}" data-price="{{ $price }}">
-                            {{ $seatCode }}
-                        </div>
-                    @endfor
-                </div>
-            @endforeach
-
-            <div class="seat-row mt-4">
-                @for($i=1; $i<=6; $i++)
-                    <div class="seat seat-double" data-name="SW0{{$i}}" data-price="95000">
-                        SW0{{$i}}
+        <div class="zoom-wrapper">
+            <div class="seat-grid" id="seat-grid">
+                @php $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G']; $vipRows = ['D', 'E', 'F']; $soldSeats = $soldSeats ?? []; @endphp
+                @foreach($rows as $row)
+                    <div class="seat-row">
+                        @for($i=1; $i<=10; $i++)
+                            @php 
+                                $code = $row . sprintf("%02d", $i);
+                                $type = in_array($row, $vipRows) ? 'seat-vip' : 'seat-normal';
+                                $price = in_array($row, $vipRows) ? 49000 : 36000;
+                                $isSold = in_array($code, $soldSeats);
+                            @endphp
+                            <div class="seat {{ $isSold ? 'seat-sold' : $type }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                        @endfor
                     </div>
-                @endfor
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-card">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div>
+                <div class="text-muted small fw-bold mb-1 text-uppercase">Ghế đã chọn</div>
+                <div id="display-seats" class="fw-bold fs-5 text-dark">Chưa có ghế nào</div>
+            </div>
+            <div class="d-flex align-items-center gap-5">
+                <div class="text-end">
+                    <div class="text-muted small fw-bold mb-1 text-uppercase">Tổng tạm tính</div>
+                    <div id="display-total" class="total-price">0đ</div>
+                </div>
+                <button id="next-button" class="btn btn-next-step">TIẾP TỤC</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="booking-footer">
-    <div class="container d-flex justify-content-between align-items-center">
-        <div>Ghế: <span id="selected-seats-list" class="fw-bold">Chưa chọn</span></div>
-        <div class="d-flex align-items-center gap-4">
-            <div>Tổng tiền: <strong id="total-amount" style="color: red; font-size: 1.2rem;">0đ</strong></div>
-            <a href="{{ route('booking.combo') }}" id="btn-next-step" class="btn-next">Tiếp tục</a>
-        </div>
-    </div>
-</div>
-
 <script>
+    // Logic Zoom
+    let currentZoom = 1;
+    function zoomGrid(step) {
+        currentZoom += step;
+        if (currentZoom < 0.7) currentZoom = 0.7;
+        if (currentZoom > 1.4) currentZoom = 1.4;
+        document.getElementById('seat-grid').style.transform = `scale(${currentZoom})`;
+    }
+
+    // Logic Toast
+    function removeToast(el) {
+        if (!el) return;
+        el.style.animation = "slideOut 0.4s ease-in forwards";
+        setTimeout(() => el.remove(), 400);
+    }
+    function createToast(msg) {
+        const wrapper = document.getElementById('toast-wrapper');
+        const toast = document.createElement('div');
+        toast.className = 'custom-toast';
+        toast.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i>
+                <span style="font-size: 0.9rem;">${msg}</span>
+            </div>
+            <button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button>
+            <div class="toast-progress"></div>`;
+        wrapper.appendChild(toast);
+        setTimeout(() => removeToast(toast), 3000);
+    }
+
+    // Logic xử lý ghế
     document.addEventListener('DOMContentLoaded', function() {
         const seats = document.querySelectorAll('.seat:not(.seat-sold)');
-        const countSpan = document.getElementById('selected-seats-list');
-        const totalSpan = document.getElementById('total-amount');
-        const btnNext = document.getElementById('btn-next-step');
+        const seatText = document.getElementById('display-seats');
+        const totalText = document.getElementById('display-total');
+        const nextBtn = document.getElementById('next-button');
         const baseRoute = "{{ route('booking.combo') }}";
-        
-        let selectedSeats = [];
-        let totalPrice = 0;
+
+        let selected = [];
+        let total = 0;
 
         seats.forEach(seat => {
             seat.addEventListener('click', function() {
-                const name = this.getAttribute('data-name');
-                const price = parseInt(this.getAttribute('data-price'));
+                const name = this.dataset.name;
+                const price = parseInt(this.dataset.price);
 
                 if (this.classList.contains('seat-selected')) {
                     this.classList.remove('seat-selected');
-                    selectedSeats = selectedSeats.filter(s => s !== name);
-                    totalPrice -= price;
+                    selected = selected.filter(s => s !== name);
+                    total -= price;
                 } else {
                     this.classList.add('seat-selected');
-                    selectedSeats.push(name);
-                    totalPrice += price;
+                    selected.push(name);
+                    total += price;
                 }
-
-                // Cập nhật giao diện footer
-                countSpan.innerText = selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Chưa chọn';
-                totalSpan.innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
-
-                // CẬP NHẬT ĐƯỜNG DẪN NÚT TIẾP TỤC
-                // Gắn thêm danh sách ghế và tổng tiền vào URL để trang Combo có thể nhận
-                if (selectedSeats.length > 0) {
-                    btnNext.href = `${baseRoute}?seats=${selectedSeats.join(',')}&total=${totalPrice}`;
-                } else {
-                    btnNext.href = baseRoute;
-                }
+                seatText.innerText = selected.length > 0 ? selected.join(', ') : 'Chưa có ghế nào';
+                totalText.innerText = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
             });
         });
 
-        // Ngăn không cho đi tiếp nếu chưa chọn ghế
-        btnNext.addEventListener('click', function(e) {
-            if (selectedSeats.length === 0) {
-                e.preventDefault();
-                alert('Vui lòng chọn ít nhất một ghế để tiếp tục!');
+        nextBtn.addEventListener('click', function() {
+            if (selected.length === 0) {
+                createToast("Vui lòng chọn ít nhất một ghế!");
+            } else {
+                window.location.href = `${baseRoute}?seats=${selected.join(',')}&total=${total}`;
             }
         });
     });
 </script>
-@endsection
+</body>
+</html>
