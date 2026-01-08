@@ -46,8 +46,5 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// --- PHẦN SỬA LỖI TRANG ĐÁNH GIÁ (REVIEWS) ---
-// Thay vì trỏ vào MovieController::index (gây nhảy trang), 
-// tôi trỏ nó tạm vào một hàm khác hoặc để nguyên nếu bạn muốn hiện danh sách phim ở đó.
-// Tuy nhiên, nếu bạn muốn tách biệt, hãy đảm bảo View không gọi nhầm Route này.
+
 Route::get('/reviews', [MovieController::class, 'index'])->name('reviews.index');
