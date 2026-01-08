@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -10,33 +11,43 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
+        // 🔐 Kiểm tra đăng nhập
+        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated'
+            ], 401);
+        }
+
+        // ✅ Validate dữ liệu
+        $validated = $request->validate([
             'showtime_id' => 'required|exists:showtimes,id',
             'seat_ids' => 'required|array|min:1',
             'seat_ids.*' => 'exists:seats,id',
         ]);
 
-        $user = $request->user();
-        $showtime = Showtime::with('room')->findOrFail($request->showtime_id);
+        // 🎬 Lấy suất chiếu + phòng
+        $showtime = Showtime::with(['movie', 'room'])
+            ->findOrFail($validated['showtime_id']);
 
         // 1️⃣ Kiểm tra ghế có thuộc phòng không
         $validSeatCount = Seat::where('room_id', $showtime->room_id)
-            ->whereIn('id', $request->seat_ids)
+            ->whereIn('id', $validated['seat_ids'])
             ->count();
 
-        if ($validSeatCount !== count($request->seat_ids)) {
+        if ($validSeatCount !== count($validated['seat_ids'])) {
             return response()->json([
                 'message' => 'Some seats do not belong to this room'
             ], 422);
         }
 
-        // 2️⃣ Kiểm tra ghế đã bị booking chưa
+        // 2️⃣ Kiểm tra ghế đã bị đặt chưa
         $bookedSeats = DB::table('booking_seats')
             ->join('bookings', 'booking_seats.booking_id', '=', 'bookings.id')
             ->where('bookings.showtime_id', $showtime->id)
-            ->whereIn('booking_seats.seat_id', $request->seat_ids)
+            ->whereIn('booking_seats.seat_id', $validated['seat_ids'])
             ->pluck('booking_seats.seat_id');
 
         if ($bookedSeats->isNotEmpty()) {
@@ -46,10 +57,10 @@ class BookingController extends Controller
             ], 409);
         }
 
-        // 3️⃣ Tạo booking (transaction để an toàn)
-        return DB::transaction(function () use ($user, $showtime, $request) {
+        // 3️⃣ Tạo booking (transaction)
+        return DB::transaction(function () use ($user, $showtime, $validated) {
 
-            $totalAmount = count($request->seat_ids) * $showtime->price;
+            $totalAmount = count($validated['seat_ids']) * $showtime->price;
 
             $booking = Booking::create([
                 'user_id' => $user->id,
@@ -58,9 +69,7 @@ class BookingController extends Controller
                 'status' => 'confirmed',
             ]);
 
-            foreach ($request->seat_ids as $seatId) {
-                $booking->seats()->attach($seatId);
-            }
+            $booking->seats()->attach($validated['seat_ids']);
 
             return response()->json([
                 'message' => 'Booking created successfully',
@@ -69,7 +78,6 @@ class BookingController extends Controller
                     'showtime.movie',
                     'showtime.room'
                 ])
-
             ], 201);
         });
     }
