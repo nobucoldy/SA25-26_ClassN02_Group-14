@@ -10,9 +10,6 @@ class HomeController extends Controller
     {
         $showingMovies = Movie::where('status', 'showing')->get();
 
-    // Phim sắp chiếu
-        $upcomingMovies = Movie::where('status', 'coming_soon')->get();
-
-        return view('home', compact('showingMovies', 'upcomingMovies'));
-        }
+        return view('home', compact('showingMovies'));
+    }
 }

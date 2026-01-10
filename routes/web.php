@@ -27,7 +27,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // --- MOVIE ROUTES ---
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 Route::get('/movies/upcoming', [MovieController::class, 'upcoming'])->name('movies.upcoming');
-Route::get('/movies/status', [MovieController::class, 'index'])->name('movies.status');
+Route::get('/movies/status', [MovieController::class, 'showing'])->name('movies.status');
 
 // Phải để cái {id} này ở dưới cùng của nhóm movies
 Route::get('/movies/{id}', [MovieController::class, 'show'])->name('movies.show');

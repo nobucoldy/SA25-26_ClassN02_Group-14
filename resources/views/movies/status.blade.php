@@ -54,7 +54,7 @@
             @forelse($movies as $movie)
                 <a href="{{ route('movies.show', $movie->id) }}" class="movie-item-box">
                     <div class="poster-container">
-                        <img src="{{ asset($movie->poster_url) }}" alt="{{ $movie->title }}">
+                        <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
                         <div class="red-label">Đang chiếu</div>
                     </div>
                     <div class="movie-footer-info">
