@@ -9,7 +9,8 @@ class HomeController extends Controller
     public function index()
     {
         $showingMovies = Movie::where('status', 'showing')->get();
+        $upcomingMovies = Movie::where('status', 'coming_soon')->get();
 
-        return view('home', compact('showingMovies'));
+        return view('home', compact('showingMovies', 'upcomingMovies'));
     }
 }
