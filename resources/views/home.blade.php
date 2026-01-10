@@ -3,9 +3,10 @@
 @section('content')
 
 <header class="hero-section">
-    <img src="https://i.ytimg.com/vi/YXtWPVFk5TQ/maxresdefault.jpg"
-         class="movie-title-logo" alt="Avatar">
+    
 </header>
+
+<div class="section-gap bg-light"></div>
 
 {{-- ===== PHIM ĐANG CHIẾU ===== --}}
 <section class="py-5 bg-black text-white">
@@ -17,10 +18,12 @@
                 <div class="swiper-wrapper">
                     @foreach($showingMovies as $movie)
                         <div class="swiper-slide">
-                            <img src="{{ asset('storage/' . $movie->poster_url) }}"
-                                 alt="{{ $movie->title }}"
-                                 class="img-fluid rounded mb-2">
-                            <p class="movie-name">{{ $movie->title }}</p>
+                            <a href="{{ route('movies.show', $movie->id) }}" class="text-decoration-none text-white">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}"
+                                    alt="{{ $movie->title }}"
+                                    class="img-fluid rounded mb-2">
+                                <p class="movie-name">{{ $movie->title }}</p>
+                            </a>
                         </div>
                     @endforeach
                 </div>
@@ -33,6 +36,8 @@
     </div>
 </section>
 
+<div class="section-gap bg-light"></div>
+
 {{-- ===== PHIM SẮP CHIẾU ===== --}}
 <section class="py-5" style="background-color: #DEFE98;">
     <div class="container text-center">
@@ -43,9 +48,11 @@
                 <div class="swiper-wrapper">
                     @foreach($upcomingMovies as $movie)
                         <div class="swiper-slide movie-card">
-                            <img src="{{ asset('storage/' . $movie->poster_url) }}"
-                                 alt="{{ $movie->title }}">
-                            <p class="movie-name text-dark">{{ $movie->title }}</p>
+                            <a href="{{ route('movies.show', $movie->id) }}" class="text-decoration-none text-white">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}"
+                                    alt="{{ $movie->title }}">
+                                <p class="movie-name text-dark">{{ $movie->title }}</p>
+                            </a>
                         </div>
                     @endforeach
                 </div>
@@ -57,6 +64,8 @@
         </div>
     </div>
 </section>
+
+<div class="section-gap bg-light"></div>
 
 {{-- ===== LỊCH CHIẾU ===== --}}
 <section class="py-5 bg-light">
