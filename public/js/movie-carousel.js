@@ -1,31 +1,33 @@
-var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 4,      // Hiển thị 4 phim cùng lúc
-    spaceBetween: 20,      // Khoảng cách giữa các phim
-    slidesPerGroup: 1,     // Nhích 1 phim mỗi lần
-    loop: true,            // Cuộn vòng
+const commonConfigs = {
+    slidesPerView: 4,      // Hiện 4 phim
+    slidesPerGroup: 1,     // CHỈ NHẢY 1 PHIM MỖI LẦN
+    spaceBetween: 0,       
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    breakpoints: {
+        1024: { slidesPerView: 4 },
+        768: { slidesPerView: 2 },
+        0: { slidesPerView: 1 }
+    }
+};
+
+// Khởi tạo phần Đang chiếu
+new Swiper(".mySwiper", {
+    ...commonConfigs,
     navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
     },
-    breakpoints: {         // Responsive
-        320: { slidesPerView: 1 },
-        576: { slidesPerView: 2 },
-        768: { slidesPerView: 3 },
-        992: { slidesPerView: 4 }
-    }
 });
-var swiperUpcoming = new Swiper(".mySwiperUpcoming", {
-    slidesPerView: 4,
-    spaceBetween: 20,
+
+// Khởi tạo phần Sắp chiếu
+new Swiper(".mySwiperUpcoming", {
+    ...commonConfigs,
     navigation: {
         nextEl: ".upcoming-next",
         prevEl: ".upcoming-prev",
-    },
-    loop: true,
-    breakpoints: {
-        0: { slidesPerView: 1 },
-        576: { slidesPerView: 2 },
-        768: { slidesPerView: 3 },
-        992: { slidesPerView: 4 },
     },
 });

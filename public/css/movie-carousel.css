@@ -1,107 +1,69 @@
-/* --- Swiper slides --- */
+.swiper {
+    overflow: hidden !important;
+    width: 100% !important;
+    padding-bottom: 60px !important; /* Chừa chỗ cho pagination */
+}
+
+/* Ép đúng 4 phim 1 khung - GIỮ NGUYÊN */
 .swiper-slide {
-    text-align: center;
-    cursor: pointer;
+    width: 25% !important; 
+    box-sizing: border-box;
+    padding: 0 10px;
     transition: transform 0.4s ease;
 }
 
-/* Ảnh phim trong Swiper */
-.swiper-slide img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    display: block;
-}
-
-/* Tên phim */
-.swiper-slide .movie-name {
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 10px;
-    color: #333;
-    transition: transform 0.4s ease, color 0.4s ease;
-}
-
-/* Hover effect: nổi lên poster + tên */
-.swiper-slide:hover img {
-    transform: translateY(-12px) scale(1.07);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-}
-
-.swiper-slide:hover .movie-name {
-    transform: translateY(-8px);
-    color: #000;
-    font-weight: 700;
-}
-
-/* --- Nút điều hướng Swiper --- */
-.swiper-button-prev,
-.swiper-button-next {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: rgba(0,0,0,0.5);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Hiệu ứng focus nhỏ lại (1.05) - GIỮ NGUYÊN */
+.swiper-slide:hover {
+    transform: scale(1.05);
     z-index: 10;
-    transition: all 0.3s ease;
 }
 
-/* Hover nút */
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-    background-color: rgba(0,0,0,0.8);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+/* HIỆN LẠI THANH ĐIỀU HƯỚNG - GIỮ NGUYÊN */
+.swiper-pagination {
+    position: absolute !important;
+    bottom: 10px !important;
+    z-index: 20 !important;
+    display: block !important;
 }
 
-/* SVG icon mũi tên trắng */
-.swiper-button-prev svg path,
-.swiper-button-next svg path {
-    fill: #fff;
-    transition: fill 0.3s ease;
+.swiper-pagination-bullet {
+    background: #555 !important;
+    opacity: 0.5;
 }
 
-/* --- Grid phim sắp chiếu (không Swiper) --- */
-.movie-card {
-    position: relative;
-    overflow: visible;
-    cursor: pointer;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+.swiper-pagination-bullet-active {
+    background: #007bff !important;
+    width: 30px !important; /* Thanh dài màu xanh */
+    border-radius: 5px !important;
+    opacity: 1;
 }
 
-.movie-card img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+/* --- CHỈ SỬA PHẦN NÀY: NÚT ĐIỀU HƯỚNG < > SANG TRỌNG HƠN --- */
+.swiper-button-prev, .swiper-button-next {
+    background: rgba(255, 255, 255, 0.95) !important; /* Trắng tinh tế */
+    width: 52px !important; /* To hơn một chút cho dễ bấm */
+    height: 52px !important;
+    border-radius: 50% !important;
+    color: #000 !important; /* Mũi tên màu đen sắc nét */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important; /* Đổ bóng sâu hơn */
+    top: 45% !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Chuyển động xịn */
 }
 
-.movie-card .movie-name {
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 10px;
-    color: #333;
-    text-align: center;
-    transition: transform 0.4s ease, color 0.4s ease;
+/* Làm mũi tên nhỏ gọn và chuyên nghiệp */
+.swiper-button-prev:after, .swiper-button-next:after {
+    font-size: 18px !important;
+    font-weight: 800 !important;
 }
 
-/* Hover hiệu ứng nổi lên */
-.movie-card:hover img {
-    transform: translateY(-12px) scale(1.07);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+/* Hiệu ứng khi Hover vào nút */
+.swiper-button-prev:hover, .swiper-button-next:hover {
+    background: #ffffff !important;
+    transform: scale(1.1); /* Phóng to nhẹ khi di chuột vào */
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3) !important; /* Ánh xanh nhẹ đồng bộ pagination */
+    color: #007bff !important; /* Đổi màu mũi tên khi hover */
 }
 
-.movie-card:hover .movie-name {
-    transform: translateY(-8px);
-    color: #000;
-    font-weight: 700;
-}
+/* Đẩy nút ra sát lề để không đè lên ảnh phim */
+.swiper-button-prev { left: 5px !important; }
+.swiper-button-next { right: 5px !important; }

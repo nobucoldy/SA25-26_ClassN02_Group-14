@@ -1,59 +1,56 @@
 @extends('layouts.app')
 
 @section('content')
-
     <header class="hero-section">
         <img src="https://i.ytimg.com/vi/YXtWPVFk5TQ/maxresdefault.jpg"
              class="movie-title-logo" alt="Avatar">
     </header>
- 
 
     <section class="py-5 bg-black text-white">
         <div class="container text-center">
             <h2 class="section-header mb-4">PHIM ĐANG CHIẾU</h2>
-
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    @foreach($showingMovies as $movie)
-                        <div class="swiper-slide">
-                            <img src="{{ asset('storage/' . $movie->poster_url) }}" 
-                                alt="{{ $movie->title }}" 
-                                class="img-fluid rounded mb-2">
-                            <p class="movie-name">{{ $movie->title }}</p>
-                        </div>
-                    @endforeach
+            
+            <div class="swiper-container-wrapper" style="position: relative; padding: 0 50px;">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        @foreach($showingMovies as $movie)
+                            <div class="swiper-slide">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}" 
+                                     alt="{{ $movie->title }}" 
+                                     class="img-fluid rounded mb-2">
+                                <p class="movie-name">{{ $movie->title }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-
-                <!-- Nút điều hướng -->
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
         </div>
     </section>
 
-
-
     <section class="py-5" style="background-color: #DEFE98;">
-    <div class="container text-center">
-        <h2 class="section-header text-dark">PHIM SẮP CHIẾU</h2>
-
-        <div class="swiper mySwiperUpcoming">
-            <div class="swiper-wrapper">
-                @foreach($upcomingMovies as $movie)
-                    <div class="swiper-slide movie-card">
-                        <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
-                        <p class="movie-name text-dark">{{ $movie->title }}</p>
+        <div class="container text-center">
+            <h2 class="section-header text-dark">PHIM SẮP CHIẾU</h2>
+            
+            <div class="swiper-container-wrapper" style="position: relative; padding: 0 50px;">
+                <div class="swiper mySwiperUpcoming">
+                    <div class="swiper-wrapper">
+                        @foreach($upcomingMovies as $movie)
+                            <div class="swiper-slide movie-card">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
+                                <p class="movie-name text-dark">{{ $movie->title }}</p>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="swiper-button-next upcoming-next"></div>
+                <div class="swiper-button-prev upcoming-prev"></div>
             </div>
-
-            <!-- Nút điều hướng -->
-            <div class="swiper-button-next upcoming-next"></div>
-            <div class="swiper-button-prev upcoming-prev"></div>
         </div>
-    </div>
-</section>
-
+    </section>
 
     <section class="py-5 bg-light">
         <div class="container">
@@ -80,8 +77,6 @@
             </div>
         </div>
     </section>
-
-
 @endsection
 
 @push('styles')
