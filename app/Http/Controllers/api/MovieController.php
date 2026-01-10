@@ -23,4 +23,18 @@ class MovieController extends Controller
     {
         return response()->json($this->movieService->getMovieById($id));
     }
+
+    public function showing()
+    {
+        return response()->json(
+            $this->movieService->getShowingMovies()
+        );
+    }
+
+    public function comingSoon()
+    {
+        return response()->json(
+            $this->movieService->getComingSoonMovies()
+        );
+    }
 }

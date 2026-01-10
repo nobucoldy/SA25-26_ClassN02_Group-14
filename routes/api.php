@@ -12,8 +12,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 // Movie
-Route::get('/movies', [MovieController::class, 'index']);
-Route::get('/movies/{id}', [MovieController::class, 'show']);
+Route::controller(MovieController::class)->group(function () {
+    Route::get('/movies', 'index');
+    Route::get('/movies/showing', 'showing');
+    Route::get('/movies/coming-soon', 'comingSoon');
+    Route::get('/movies/{id}', 'show');
+});
 
 // Showtime
 Route::get('/showtimes', [ShowtimeController::class, 'index']);
@@ -32,3 +36,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/me', [ProfileController::class, 'update']);
     Route::put('/me/password', [ProfileController::class, 'changePassword']);
 });
+

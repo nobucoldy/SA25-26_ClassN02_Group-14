@@ -3,7 +3,7 @@
 @section('content')
 
     <header class="hero-section">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Avatar-Te-Vaka-Logo.svg/1200px-Avatar-Te-Vaka-Logo.svg.png"
+        <img src="https://i.ytimg.com/vi/YXtWPVFk5TQ/maxresdefault.jpg"
              class="movie-title-logo" alt="Avatar">
     </header>
 
@@ -12,44 +12,44 @@
             <h2 class="section-header">PHIM ĐANG CHIẾU</h2>
             <div class="row">
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMzVjZWUzOTUtYmZlNC00Y2VmLTlhMDktZTM4YmI3ZGRmN2EzXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" alt="Avatar 3">
+                    <img src="https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/03/avatar-the-way-of-water-movie-poster.jpg" alt="Avatar 3">
                     <p class="movie-name">Avatar 3: Lửa và Tro Tàn</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzMzNjgzOTE@._V1_.jpg" alt="Zootopia">
+                    <img src="https://image.tmdb.org/t/p/original/oAfIIrBDF5XGvyMRqS310YAt0dV.jpg" alt="Zootopia">
                     <p class="movie-name">ZOOTOPIA 2</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYjFkMTlkYWUtZWFhNy00M2FmLThiY2YtYmI3ZTk2YmI5NWEwXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg" alt="Totoro">
+                    <img src="https://www.themoviedb.org/t/p/original/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg" alt="Totoro">
                     <p class="movie-name">My Neighbor Totoro</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYzE3ODhiNzAtOWY4MS00YzNlLThmY2ItZDRkY2RhYWI1ZTAyXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Tom Jerry">
+                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Tom Jerry">
                     <p class="movie-name">Tom & Jerry</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-5" style="background-color: var(--gray-section);">
+    <section class="py-5" style="background-color: #DEFE98;">
         <div class="container text-center">
-            <h2 class="section-header text-white">PHIM SẮP CHIẾU</h2>
+            <h2 class="section-header text-dark">PHIM SẮP CHIẾU</h2>
             <div class="row">
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMzVjZWUzOTUtYmZlNC00Y2VmLTlhMDktZTM4YmI3ZGRmN2EzXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" alt="Avatar 3">
-                    <p class="movie-name text-white">Avatar 3</p>
+                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Zootopia">
+                    <p class="movie-name text-dark">Avatar 3</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzMzNjgzOTE@._V1_.jpg" alt="Zootopia">
-                    <p class="movie-name text-white">Zootopia 2</p>
+                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Zootopia">
+                    <p class="movie-name text-dark">Zootopia 2</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYjFkMTlkYWUtZWFhNy00M2FmLThiY2YtYmI3ZTk2YmI5NWEwXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg" alt="Totoro">
-                    <p class="movie-name text-white">My Neighbor Totoro</p>
+                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Totoro">
+                    <p class="movie-name text-dark">My Neighbor Totoro</p>
                 </div>
                 <div class="col-6 col-md-3 movie-card">
-                    <img src="https://m.media-amazon.com/images/M/MV5BYzE3ODhiNzAtOWY4MS00YzNlLThmY2ItZDRkY2RhYWI1ZTAyXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Tom Jerry">
-                    <p class="movie-name text-white">Tom & Jerry</p>
+                    <img src="https://www.themoviedb.org/t/p/original/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg" alt="Tom Jerry">
+                    <p class="movie-name text-dark">Tom & Jerry</p>
                 </div>
             </div>
         </div>
