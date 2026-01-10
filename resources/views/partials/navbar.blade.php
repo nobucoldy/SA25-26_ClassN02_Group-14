@@ -24,7 +24,7 @@
 
                 <li class="nav-item"><a class="nav-link" href="#">Rạp phim</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('reviews.index') }}">Đánh giá</a>
+                    <a class="nav-link" href="{{ route('review.index') }}">Đánh giá</a>
                 </li>
             </ul>
 

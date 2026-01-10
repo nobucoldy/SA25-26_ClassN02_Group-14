@@ -3,13 +3,17 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use App\Models\Review;
 
 class MovieController extends Controller
 {
-    public function index()
-    {
-        
-    }
+
+public function index()
+{
+    $reviews = Review::with('movie')->latest()->paginate(12);
+    return view('review.index', compact('reviews'));
+}
+
 
    public function showing()
 {

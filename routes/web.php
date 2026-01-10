@@ -53,4 +53,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/reviews', [MovieController::class, 'index'])->name('reviews.index');
+Route::get('/reviews', [MovieController::class, 'index'])->name('review.index');
