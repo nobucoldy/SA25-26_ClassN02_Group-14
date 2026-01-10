@@ -8,7 +8,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $movies = Movie::latest()->limit(6)->get();
-        return view('home', compact('movies'));
-    }
+        $showingMovies = Movie::where('status', 'showing')->get();
+
+    // Phim sắp chiếu
+        $upcomingMovies = Movie::where('status', 'coming_soon')->get();
+
+        return view('home', compact('showingMovies', 'upcomingMovies'));
+        }
 }

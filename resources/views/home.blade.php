@@ -6,54 +6,54 @@
         <img src="https://i.ytimg.com/vi/YXtWPVFk5TQ/maxresdefault.jpg"
              class="movie-title-logo" alt="Avatar">
     </header>
+ 
 
     <section class="py-5 bg-black text-white">
         <div class="container text-center">
-            <h2 class="section-header">PHIM ĐANG CHIẾU</h2>
-            <div class="row">
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/03/avatar-the-way-of-water-movie-poster.jpg" alt="Avatar 3">
-                    <p class="movie-name">Avatar 3: Lửa và Tro Tàn</p>
+            <h2 class="section-header mb-4">PHIM ĐANG CHIẾU</h2>
+
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    @foreach($showingMovies as $movie)
+                        <div class="swiper-slide">
+                            <img src="{{ asset('storage/' . $movie->poster_url) }}" 
+                                alt="{{ $movie->title }}" 
+                                class="img-fluid rounded mb-2">
+                            <p class="movie-name">{{ $movie->title }}</p>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://image.tmdb.org/t/p/original/oAfIIrBDF5XGvyMRqS310YAt0dV.jpg" alt="Zootopia">
-                    <p class="movie-name">ZOOTOPIA 2</p>
-                </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://www.themoviedb.org/t/p/original/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg" alt="Totoro">
-                    <p class="movie-name">My Neighbor Totoro</p>
-                </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Tom Jerry">
-                    <p class="movie-name">Tom & Jerry</p>
-                </div>
+
+                <!-- Nút điều hướng -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </div>
     </section>
 
+
+
     <section class="py-5" style="background-color: #DEFE98;">
-        <div class="container text-center">
-            <h2 class="section-header text-dark">PHIM SẮP CHIẾU</h2>
-            <div class="row">
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Zootopia">
-                    <p class="movie-name text-dark">Avatar 3</p>
-                </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Zootopia">
-                    <p class="movie-name text-dark">Zootopia 2</p>
-                </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://th.bing.com/th/id/OIP.g9uwyw7M26B95jOglUAqVQHaLH?o=7&cb=defcachec2rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Totoro">
-                    <p class="movie-name text-dark">My Neighbor Totoro</p>
-                </div>
-                <div class="col-6 col-md-3 movie-card">
-                    <img src="https://www.themoviedb.org/t/p/original/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg" alt="Tom Jerry">
-                    <p class="movie-name text-dark">Tom & Jerry</p>
-                </div>
+    <div class="container text-center">
+        <h2 class="section-header text-dark">PHIM SẮP CHIẾU</h2>
+
+        <div class="swiper mySwiperUpcoming">
+            <div class="swiper-wrapper">
+                @foreach($upcomingMovies as $movie)
+                    <div class="swiper-slide movie-card">
+                        <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
+                        <p class="movie-name text-dark">{{ $movie->title }}</p>
+                    </div>
+                @endforeach
             </div>
+
+            <!-- Nút điều hướng -->
+            <div class="swiper-button-next upcoming-next"></div>
+            <div class="swiper-button-prev upcoming-prev"></div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <section class="py-5 bg-light">
         <div class="container">
@@ -83,3 +83,11 @@
 
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/movie-carousel.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/movie-carousel.js') }}"></script>
+@endpush
