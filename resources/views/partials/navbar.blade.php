@@ -28,18 +28,37 @@
                 </li>
             </ul>
 
-            <div class="d-flex align-items-center gap-2">
-                @guest
-                    <a href="{{ route('login') }}" class="login-link">Đăng nhập</a>
-                @else
-                    <span class="text-white small me-1">{{ Auth::user()->name }}</span>
-                    <img src="https://i.pravatar.cc/100" class="user-avatar">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-link nav-link p-0" style="font-size:12px">Thoát</button>
-                    </form>
-                @endguest
-            </div>
+            <div class="dropdown">
+    <a href="#"
+       class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle"
+       role="button"
+       data-bs-toggle="dropdown"
+       aria-expanded="false">
+
+        <img src="https://i.pravatar.cc/100"
+             class="user-avatar"
+             style="width:32px;height:32px;border-radius:50%">
+        <span class="small">{{ Auth::user()->name }}</span>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                👤 Tài khoản
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button class="dropdown-item text-danger">
+                    🚪 Đăng xuất
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
+
         </div>
     </div>
 </nav>

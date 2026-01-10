@@ -16,7 +16,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $request->user()->id,
         ]);
 
@@ -25,7 +25,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Profile updated successfully',
-            'user' => $user
+            'user'    => $user
         ]);
     }
 
@@ -33,7 +33,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password'     => 'required|min:6|confirmed',
         ]);
 
         if (!Hash::check($request->current_password, $request->user()->password)) {

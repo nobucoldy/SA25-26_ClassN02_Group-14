@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route; 
+use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MovieController;
 use App\Http\Controllers\Web\BookingController;
-use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
 
 
 Route::get('/reviews', [MovieController::class, 'index'])->name('reviews.index');
