@@ -12,8 +12,17 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f4f4f9; overflow-x: hidden; }
         .booking-page { padding: 30px 0 140px 0; min-height: 100vh; position: relative; }
 
-        /* SIDEBAR - GIỮ NGUYÊN */
-        .side-menu { position: fixed; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 2000; }
+        /* SIDEBAR - HẠ Z-INDEX XUỐNG 1040 ĐỂ NẰM DƯỚI LỚP MỜ (BACKDROP) CỦA MODAL (1050) */
+        .side-menu { 
+            position: fixed; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            z-index: 1040; /* Modal Backdrop của Bootstrap là 1050, 1040 sẽ nằm dưới và không bấm được */
+            transition: 0.3s ease; 
+        }
         .side-menu.left { left: 30px; }
         .side-menu.right { right: 30px; }
         .menu-btn { 
@@ -36,11 +45,7 @@
         @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
         @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
         
-        .close-btn { 
-            background: transparent !important; border: none !important; color: #94a3b8; 
-            font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; 
-            outline: none !important; box-shadow: none !important; appearance: none !important;
-        }
+        .close-btn { background: transparent !important; border: none !important; color: #94a3b8; font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; outline: none !important; box-shadow: none !important; appearance: none !important; }
         .close-btn:hover { color: #ff3131; }
         .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
@@ -62,19 +67,17 @@
         .seat-demo { width: 20px; height: 20px; border-radius: 5px; }
         .legend-item .seat-double-demo { width: 20px !important; }
 
-        /* SCREEN & AREA - THÊM TRANSITION CHO MÀN HÌNH */
         .screen-container { width: 100%; perspective: 500px; margin-bottom: 60px; text-align: center; }
         .screen { width: 70%; height: 10px; background: #ddd; margin: 0 auto; transform: rotateX(-30deg); box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-radius: 5px; }
         .screen-text { color: #bbb; font-size: 0.75rem; margin-top: 20px; letter-spacing: 10px; font-weight: 800; }
 
-        /* SEAT GRID & AREA ZOOM - SỬA LẠI ĐỂ ZOOM ĐỒNG BỘ */
+        /* SEAT GRID & ZOOM - GIỮ NGUYÊN */
         .zoom-wrapper { width: 100%; display: flex; justify-content: center; }
         #main-booking-area { transition: transform 0.3s ease; transform-origin: top center; width: 100%; }
         .seat-grid { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .seat-row { display: flex; gap: 8px; align-items: center; }
         .seat-row .seat:nth-child(3) { margin-right: 35px; }
         .seat-row .seat:nth-child(8) { margin-right: 35px; }
-
         .seat { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .seat-normal { background: #90ff00; color: #000; } 
         .seat-vip { background: #ff4d4d; color: white; }    
@@ -82,20 +85,33 @@
         .seat-selected { background: #1a1a1a !important; color: #fff !important; transform: scale(1.15); box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
         .seat-sold { background: #e0e0e0 !important; color: #aaa !important; cursor: not-allowed; } 
 
-        /* CHECKOUT - GIỮ NGUYÊN */
-        .checkout-card { 
-            position: fixed; bottom: 0; left: 0; right: 0; background: white; 
-            padding: 12px 10%; box-shadow: 0 -8px 25px rgba(0,0,0,0.08); 
-            border-top: 1px solid #eee; z-index: 1000; 
-        }
-        .total-price { color: #ff0000; font-size: 1.5rem; font-weight: 800; }
-        #display-seats { font-size: 0.95rem !important; }
-        .text-uppercase-label { font-size: 0.65rem; color: #888; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+        /* COMBO MODAL STYLING - NÚT +/- XANH LÁ */
+        .combo-modal-item { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
+        .btn-qty-vnpay { width: 32px; height: 32px; border-radius: 8px; border: none; background: #90ff00; color: #000; font-weight: 800; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-qty-vnpay:hover { background: #82e600; transform: scale(1.05); }
+        .vnpay-blue-btn { background-color: #0056b3 !important; color: white !important; border: none !important; border-radius: 10px !important; padding: 12px 45px !important; font-weight: bold !important; transition: 0.3s; }
+        .vnpay-blue-btn:hover { background-color: #004494 !important; transform: translateY(-2px); }
+
+        /* CHECKOUT CARD - NÚT TIẾP TỤC XANH DƯƠNG */
+        .checkout-card { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px 10%; box-shadow: 0 -8px 25px rgba(0,0,0,0.08); border-top: 1px solid #eee; z-index: 1000; }
+        .total-price { color: #000; font-size: 1.5rem; font-weight: 800; }
         .btn-next-step { 
-            border-radius: 10px; background: #90ff00; color: #000; border: none; 
-            padding: 10px 45px; font-weight: 800; font-size: 1rem; transition: 0.2s; 
+            border-radius: 10px; background: #0056b3; color: white; border: none; 
+            padding: 10px 45px; font-weight: bold; transition: 0.3s; 
         }
-        .btn-next-step:hover { background: #82e600; transform: translateY(-2px); }
+        .btn-next-step:hover, .btn-next-step:focus { 
+            background: #2a7fd1 !important; 
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+        }
+
+        /* PHẦN THANH TOÁN FINAL (ẢNH 5 + ẢNH 3) */
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+        .summary-label { color: #666; font-weight: 600; }
+        .summary-value { font-weight: 700; text-align: right; color: #1a1a1a; }
+        .qr-section-container { background: #f8f9fa; border-left: 1px dashed #ccc; min-width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .qr-frame { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -105,9 +121,7 @@
 
     <div class="side-menu left">
         <button class="menu-btn" onclick="window.history.back()" title="Quay lại"><i class="bi bi-chevron-left"></i></button>
-        <button type="button" class="menu-btn" data-bs-toggle="modal" data-bs-target="#cancelModal" title="Hủy giao dịch">
-            <i class="bi bi-x-lg"></i>
-        </button>
+        <button type="button" class="menu-btn" data-bs-toggle="modal" data-bs-target="#cancelModal" title="Hủy giao dịch"><i class="bi bi-x-lg"></i></button>
     </div>
 
     <div class="side-menu right">
@@ -132,64 +146,29 @@
         </div>
 
         <div class="seat-legend">
-            <div class="legend-item">
-                <div class="legend-label"><div class="seat-demo seat-normal"></div>Thường</div>
-                <div class="legend-price">36.000đ</div>
-            </div>
-            <div class="legend-item">
-                <div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div>
-                <div class="legend-price">49.000đ</div>
-            </div>
-            <div class="legend-item">
-                <div class="legend-label"><div class="seat-demo seat-double seat-double-demo"></div>Ghế đôi</div>
-                <div class="legend-price">90.000đ</div>
-            </div>
-            <div class="legend-item">
-                <div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Đang chọn</div>
-                <div class="legend-price">-</div>
-            </div>
-            <div class="legend-item">
-                <div class="legend-label"><div class="seat-demo seat-sold"></div>Đã bán</div>
-                <div class="legend-price">-</div>
-            </div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Thường</div><div class="legend-price">36.000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49.000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double seat-double-demo"></div>Ghế đôi</div><div class="legend-price">90.000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Đang chọn</div><div class="legend-price">-</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Đã bán</div><div class="legend-price">-</div></div>
         </div>
 
         <div class="zoom-wrapper">
             <div id="main-booking-area">
-                <div class="screen-container">
-                    <div class="screen"></div>
-                    <div class="screen-text">MÀN HÌNH</div>
-                </div>
-
+                <div class="screen-container"><div class="screen"></div><div class="screen-text">MÀN HÌNH</div></div>
                 <div class="seat-grid" id="seat-grid">
-                    @php 
-                        $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']; 
-                        $normalRows = ['A', 'B', 'C'];
-                        $soldSeats = $soldSeats ?? []; 
-                    @endphp
-
+                    @php $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']; $normalRows = ['A', 'B', 'C']; $soldSeats = $soldSeats ?? []; @endphp
                     @foreach($rows as $row)
                         <div class="seat-row">
                             @for($i=1; $i<=10; $i++)
-                                @php 
-                                    $code = $row . sprintf("%02d", $i);
-                                    $isNormal = in_array($row, $normalRows);
-                                    $type = $isNormal ? 'seat-normal' : 'seat-vip';
-                                    $price = $isNormal ? 36000 : 49000;
-                                    $isSold = in_array($code, $soldSeats);
-                                @endphp
+                                @php $code = $row . sprintf("%02d", $i); $isNormal = in_array($row, $normalRows); $type = $isNormal ? 'seat-normal' : 'seat-vip'; $price = $isNormal ? 36000 : 49000; $isSold = in_array($code, $soldSeats); @endphp
                                 <div class="seat {{ $isSold ? 'seat-sold' : $type }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
                             @endfor
                         </div>
                     @endforeach
-
                     <div class="seat-row mt-4">
                         @for($i=1; $i<=5; $i++)
-                            @php 
-                                $code = "L" . sprintf("%02d", $i);
-                                $price = 90000;
-                                $isSold = in_array($code, $soldSeats);
-                            @endphp
+                            @php $code = "L" . sprintf("%02d", $i); $price = 90000; $isSold = in_array($code, $soldSeats); @endphp
                             <div class="seat {{ $isSold ? 'seat-sold' : $seat_double ?? 'seat-double' }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
                         @endfor
                     </div>
@@ -201,107 +180,216 @@
     <div class="checkout-card">
         <div class="d-flex justify-content-between align-items-center w-100">
             <div>
-                <div class="text-uppercase-label" id="seat-counter">Đã chọn 0 ghế</div>
-                <div id="display-seats" class="fw-bold text-dark">Chưa có ghế nào</div>
+                <div class="text-muted small" id="seat-counter">Đã chọn 0 ghế:</div>
+                <div id="display-seats" class="fw-bold text-dark fs-5">-</div>
             </div>
             <div class="d-flex align-items-center gap-4">
                 <div class="text-end">
-                    <div class="text-uppercase-label">Tổng tạm tính</div>
-                    <div id="display-total" class="total-price">0đ</div>
+                    <div class="text-muted small">Tổng tiền vé:</div>
+                    <div id="display-total-tickets" class="total-price">0đ</div>
                 </div>
-                <button id="next-button" class="btn btn-next-step shadow-sm">TIẾP TỤC</button>
+                <button id="next-button" class="btn btn-next-step shadow-sm">Tiếp tục</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
-            <div class="modal-body p-4 text-center">
-                <h5 class="fw-bold mb-3">Bạn có chắc muốn hủy giao dịch?</h5>
-                <p class="text-muted small mb-4">Với việc bấm vào <strong>đồng ý</strong>, bạn sẽ hủy giao dịch mua vé xem phim này, và bạn sẽ được chuyển đến xem thông tin các phim khác</p>
-                <div class="d-flex gap-3 justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal" style="border-radius: 8px;">Tiếp tục mua vé</button>
-                    <a href="{{ route('movies.index') }}" class="btn btn-primary px-5 fw-bold" style="border-radius: 8px; background-color: #0056b3; border:none;">Đồng ý</a>
+<div class="modal fade" id="comboModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title w-100 text-center fw-bold fs-4">Lựa chọn combo bỏng nước</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="combo-modal-item" data-name="Combo Solo" data-price="103000">
+                    <img src="https://momo.vn/su-kien/cinema/images/details/combo-1.png" width="90" class="rounded">
+                    <div class="ms-3 flex-grow-1">
+                        <h6 class="fw-bold mb-1">COMBO SOLO</h6>
+                        <small class="text-muted d-block mb-1">1 Bắp lớn + 1 Nước ngọt lớn</small>
+                        <span class="fw-bold text-danger">103.000đ</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn-qty-vnpay minus">-</button>
+                        <span class="qty fw-bold mx-2">0</span>
+                        <button class="btn-qty-vnpay plus">+</button>
+                    </div>
+                </div>
+                <div class="combo-modal-item" data-name="Combo Couple" data-price="135000">
+                    <img src="https://momo.vn/su-kien/cinema/images/details/combo-2.png" width="90" class="rounded">
+                    <div class="ms-3 flex-grow-1">
+                        <h6 class="fw-bold mb-1">COMBO COUPLE</h6>
+                        <small class="text-muted d-block mb-1">1 Bắp lớn + 2 Nước ngọt lớn</small>
+                        <span class="fw-bold text-danger">135.000đ</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn-qty-vnpay minus">-</button>
+                        <span class="qty fw-bold mx-2">0</span>
+                        <button class="btn-qty-vnpay plus">+</button>
+                    </div>
+                </div>
+                <div class="combo-modal-item" data-name="Combo Gia đình" data-price="185000">
+                    <img src="https://momo.vn/su-kien/cinema/images/details/combo-3.png" width="90" class="rounded">
+                    <div class="ms-3 flex-grow-1">
+                        <h6 class="fw-bold mb-1">COMBO GIA ĐÌNH</h6>
+                        <small class="text-muted d-block mb-1">2 Bắp lớn + 3 Nước ngọt lớn</small>
+                        <span class="fw-bold text-danger">185.000đ</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn-qty-vnpay minus">-</button>
+                        <span class="qty fw-bold mx-2">0</span>
+                        <button class="btn-qty-vnpay plus">+</button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                    <div>
+                        <div class="text-muted small">Tổng tiền đồ ăn và đồ uống</div>
+                        <div id="modal-combo-total" class="fw-bold fs-4">0đ</div>
+                    </div>
+                    <button class="btn vnpay-blue-btn" id="btn-to-payment">Tiếp tục</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+            <div class="modal-body p-0 d-flex flex-column flex-md-row">
+                
+                <div class="p-4 flex-grow-1 bg-white">
+                    <h5 class="fw-bold mb-4">XÁC NHẬN ĐẶT VÉ</h5>
+                    <p class="mb-1 small">Phim: <strong>{{ $showtime->movie->title }}</strong></p>
+                    <p class="mb-1 small">Rạp: <strong>BKL Cinema Hà Đông</strong></p>
+                    <p class="mb-4 small">Suất: <strong>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }} | {{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</strong></p>
+
+                    <h6 class="fw-bold border-bottom pb-2 mb-3">Ghế</h6>
+                    <div id="final-seats-list"></div>
+
+                    <h6 class="fw-bold border-bottom pb-2 mt-4 mb-3">Đồ ăn và đồ uống</h6>
+                    <div id="final-combos-list"></div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold fs-5">TỔNG THANH TOÁN</span>
+                            <span class="fw-bold text-danger fs-3" id="final-total-all">0đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 qr-section-container">
+                    <p class="fw-bold mb-4">QUÉT MÃ ĐỂ THANH TOÁN</p>
+                    <div class="qr-frame">
+                        <img id="qr-image" src="" style="width: 200px; height: 200px; object-fit: contain;">
+                    </div>
+                    <p class="mt-4 text-muted small text-center px-3" style="line-height: 1.5;">Giao dịch sẽ tự động hoàn tất sau khi bạn quét mã thành công</p>
+                    <button class="btn vnpay-blue-btn w-100 mt-3" onclick="location.href='{{ route('movies.index') }}'">Đồng ý</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg" style="border-radius: 15px;"><div class="modal-body p-4 text-center"><h5 class="fw-bold mb-3">Bạn có chắc muốn hủy giao dịch?</h5><p class="text-muted small mb-4">Với việc bấm vào <strong>đồng ý</strong>, bạn sẽ hủy giao dịch mua vé xem phim này, và bạn sẽ được chuyển đến xem thông tin các phim khác</p><div class="d-flex gap-3 justify-content-center"><button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Tiếp tục mua vé</button><a href="{{ route('movies.index') }}" class="btn btn-primary px-5 fw-bold" style="background-color: #0056b3; border:none;">Đồng ý</a></div></div></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ZOOM ĐỒNG BỘ: SỬA LẠI ĐỂ TÁC ĐỘNG VÀO AREA CHUNG
     let currentZoom = 1;
-    function zoomGrid(step) {
-        currentZoom += step;
-        if (currentZoom < 0.6) currentZoom = 0.6;
-        if (currentZoom > 1.3) currentZoom = 1.3;
-        const area = document.getElementById('main-booking-area');
-        if(area) area.style.transform = `scale(${currentZoom})`;
-    }
+    function zoomGrid(step) { currentZoom = Math.min(Math.max(currentZoom + step, 0.6), 1.3); const area = document.getElementById('main-booking-area'); if(area) area.style.transform = `scale(${currentZoom})`; }
+    function removeToast(el) { if (el) { el.style.animation = "slideOut 0.4s ease-in forwards"; setTimeout(() => el.remove(), 400); } }
+    function createToast(msg) { const wrapper = document.getElementById('toast-wrapper'); const toast = document.createElement('div'); toast.className = 'custom-toast'; toast.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i><span style="font-size: 0.9rem;">${msg}</span></div><button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button><div class="toast-progress"></div>`; wrapper.appendChild(toast); setTimeout(() => removeToast(toast), 3000); }
 
-    // LOGIC TOAST GIỮ NGUYÊN
-    function removeToast(el) {
-        if (!el) return;
-        el.style.animation = "slideOut 0.4s ease-in forwards";
-        setTimeout(() => el.remove(), 400);
-    }
-    function createToast(msg) {
-        const wrapper = document.getElementById('toast-wrapper');
-        const toast = document.createElement('div');
-        toast.className = 'custom-toast';
-        toast.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i><span style="font-size: 0.9rem;">${msg}</span></div><button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button><div class="toast-progress"></div>`;
-        wrapper.appendChild(toast);
-        setTimeout(() => removeToast(toast), 3000);
-    }
-
-    // LOGIC CHỌN GHẾ GIỮ NGUYÊN
     document.addEventListener('DOMContentLoaded', function() {
-        const seats = document.querySelectorAll('.seat:not(.seat-sold)');
-        const seatText = document.getElementById('display-seats');
-        const seatCounter = document.getElementById('seat-counter'); 
-        const totalText = document.getElementById('display-total');
-        const nextBtn = document.getElementById('next-button');
-        let selected = [];
+        let selectedSeats = [];
+        let selectedCombos = {};
+        const fmt = n => new Intl.NumberFormat('vi-VN').format(n) + 'đ';
 
-        seats.forEach(seat => {
+        // 1. LOGIC CHỌN GHẾ (MAX 8 GHẾ)
+        document.querySelectorAll('.seat:not(.seat-sold)').forEach(seat => {
             seat.addEventListener('click', function() {
-                const name = this.dataset.name;
-                const price = parseInt(this.dataset.price);
-                if (this.classList.contains('seat-selected')) {
-                    this.classList.remove('seat-selected');
-                    selected = selected.filter(s => s.name !== name);
-                } else {
+                const name = this.dataset.name, price = parseInt(this.dataset.price);
+                const isSelected = this.classList.contains('seat-selected');
+
+                if (!isSelected) {
+                    // Kiểm tra giới hạn 8 ghế
+                    if (selectedSeats.length >= 8) {
+                        createToast("Bạn chỉ được chọn tối đa 8 ghế!");
+                        return;
+                    }
                     this.classList.add('seat-selected');
-                    selected.push({ name, price });
+                    selectedSeats.push({ name, price });
+                } else {
+                    this.classList.remove('seat-selected');
+                    selectedSeats = selectedSeats.filter(s => s.name !== name);
                 }
-                updateCheckout();
+                updateCheckoutUI();
             });
         });
 
-        function updateCheckout() {
-            if (selected.length === 0) {
-                if(seatCounter) seatCounter.innerText = 'Đã chọn 0 ghế';
-                seatText.innerText = 'Chưa có ghế nào';
-                totalText.innerText = '0đ';
-                return;
-            }
-            if(seatCounter) seatCounter.innerText = `Đã chọn ${selected.length} ghế`;
-            seatText.innerText = selected.map(s => s.name).join(', ');
-            const total = selected.reduce((sum, s) => sum + s.price, 0);
-            totalText.innerText = new Intl.NumberFormat('vi-VN').format(total) + 'đ';
+        function updateCheckoutUI() {
+            const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+            const seatCounter = document.getElementById('seat-counter');
+            if(seatCounter) seatCounter.innerText = `Đã chọn ${selectedSeats.length} ghế:`;
+            document.getElementById('display-seats').innerText = selectedSeats.map(s => s.name).join(', ') || '-';
+            document.getElementById('display-total-tickets').innerText = fmt(ticketTotal);
         }
 
-        nextBtn.addEventListener('click', function() {
-            if (selected.length === 0) {
+        // 2. MỞ POPUP COMBO
+        document.getElementById('next-button').addEventListener('click', function() {
+            if (selectedSeats.length === 0) {
                 createToast("Vui lòng chọn ít nhất một ghế!");
             } else {
-                const seatsParam = selected.map(s => s.name).join(',');
-                const totalAmount = selected.reduce((sum, s) => sum + s.price, 0);
-                window.location.href = `{{ route('booking.combo') }}?seats=${seatsParam}&total=${totalAmount}`;
+                new bootstrap.Modal(document.getElementById('comboModal')).show();
             }
+        });
+
+        // 3. LOGIC CHỌN COMBO
+        document.querySelectorAll('.btn-qty-vnpay').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.combo-modal-item'), name = card.dataset.name, price = parseInt(card.dataset.price);
+                const qEl = card.querySelector('.qty');
+                let qty = parseInt(qEl.innerText);
+                qty = this.classList.contains('plus') ? qty + 1 : Math.max(0, qty - 1);
+                qEl.innerText = qty;
+                selectedCombos[name] = { qty, price };
+                
+                let comboTotal = 0;
+                for (let k in selectedCombos) comboTotal += selectedCombos[k].qty * selectedCombos[k].price;
+                document.getElementById('modal-combo-total').innerText = fmt(comboTotal);
+            });
+        });
+
+        // 4. MỞ POPUP THANH TOÁN
+        document.getElementById('btn-to-payment').addEventListener('click', function() {
+            const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+            
+            const seatsList = document.getElementById('final-seats-list');
+            seatsList.innerHTML = selectedSeats.map(s => `
+                <div class="summary-item">
+                    <span class="summary-label">${s.name} - ${s.price > 40000 ? 'VIP' : 'Thường'}</span>
+                    <span class="summary-value">${fmt(s.price)}</span>
+                </div>`).join('');
+
+            const combosList = document.getElementById('final-combos-list');
+            let comboTotal = 0, comboHtml = "";
+            for (let k in selectedCombos) {
+                if (selectedCombos[k].qty > 0) {
+                    const p = selectedCombos[k].qty * selectedCombos[k].price;
+                    comboTotal += p;
+                    comboHtml += `<div class="summary-item"><span class="summary-label">${k} x${selectedCombos[k].qty}</span><span class="summary-value">${fmt(p)}</span></div>`;
+                }
+            }
+            combosList.innerHTML = comboHtml || '<div class="text-muted small">Không chọn đồ ăn</div>';
+
+            const finalTotal = ticketTotal + comboTotal;
+            document.getElementById('final-total-all').innerText = fmt(finalTotal);
+            document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BKL-PAYMENT-${finalTotal}`;
+            
+            bootstrap.Modal.getInstance(document.getElementById('comboModal')).hide();
+            new bootstrap.Modal(document.getElementById('paymentModal')).show();
         });
     });
 </script>
