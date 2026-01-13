@@ -139,8 +139,24 @@
         text-decoration: underline;
     }
     
-    .forgot-link { color: #4b5563; text-decoration: none; transition: 0.3s; }
+    .forgot-link { color: #4b5563; text-decoration: none; transition: 0.3s; cursor: pointer; }
     .forgot-link:hover, .forgot-link:focus { color: #ff69b4; outline: none; }
+
+    /* CSS CHO MODAL COMING SOON */
+    #comingSoonModal {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.7); z-index: 99999; align-items: center; justify-content: center; 
+        backdrop-filter: blur(5px);
+    }
+    .modal-content-custom {
+        background: #DEFE98; padding: 40px; border-radius: 25px; text-align: center; 
+        box-shadow: 0 0 30px rgba(222, 254, 152, 0.5); border: 3px solid #000; 
+        max-width: 350px; position: relative; animation: zoomIn 0.3s ease;
+    }
+    @keyframes zoomIn {
+        from { transform: scale(0.5); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
 </style>
 
 <div class="toast-container">
@@ -182,7 +198,6 @@
 
         <form method="POST" action="/login">
             @csrf
-            {{-- ĐỔI TÊN Ô NHẬP LIỆU THÀNH login_field --}}
             <div class="floating-group">
                 <input type="text" name="login_field" id="login_field" placeholder=" " value="{{ old('login_field') }}" required autocomplete="off">
                 <label for="login_field">Email/Số điện thoại</label>
@@ -199,7 +214,8 @@
                     <input type="checkbox" name="remember" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
                     <label style="color: #1f2937;" for="remember">Ghi nhớ tôi</label>
                 </div>
-                <a href="#" class="small forgot-link">Quên mật khẩu?</a>
+                {{-- SỬA LINK QUÊN MẬT KHẨU TẠI ĐÂY --}}
+                <a href="javascript:void(0)" class="small forgot-link" onclick="showComingSoon()">Quên mật khẩu?</a>
             </div>
 
             <button type="submit" class="btn btn-login w-100 shadow">ĐĂNG NHẬP NGAY</button>
@@ -211,7 +227,27 @@
     </div>
 </div>
 
+{{-- MODAL COMING SOON --}}
+<div id="comingSoonModal">
+    <div class="modal-content-custom">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🤫</div>
+        <h2 style="font-family: 'Permanent Marker', cursive; color: #000; margin-bottom: 10px;">COMING SOON</h2>
+        <p style="color: #4b5563; font-weight: 500;">Tính năng này đang được ekiet phát triển. Quay lại sau nhé!</p>
+        <button onclick="closeComingSoon()" style="background: #ff69b4; border: none; padding: 10px 30px; border-radius: 12px; color: white; font-weight: bold; margin-top: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);">OK CẬU ƠI</button>
+    </div>
+</div>
+
 <script>
+    // LOGIC CHO COMING SOON
+    function showComingSoon() {
+        document.getElementById('comingSoonModal').style.display = 'flex';
+    }
+
+    function closeComingSoon() {
+        document.getElementById('comingSoonModal').style.display = 'none';
+    }
+
+    // LOGIC CŨ CỦA CẬU
     const togglePassword = document.querySelector('#togglePassword');
     const password = document.querySelector('#password');
     togglePassword.addEventListener('click', function () {

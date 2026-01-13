@@ -43,7 +43,7 @@ class AuthController extends Controller
             $userName = Auth::user()->name;
             
             // Redirect về trang chủ với thông báo cá nhân hóa
-            return redirect('/')->with('success', "Chào mừng $userName quay trở lại! Đăng nhập thành công.");
+            return redirect('/')->with('success', "Xin chào $userName đến với BKL Cinema!");
         }
 
         // Nếu thất bại
@@ -70,7 +70,13 @@ class AuthController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'phone' => ['required', 'numeric', 'digits_between:10,11', 'unique:users,phone'],
+            'phone' => [
+            'required', 
+            'numeric', 
+            'digits:10',                // Khớp với mục "Đúng 10 chữ số"
+            'regex:/^(03|05|07|08|09)/', // Khớp với mục "Đầu số VN"
+            'unique:users,phone'        // Đảm bảo không trùng số
+            ],
             'password' => ['required', 'confirmed', 'min:8'],
         ], [
             'name.required' => 'Họ và tên không được để trống.',

@@ -106,13 +106,13 @@
     .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
     @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
-    /* 3. CHECKLIST MẬT KHẨU */
-    .password-checklist {
+    /* 3. CHECKLIST DÙNG CHUNG CHO PHONE & PASSWORD */
+    .checklist-box {
         max-height: 0; overflow: hidden; background: rgba(255, 255, 255, 0.5);
         padding: 0 15px; border-radius: 12px; transition: all 0.4s ease; margin-bottom: 0;
     }
-    .password-checklist.active { max-height: 250px; padding: 15px; margin-bottom: 20px; border: 1px solid rgba(255, 105, 180, 0.3); }
-    .password-checklist li { font-size: 0.75rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+    .checklist-box.active { max-height: 250px; padding: 15px; margin-bottom: 20px; border: 1px solid rgba(255, 105, 180, 0.3); }
+    .checklist-box li { font-size: 0.75rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; list-style: none; }
     .invalid { color: #dc2626; } .valid { color: #059669; }
 </style>
 
@@ -154,10 +154,18 @@
                 <label for="email">Địa chỉ Email</label>
             </div>
 
-            {{-- SỐ ĐIỆN THOẠI (PHẦN MỚI THÊM) --}}
+            {{-- SỐ ĐIỆN THOẠI --}}
             <div class="floating-group">
-                <input type="text" name="phone" id="phone" placeholder=" " value="{{ old('phone') }}" required>
+                <input type="text" name="phone" id="phone" placeholder=" " value="{{ old('phone') }}" required maxlength="10">
                 <label for="phone">Số điện thoại</label>
+            </div>
+
+            <div id="phone_info" class="checklist-box">
+                <ul>
+                    <li id="p_start" class="invalid"><i class="bi bi-x-lg"></i> Đầu số VN (03, 05, 07, 08, 09)</li>
+                    <li id="p_length" class="invalid"><i class="bi bi-x-lg"></i> Đúng 10 chữ số</li>
+                    <li id="p_number" class="invalid"><i class="bi bi-x-lg"></i> Chỉ chứa ký tự số</li>
+                </ul>
             </div>
 
             {{-- MẬT KHẨU --}}
@@ -167,7 +175,7 @@
                 <i class="bi bi-eye eye-toggle" onclick="togglePass('password', this)"></i>
             </div>
 
-            <div id="pswd_info" class="password-checklist">
+            <div id="pswd_info" class="checklist-box">
                 <ul>
                     <li id="length" class="invalid"><i class="bi bi-x-lg"></i> Ít nhất 8 ký tự</li>
                     <li id="letter" class="invalid"><i class="bi bi-x-lg"></i> Chứa chữ cái</li>
@@ -200,6 +208,21 @@
         icon.classList.toggle('bi-eye'); icon.classList.toggle('bi-eye-slash');
     }
 
+    // --- LOGIC CHO SỐ ĐIỆN THOẠI ---
+    const phone = document.getElementById('phone');
+    const phone_info = document.getElementById('phone_info');
+
+    phone.addEventListener('focus', () => phone_info.classList.add('active'));
+    phone.addEventListener('blur', () => phone_info.classList.remove('active'));
+
+    phone.addEventListener('input', function() {
+        const val = this.value;
+        validateItem('p_start', /^(03|05|07|08|09)/.test(val));
+        validateItem('p_length', val.length === 10);
+        validateItem('p_number', /^[0-9]+$/.test(val) && val.length > 0);
+    });
+
+    // --- LOGIC CHO MẬT KHẨU ---
     const pswd = document.getElementById('password');
     const pswd_info = document.getElementById('pswd_info');
 
@@ -215,8 +238,10 @@
         validateItem('space', !/\s/.test(val) && val.length > 0);
     });
 
+    // Hàm dùng chung để đổi màu icon tích
     function validateItem(id, isValid) {
         const el = document.getElementById(id); 
+        if(!el) return;
         const icon = el.querySelector('i');
         if (isValid) { 
             el.classList.replace('invalid', 'valid'); 
