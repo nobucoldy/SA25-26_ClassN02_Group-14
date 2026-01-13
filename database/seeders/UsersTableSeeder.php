@@ -1,31 +1,39 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        DB::table('users')->insert([
+        // ===== ADMIN =====
+        User::updateOrCreate(
+            ['email' => 'quebac@gmail.com'],
             [
-                'name' => 'Admin User',
-                'email' => 'quebac@gmail.com',
+                'name'     => 'Admin User',
                 'password' => Hash::make('123456789'),
-                'role' => 'admin',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+                'role'     => 'admin',
+                'phone'    => null,
+                'hobbies'  => null,
+                'avatar'   => null,
+            ]
+        );
+
+        // ===== CUSTOMER =====
+        User::updateOrCreate(
+            ['email' => 'kietdz@gmail.com'],
             [
-                'name' => 'Customer User',
-                'email' => 'kietdz@gmail.com',
+                'name'     => 'Customer User',
                 'password' => Hash::make('987654321'),
-                'role' => 'customer',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                'role'     => 'customer',
+                'phone'    => null,
+                'hobbies'  => null,
+                'avatar'   => null,
+            ]
+        );
     }
 }

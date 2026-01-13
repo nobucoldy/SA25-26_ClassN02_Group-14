@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MovieController;
 use App\Http\Controllers\Web\BookingController;
 use App\Http\Controllers\Web\ProfileController;
+use App\Http\Controllers\Admin\ShowtimeController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,4 +58,18 @@ Route::middleware('auth')->group(function () {
 Route::get('/reviews', [MovieController::class, 'index'])->name('review.index');
 Route::get('/schedule', function () {
     return view('movies.schedule'); 
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    Route::resource('movies', MovieController::class);
+    Route::get('/showtimes', [ShowtimeController::class, 'index'])
+        ->name('showtimes.index');
+    Route::get('/bookings', [BookingController::class, 'index'])
+        ->name('bookings.index');
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index');
 });
