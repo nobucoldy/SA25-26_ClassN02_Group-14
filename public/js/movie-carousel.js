@@ -1,8 +1,13 @@
 const commonConfigs = {
-    slidesPerView: 4,      // Hiện 4 phim
-    slidesPerGroup: 1,     // CHỈ NHẢY 1 PHIM MỖI LẦN
+    slidesPerView: 4,      
+    slidesPerGroup: 1,     
     spaceBetween: 0,       
     loop: true,
+    // THÊM TỰ ĐỘNG CHẠY MỖI 3 GIÂY
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false, // Vẫn tự chạy sau khi người dùng bấm
+    },
     pagination: {
         el: ".swiper-pagination",
         clickable: true,

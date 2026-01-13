@@ -48,9 +48,12 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/update', [ProfileController::class, 'updateInfo'])->name('profile.update');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
 
 Route::get('/reviews', [MovieController::class, 'index'])->name('review.index');
+Route::get('/schedule', function () {
+    return view('movies.schedule'); 
+});

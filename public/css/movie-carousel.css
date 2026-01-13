@@ -1,10 +1,9 @@
 .swiper {
     overflow: hidden !important;
     width: 100% !important;
-    padding-bottom: 60px !important; /* Chừa chỗ cho pagination */
+    padding-bottom: 60px !important; 
 }
 
-/* Ép đúng 4 phim 1 khung - GIỮ NGUYÊN */
 .swiper-slide {
     width: 25% !important; 
     box-sizing: border-box;
@@ -12,13 +11,11 @@
     transition: transform 0.4s ease;
 }
 
-/* Hiệu ứng focus nhỏ lại (1.05) - GIỮ NGUYÊN */
 .swiper-slide:hover {
     transform: scale(1.05);
     z-index: 10;
 }
 
-/* HIỆN LẠI THANH ĐIỀU HƯỚNG - GIỮ NGUYÊN */
 .swiper-pagination {
     position: absolute !important;
     bottom: 10px !important;
@@ -33,54 +30,53 @@
 
 .swiper-pagination-bullet-active {
     background: #007bff !important;
-    width: 30px !important; /* Thanh dài màu xanh */
+    width: 30px !important; 
     border-radius: 5px !important;
     opacity: 1;
 }
 
-/* --- CHỈ SỬA PHẦN NÀY: NÚT ĐIỀU HƯỚNG < > SANG TRỌNG HƠN --- */
+/* --- SỬA NÚT ĐIỀU HƯỚNG NHỎ GỌN & KHÔNG TRÀN VIỀN --- */
 .swiper-button-prev, .swiper-button-next {
-    background: rgba(255, 255, 255, 0.95) !important; /* Trắng tinh tế */
-    width: 52px !important; /* To hơn một chút cho dễ bấm */
-    height: 52px !important;
+    background: rgba(255, 255, 255, 0.8) !important; /* Mờ nhẹ sang trọng */
+    width: 40px !important;  /* Nhỏ lại */
+    height: 40px !important; /* Nhỏ lại */
     border-radius: 50% !important;
-    color: #000 !important; /* Mũi tên màu đen sắc nét */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important; /* Đổ bóng sâu hơn */
+    color: #000 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
     top: 45% !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Chuyển động xịn */
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(4px); /* Hiệu ứng kính mờ */
 }
 
-/* Làm mũi tên nhỏ gọn và chuyên nghiệp */
+/* Làm mũi tên nhỏ lại cho cân đối */
 .swiper-button-prev:after, .swiper-button-next:after {
-    font-size: 18px !important;
-    font-weight: 800 !important;
+    font-size: 14px !important; /* Mũi tên nhỏ đi */
+    font-weight: bold !important;
 }
 
-/* Hiệu ứng khi Hover vào nút */
 .swiper-button-prev:hover, .swiper-button-next:hover {
     background: #ffffff !important;
-    transform: scale(1.1); /* Phóng to nhẹ khi di chuột vào */
-    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3) !important; /* Ánh xanh nhẹ đồng bộ pagination */
-    color: #007bff !important; /* Đổi màu mũi tên khi hover */
+    transform: scale(1.1);
+    color: #ff69b4 !important; /* Đổi sang màu hồng cho đồng bộ theme của cậu */
 }
 
-/* Đẩy nút ra sát lề để không đè lên ảnh phim */
-.swiper-button-prev { left: 5px !important; }
-.swiper-button-next { right: 5px !important; }
+/* Đưa nút vào trong khung một chút để không chạm lề màn hình */
+.swiper-button-prev { left: 15px !important; }
+.swiper-button-next { right: 15px !important; }
 
 .hero-section {
     width: 100vw;
-    height: 65vh; /* chỉnh cao thấp tùy bạn */
+    height: 65vh; 
     background-image: url('https://i.ytimg.com/vi/YXtWPVFk5TQ/maxresdefault.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
 }
+
 .section-gap {
-    height: 70px; /* bạn chỉnh 50–100px tùy thích */
+    height: 70px;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);

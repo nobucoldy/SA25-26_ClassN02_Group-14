@@ -16,54 +16,84 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        // 1. Validate đầu vào
+        $request->validate([
+            'login_field' => ['required'],
             'password' => ['required'],
+        ], [
+            'login_field.required' => 'Vui lòng nhập Email hoặc Số điện thoại.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        $loginValue = $request->input('login_field');
+        
+        // 2. Tự động nhận diện Email hay Phone
+        $fieldType = filter_var($loginValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-            return redirect('/')->with('success', 'Đăng nhập thành công');
+        $credentials = [
+            $fieldType => $loginValue,
+            'password' => $request->password,
+        ];
+
+        // 3. Thực hiện đăng nhập
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate();
+            
+            // Lấy tên người dùng vừa đăng nhập để chào mừng
+            $userName = Auth::user()->name;
+            
+            // Redirect về trang chủ với thông báo cá nhân hóa
+            return redirect('/')->with('success', "Chào mừng $userName quay trở lại! Đăng nhập thành công.");
         }
 
+        // Nếu thất bại
         return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng',
-        ]);
+            'login_field' => 'Thông tin đăng nhập hoặc mật khẩu không chính xác.',
+        ])->withInput($request->only('login_field', 'remember'));
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Bạn đã đăng xuất tài khoản.');
     }
+
     public function showRegister()
-{
-    return view('auth.register');
-}
+    {
+        return view('auth.register');
+    }
 
-public function register(Request $request)
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'unique:users,email'],
-        'password' => ['required', 'confirmed', 'min:6'],
-    ]);
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'phone' => ['required', 'numeric', 'digits_between:10,11', 'unique:users,phone'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ], [
+            'name.required' => 'Họ và tên không được để trống.',
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Định dạng Email không hợp lệ.',
+            'email.unique' => 'Email này đã tồn tại trong hệ thống.',
+            'phone.required' => 'Số điện thoại không được để trống.',
+            'phone.unique' => 'Số điện thoại này đã được sử dụng bởi tài khoản khác.',
+            'phone.numeric' => 'Số điện thoại phải là định dạng số.',
+            'phone.digits_between' => 'Số điện thoại phải từ 10 đến 11 chữ số.',
+            'password.required' => 'Mật khẩu không được để trống.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+        ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => 'customer', // mặc định
-    ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'role' => 'customer', 
+        ]);
 
-    // Tự đăng nhập sau khi đăng ký
-    Auth::login($user);
-
-    return redirect('/')->with('success', 'Đăng ký thành công');
-}
+        return redirect()->route('login')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập tài khoản mới.');
+    }
 }

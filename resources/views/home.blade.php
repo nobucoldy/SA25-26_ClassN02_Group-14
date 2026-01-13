@@ -2,8 +2,34 @@
 
 @section('content')
 
+{{-- THÔNG BÁO TOAST ĐĂNG NHẬP THÀNH CÔNG --}}
+<div id="home-toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 12px; pointer-events: none;">
+    @if (session('success'))
+    <div class="custom-toast-success" id="successToast" style="pointer-events: auto; background: #1e293b; color: white; padding: 16px 20px; border-radius: 12px; min-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; border-left: 5px solid #DEFE98; position: relative; overflow: hidden; animation: slideInIn 0.4s ease forwards;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <i class="bi bi-check-circle-fill" style="color: #DEFE98; font-size: 1.2rem;"></i>
+            <span style="font-weight: 500;">{{ session('success') }}</span>
+        </div>
+        <button onclick="closeHomeToast()" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1.2rem; outline: none;">✕</button>
+        {{-- Thanh thời gian chạy --}}
+        <div style="position: absolute; bottom: 0; left: 0; height: 4px; background: #DEFE98; width: 100%; animation: toastProgress 3s linear forwards;"></div>
+    </div>
+    @endif
+</div>
+
+<style>
+    @keyframes slideInIn {
+        from { opacity: 0; transform: translateX(100%); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes toastProgress {
+        from { width: 100%; }
+        to { width: 0%; }
+    }
+</style>
+
 <header class="hero-section">
-    
+    {{-- Banner content --}}
 </header>
 
 <div class="section-gap bg-light"></div>
@@ -94,10 +120,32 @@
     </div>
 </section>
 
+{{-- SCRIPT XỬ LÝ ĐÓNG TOAST --}}
+<script>
+    function closeHomeToast() {
+        const toast = document.getElementById('successToast');
+        if (toast) {
+            toast.style.transform = "translateX(120%)";
+            toast.style.opacity = "0";
+            toast.style.transition = "0.4s ease";
+            setTimeout(() => toast.remove(), 400);
+        }
+    }
+
+    // Tự động đóng sau 3 giây nếu có thông báo
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('successToast')) {
+            setTimeout(closeHomeToast, 3000);
+        }
+    });
+</script>
+
 @endsection
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/movie-carousel.css') }}">
+{{-- Thêm thư viện Icon nếu Layout chưa có --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 @endpush
 
 @push('scripts')

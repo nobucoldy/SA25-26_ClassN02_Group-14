@@ -8,9 +8,16 @@
             <div class="pick-ticket">Pick A Ticket</div>
         </a>
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Lịch chiếu</a></li>
+                {{-- SỬA TẠI ĐÂY: Trỏ link về trang lịch chiếu --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/schedule">Lịch chiếu</a>
+                </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -28,37 +35,46 @@
                 </li>
             </ul>
 
-            <div class="dropdown">
-    <a href="#"
-       class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle"
-       role="button"
-       data-bs-toggle="dropdown"
-       aria-expanded="false">
+            {{-- KIỂM TRA ĐĂNG NHẬP --}}
+            @auth
+                <div class="dropdown">
+                    <a href="#"
+                       class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
 
-        <img src="https://i.pravatar.cc/100"
-             class="user-avatar"
-             style="width:32px;height:32px;border-radius:50%">
-        <span class="small">{{ Auth::user()->name }}</span>
-    </a>
+                        {{-- Hiển thị avatar thực tế từ storage --}}
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
+                             class="user-avatar"
+                             style="width:32px; height:32px; border-radius:50%; object-fit: cover;">
+                        
+                        <span class="small">{{ Auth::user()->name }}</span>
+                    </a>
 
-    <ul class="dropdown-menu dropdown-menu-end">
-        <li>
-            <a class="dropdown-item" href="{{ route('profile.index') }}">
-                👤 Tài khoản
-            </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button class="dropdown-item text-danger">
-                    🚪 Đăng xuất
-                </button>
-            </form>
-        </li>
-    </ul>
-</div>
-
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                👤 Tài khoản
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="dropdown-item text-danger border-0 bg-transparent w-100 text-start">
+                                    🚪 Đăng xuất
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                {{-- Nếu chưa đăng nhập thì hiện nút Đăng nhập --}}
+                <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm px-3" style="border-radius: 20px;">
+                    Đăng nhập
+                </a>
+            @endauth
         </div>
     </div>
 </nav>

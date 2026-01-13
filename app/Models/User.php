@@ -21,6 +21,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // admin hoặc customer
+        'phone',    // Thêm dòng này
+        'hobbies',  // Thêm dòng này
+        'avatar',   // Thêm dòng này
     ];
 
     /**
