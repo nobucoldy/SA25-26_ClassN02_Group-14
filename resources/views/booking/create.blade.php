@@ -12,45 +12,23 @@
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f4f4f9; overflow-x: hidden; }
         .booking-page { padding: 30px 0 140px 0; min-height: 100vh; position: relative; }
 
-        /* SIDEBAR - HẠ Z-INDEX XUỐNG 1040 ĐỂ NẰM DƯỚI LỚP MỜ (BACKDROP) CỦA MODAL (1050) */
-        .side-menu { 
-            position: fixed; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            z-index: 1040; /* Modal Backdrop của Bootstrap là 1050, 1040 sẽ nằm dưới và không bấm được */
-            transition: 0.3s ease; 
-        }
+        /* SIDEBAR */
+        .side-menu { position: fixed; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1040; transition: 0.3s ease; }
         .side-menu.left { left: 30px; }
         .side-menu.right { right: 30px; }
-        .menu-btn { 
-            width: 50px; height: 50px; background: white; border: none; border-radius: 15px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; 
-            justify-content: center; font-size: 1.2rem; transition: 0.3s; cursor: pointer; 
-            text-decoration: none; color: #333;
-        }
+        .menu-btn { width: 50px; height: 50px; background: white; border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s; cursor: pointer; text-decoration: none; color: #333; }
         .menu-btn:hover { background: #90ff00; color: #000; transform: scale(1.1); }
 
-        /* TOAST - GIỮ NGUYÊN */
+        /* TOAST */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
-        .custom-toast { 
-            pointer-events: auto; background: #1e293b; color: white; padding: 15px 20px; 
-            border-radius: 12px; min-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            display: flex; align-items: center; justify-content: space-between; 
-            position: relative; overflow: hidden; border-left: 5px solid #ff3131; 
-            animation: slideIn 0.4s ease-out forwards; 
-        }
+        .custom-toast { pointer-events: auto; background: #1e293b; color: white; padding: 15px 20px; border-radius: 12px; min-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; border-left: 5px solid #ff3131; animation: slideIn 0.4s ease-out forwards; }
         @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
         @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
-        
-        .close-btn { background: transparent !important; border: none !important; color: #94a3b8; font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; outline: none !important; box-shadow: none !important; appearance: none !important; }
-        .close-btn:hover { color: #ff3131; }
+        .close-btn { background: transparent !important; border: none !important; color: #94a3b8; font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; outline: none !important; box-shadow: none !important; }
         .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
-        /* HEADER - GIỮ NGUYÊN */
+        /* GIAO DIỆN CHỌN GHẾ VÀ THANH TOÁN (GIỮ NGUYÊN CSS) */
         .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
         .summary-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
         .movie-title { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 15px; }
@@ -58,60 +36,43 @@
         .info-box { background: #f8f9fa; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
         .info-box label { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; font-weight: 700; }
         .info-box span { display: block; font-size: 0.9rem; font-weight: 700; color: #333; }
-
-        /* LEGEND - GIỮ NGUYÊN */
         .seat-legend { display: flex; justify-content: center; gap: 40px; margin: 0 auto 40px; padding: 15px 40px; background: #fff; border-radius: 20px; width: fit-content; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .legend-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .legend-label { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: #444; }
         .legend-price { font-size: 0.7rem; color: #ff3131; font-weight: 600; }
         .seat-demo { width: 20px; height: 20px; border-radius: 5px; }
-        .legend-item .seat-double-demo { width: 20px !important; }
-
         .screen-container { width: 100%; perspective: 500px; margin-bottom: 60px; text-align: center; }
         .screen { width: 70%; height: 10px; background: #ddd; margin: 0 auto; transform: rotateX(-30deg); box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-radius: 5px; }
         .screen-text { color: #bbb; font-size: 0.75rem; margin-top: 20px; letter-spacing: 10px; font-weight: 800; }
-
-        /* SEAT GRID & ZOOM - GIỮ NGUYÊN */
         .zoom-wrapper { width: 100%; display: flex; justify-content: center; }
         #main-booking-area { transition: transform 0.3s ease; transform-origin: top center; width: 100%; }
         .seat-grid { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .seat-row { display: flex; gap: 8px; align-items: center; }
-        .seat-row .seat:nth-child(3) { margin-right: 35px; }
-        .seat-row .seat:nth-child(8) { margin-right: 35px; }
+        .seat-row .seat:nth-child(3), .seat-row .seat:nth-child(8) { margin-right: 35px; }
         .seat { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .seat-normal { background: #90ff00; color: #000; } 
         .seat-vip { background: #ff4d4d; color: white; }    
         .seat-double { background: #ff66cc; color: white; width: 88px; } 
         .seat-selected { background: #1a1a1a !important; color: #fff !important; transform: scale(1.15); box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
         .seat-sold { background: #e0e0e0 !important; color: #aaa !important; cursor: not-allowed; } 
-
-        /* COMBO MODAL STYLING - NÚT +/- XANH LÁ */
         .combo-modal-item { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
-        .btn-qty-vnpay { width: 32px; height: 32px; border-radius: 8px; border: none; background: #90ff00; color: #000; font-weight: 800; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn-qty-vnpay:hover { background: #82e600; transform: scale(1.05); }
+        .btn-qty-vnpay { width: 32px; height: 32px; border-radius: 8px; border: none; background: #90ff00; color: #000; font-weight: 800; font-size: 1.1rem; }
         .vnpay-blue-btn { background-color: #0056b3 !important; color: white !important; border: none !important; border-radius: 10px !important; padding: 12px 45px !important; font-weight: bold !important; transition: 0.3s; }
-        .vnpay-blue-btn:hover { background-color: #004494 !important; transform: translateY(-2px); }
-
-        /* CHECKOUT CARD - NÚT TIẾP TỤC XANH DƯƠNG */
         .checkout-card { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 12px 10%; box-shadow: 0 -8px 25px rgba(0,0,0,0.08); border-top: 1px solid #eee; z-index: 1000; }
         .total-price { color: #000; font-size: 1.5rem; font-weight: 800; }
-        .btn-next-step { 
-            border-radius: 10px; background: #0056b3; color: white; border: none; 
-            padding: 10px 45px; font-weight: bold; transition: 0.3s; 
-        }
-        .btn-next-step:hover, .btn-next-step:focus { 
-            background: #2a7fd1 !important; 
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
-        }
-
-        /* PHẦN THANH TOÁN FINAL (ẢNH 5 + ẢNH 3) */
+        .btn-next-step { border-radius: 10px; background: #0056b3; color: white; border: none; padding: 10px 45px; font-weight: bold; transition: 0.3s; }
+        .btn-next-step:hover { background: #2a7fd1 !important; transform: translateY(-2px); }
         .summary-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
         .summary-label { color: #666; font-weight: 600; }
-        .summary-value { font-weight: 700; text-align: right; color: #1a1a1a; }
-        .qr-section-container { background: #f8f9fa; border-left: 1px dashed #ccc; min-width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .qr-frame { background: white; border-radius: 15px; padding: 15px; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .summary-value { font-weight: 700; color: #1a1a1a; }
+        .payment-choice-card { border: 2px solid #eee; border-radius: 16px; padding: 15px; cursor: pointer; transition: all 0.3s ease; text-align: center; background: white; height: 100%; }
+        .payment-choice-card.active { border-color: #0056b3; background: #f0f7ff; color: #0056b3; box-shadow: 0 5px 15px rgba(0,86,179,0.1); }
+        .payment-choice-card i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .payment-choice-card span { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .qr-frame-box { background: white; padding: 15px; border-radius: 20px; border: 2px solid #e0e0e0; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        #successModalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .success-box-popup { background: #90ff00; padding: 60px 40px; border-radius: 40px; text-align: center; box-shadow: 0 0 60px rgba(144, 255, 0, 0.4); border: 4px solid #000; max-width: 480px; animation: zoomInPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes zoomInPopup { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -120,14 +81,14 @@
     <div class="toast-container" id="toast-wrapper"></div>
 
     <div class="side-menu left">
-        <button class="menu-btn" onclick="window.history.back()" title="Quay lại"><i class="bi bi-chevron-left"></i></button>
-        <button type="button" class="menu-btn" data-bs-toggle="modal" data-bs-target="#cancelModal" title="Hủy giao dịch"><i class="bi bi-x-lg"></i></button>
+        <button class="menu-btn" onclick="window.history.back()"><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="menu-btn" data-bs-toggle="modal" data-bs-target="#cancelModal"><i class="bi bi-x-lg"></i></button>
     </div>
 
     <div class="side-menu right">
-        <button class="menu-btn" onclick="zoomGrid(0.1)" title="Phóng to"><i class="bi bi-plus-lg"></i></button>
-        <button class="menu-btn" onclick="zoomGrid(-0.1)" title="Thu nhỏ"><i class="bi bi-dash-lg"></i></button>
-        <button class="menu-btn" onclick="window.location.reload()" title="Tải lại"><i class="bi bi-arrow-clockwise"></i></button>
+        <button class="menu-btn" onclick="zoomGrid(0.1)"><i class="bi bi-plus-lg"></i></button>
+        <button class="menu-btn" onclick="zoomGrid(-0.1)"><i class="bi bi-dash-lg"></i></button>
+        <button class="menu-btn" onclick="window.location.reload()"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
 
     <div class="container">
@@ -148,7 +109,7 @@
         <div class="seat-legend">
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Thường</div><div class="legend-price">36.000đ</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49.000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double seat-double-demo"></div>Ghế đôi</div><div class="legend-price">90.000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Ghế đôi</div><div class="legend-price">90.000đ</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Đang chọn</div><div class="legend-price">-</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Đã bán</div><div class="legend-price">-</div></div>
         </div>
@@ -169,7 +130,7 @@
                     <div class="seat-row mt-4">
                         @for($i=1; $i<=5; $i++)
                             @php $code = "L" . sprintf("%02d", $i); $price = 90000; $isSold = in_array($code, $soldSeats); @endphp
-                            <div class="seat {{ $isSold ? 'seat-sold' : $seat_double ?? 'seat-double' }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                            <div class="seat {{ $isSold ? 'seat-sold' : 'seat-double' }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
                         @endfor
                     </div>
                 </div>
@@ -228,19 +189,6 @@
                         <button class="btn-qty-vnpay plus">+</button>
                     </div>
                 </div>
-                <div class="combo-modal-item" data-name="Combo Gia đình" data-price="185000">
-                    <img src="https://momo.vn/su-kien/cinema/images/details/combo-3.png" width="90" class="rounded">
-                    <div class="ms-3 flex-grow-1">
-                        <h6 class="fw-bold mb-1">COMBO GIA ĐÌNH</h6>
-                        <small class="text-muted d-block mb-1">2 Bắp lớn + 3 Nước ngọt lớn</small>
-                        <span class="fw-bold text-danger">185.000đ</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="btn-qty-vnpay minus">-</button>
-                        <span class="qty fw-bold mx-2">0</span>
-                        <button class="btn-qty-vnpay plus">+</button>
-                    </div>
-                </div>
 
                 <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                     <div>
@@ -255,21 +203,22 @@
 </div>
 
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden position-relative">
+            <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" style="top: 20px; right: 20px; z-index: 10;"></button>
+
             <div class="modal-body p-0 d-flex flex-column flex-md-row">
-                
-                <div class="p-4 flex-grow-1 bg-white">
+                <div class="p-4 flex-grow-1 bg-white border-end">
                     <h5 class="fw-bold mb-4">XÁC NHẬN ĐẶT VÉ</h5>
                     <p class="mb-1 small">Phim: <strong>{{ $showtime->movie->title }}</strong></p>
                     <p class="mb-1 small">Rạp: <strong>BKL Cinema Hà Đông</strong></p>
                     <p class="mb-4 small">Suất: <strong>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }} | {{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</strong></p>
 
-                    <h6 class="fw-bold border-bottom pb-2 mb-3">Ghế</h6>
-                    <div id="final-seats-list"></div>
+                    <h6 class="fw-bold border-bottom pb-2 mb-3">Ghế đã chọn</h6>
+                    <div id="final-seats-list" class="mb-3"></div>
 
-                    <h6 class="fw-bold border-bottom pb-2 mt-4 mb-3">Đồ ăn và đồ uống</h6>
-                    <div id="final-combos-list"></div>
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Đồ ăn & Đồ uống</h6>
+                    <div id="final-combos-list" class="mb-3"></div>
 
                     <div class="mt-4 pt-3 border-top">
                         <div class="d-flex justify-content-between align-items-center">
@@ -279,21 +228,71 @@
                     </div>
                 </div>
 
-                <div class="p-4 qr-section-container">
-                    <p class="fw-bold mb-4">QUÉT MÃ ĐỂ THANH TOÁN</p>
-                    <div class="qr-frame">
-                        <img id="qr-image" src="" style="width: 200px; height: 200px; object-fit: contain;">
+                <div class="p-4 bg-light" style="min-width: 480px;">
+                    <p class="fw-bold mb-4 text-center fs-5">PHƯƠNG THỨC THANH TOÁN</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <div class="payment-choice-card active" id="tab-qr-btn" onclick="togglePayTab('qr')">
+                                <i class="bi bi-qr-code-scan"></i>
+                                <span>Quét mã QR</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="payment-choice-card" id="tab-app-btn" onclick="togglePayTab('app')">
+                                <i class="bi bi-phone-vibrate"></i>
+                                <span>App Ngân hàng</span>
+                            </div>
+                        </div>
                     </div>
-                    <p class="mt-4 text-muted small text-center px-3" style="line-height: 1.5;">Giao dịch sẽ tự động hoàn tất sau khi bạn quét mã thành công</p>
-                    <button class="btn vnpay-blue-btn w-100 mt-3" onclick="location.href='{{ route('movies.index') }}'">Đồng ý</button>
-                </div>
 
+                    <div id="view-qr" class="text-center">
+                        <div class="qr-frame-box mb-3">
+                            <img id="qr-image" src="" style="width: 210px; height: 210px; object-fit: contain;">
+                        </div>
+                        <p class="text-muted small px-4 mb-4">Mở ứng dụng Ngân hàng hoặc Ví điện tử để quét mã thanh toán</p>
+                        <button class="btn btn-success w-100 py-3 rounded-3 shadow-sm fw-bold mb-3" onclick="simulateFinalSuccess()">
+                            <i class="bi bi-patch-check-fill me-2"></i>XÁC NHẬN ĐÃ QUÉT MÃ
+                        </button>
+                        <button class="btn btn-link text-decoration-none text-muted fw-bold small" onclick="goBackToCombo()">
+                            <i class="bi bi-arrow-left me-1"></i> QUAY LẠI ĐỔI COMBO
+                        </button>
+                    </div>
+
+                    <div id="view-app" class="text-center d-none" style="padding-top: 60px;">
+                        <div style="font-size: 5rem; margin-bottom: 20px;">🚧</div>
+                        <h4 class="fw-bold">COMING SOON</h4>
+                        <p class="text-muted px-4 small">Tính năng liên kết ứng dụng trực tiếp đang được ekiet phát triển. Vui lòng sử dụng Quét mã QR.</p>
+                        <button class="btn btn-outline-primary btn-sm mt-3 fw-bold" onclick="togglePayTab('qr')">SỬ DỤNG QUÉT MÃ QR</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg" style="border-radius: 15px;"><div class="modal-body p-4 text-center"><h5 class="fw-bold mb-3">Bạn có chắc muốn hủy giao dịch?</h5><p class="text-muted small mb-4">Với việc bấm vào <strong>đồng ý</strong>, bạn sẽ hủy giao dịch mua vé xem phim này, và bạn sẽ được chuyển đến xem thông tin các phim khác</p><div class="d-flex gap-3 justify-content-center"><button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Tiếp tục mua vé</button><a href="{{ route('movies.index') }}" class="btn btn-primary px-5 fw-bold" style="background-color: #0056b3; border:none;">Đồng ý</a></div></div></div></div></div>
+<div id="successModalOverlay">
+    <div class="success-box-popup">
+        <div style="font-size: 6rem; margin-bottom: 20px;">🎟️</div>
+        <h2 style="font-weight: 900; color: #000; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;">Đặt vé thành công!</h2>
+        <p style="color: #000; font-weight: 600; font-size: 1.1rem; margin-bottom: 35px; line-height: 1.5;">Cảm ơn cậu đã tin tưởng BKL Cinema. Chúc cậu có những giây phút xem phim thật tuyệt vời nhé!</p>
+        <button onclick="location.href='/movies/status'" style="background: #000; border: none; padding: 18px 50px; border-radius: 20px; color: #90ff00; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; width: 100%;">OK CẬU ƠI!</button>
+    </div>
+</div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+            <div class="modal-body p-4 text-center">
+                <h5 class="fw-bold mb-3">Bạn có chắc muốn hủy giao dịch?</h5>
+                <p class="text-muted small mb-4">Hủy giao dịch mua vé này và quay lại xem trạng thái các phim khác?</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Tiếp tục mua vé</button>
+                    <a href="/movies/status" class="btn btn-primary px-5 fw-bold" style="background-color: #0056b3; border:none;">Đồng ý</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -302,23 +301,42 @@
     function removeToast(el) { if (el) { el.style.animation = "slideOut 0.4s ease-in forwards"; setTimeout(() => el.remove(), 400); } }
     function createToast(msg) { const wrapper = document.getElementById('toast-wrapper'); const toast = document.createElement('div'); toast.className = 'custom-toast'; toast.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i><span style="font-size: 0.9rem;">${msg}</span></div><button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button><div class="toast-progress"></div>`; wrapper.appendChild(toast); setTimeout(() => removeToast(toast), 3000); }
 
+    function togglePayTab(type) {
+        const qrBtn = document.getElementById('tab-qr-btn'), appBtn = document.getElementById('tab-app-btn');
+        const viewQr = document.getElementById('view-qr'), viewApp = document.getElementById('view-app');
+        if (type === 'qr') {
+            qrBtn.classList.add('active'); appBtn.classList.remove('active');
+            viewQr.classList.remove('d-none'); viewApp.classList.add('d-none');
+        } else {
+            appBtn.classList.add('active'); qrBtn.classList.remove('active');
+            viewApp.classList.remove('d-none'); viewQr.classList.add('d-none');
+        }
+    }
+
+    function goBackToCombo() {
+        const payModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+        if(payModal) payModal.hide();
+        setTimeout(() => { new bootstrap.Modal(document.getElementById('comboModal')).show(); }, 400);
+    }
+
+    function simulateFinalSuccess() {
+        const payModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+        if(payModal) payModal.hide();
+        setTimeout(() => { document.getElementById('successModalOverlay').style.display = 'flex'; }, 400);
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         let selectedSeats = [];
         let selectedCombos = {};
         const fmt = n => new Intl.NumberFormat('vi-VN').format(n) + 'đ';
 
-        // 1. LOGIC CHỌN GHẾ (MAX 8 GHẾ)
+        // LOGIC GHẾ
         document.querySelectorAll('.seat:not(.seat-sold)').forEach(seat => {
             seat.addEventListener('click', function() {
                 const name = this.dataset.name, price = parseInt(this.dataset.price);
                 const isSelected = this.classList.contains('seat-selected');
-
                 if (!isSelected) {
-                    // Kiểm tra giới hạn 8 ghế
-                    if (selectedSeats.length >= 8) {
-                        createToast("Bạn chỉ được chọn tối đa 8 ghế!");
-                        return;
-                    }
+                    if (selectedSeats.length >= 8) { createToast("Bạn chỉ được chọn tối đa 8 ghế!"); return; }
                     this.classList.add('seat-selected');
                     selectedSeats.push({ name, price });
                 } else {
@@ -331,22 +349,17 @@
 
         function updateCheckoutUI() {
             const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            const seatCounter = document.getElementById('seat-counter');
-            if(seatCounter) seatCounter.innerText = `Đã chọn ${selectedSeats.length} ghế:`;
+            document.getElementById('seat-counter').innerText = `Đã chọn ${selectedSeats.length} ghế:`;
             document.getElementById('display-seats').innerText = selectedSeats.map(s => s.name).join(', ') || '-';
             document.getElementById('display-total-tickets').innerText = fmt(ticketTotal);
         }
 
-        // 2. MỞ POPUP COMBO
         document.getElementById('next-button').addEventListener('click', function() {
-            if (selectedSeats.length === 0) {
-                createToast("Vui lòng chọn ít nhất một ghế!");
-            } else {
-                new bootstrap.Modal(document.getElementById('comboModal')).show();
-            }
+            if (selectedSeats.length === 0) createToast("Vui lòng chọn ít nhất một ghế!");
+            else new bootstrap.Modal(document.getElementById('comboModal')).show();
         });
 
-        // 3. LOGIC CHỌN COMBO
+        // LOGIC COMBO
         document.querySelectorAll('.btn-qty-vnpay').forEach(btn => {
             btn.addEventListener('click', function() {
                 const card = this.closest('.combo-modal-item'), name = card.dataset.name, price = parseInt(card.dataset.price);
@@ -355,23 +368,17 @@
                 qty = this.classList.contains('plus') ? qty + 1 : Math.max(0, qty - 1);
                 qEl.innerText = qty;
                 selectedCombos[name] = { qty, price };
-                
                 let comboTotal = 0;
                 for (let k in selectedCombos) comboTotal += selectedCombos[k].qty * selectedCombos[k].price;
                 document.getElementById('modal-combo-total').innerText = fmt(comboTotal);
             });
         });
 
-        // 4. MỞ POPUP THANH TOÁN
+        // CHUYỂN SANG THANH TOÁN
         document.getElementById('btn-to-payment').addEventListener('click', function() {
             const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            
             const seatsList = document.getElementById('final-seats-list');
-            seatsList.innerHTML = selectedSeats.map(s => `
-                <div class="summary-item">
-                    <span class="summary-label">${s.name} - ${s.price > 40000 ? 'VIP' : 'Thường'}</span>
-                    <span class="summary-value">${fmt(s.price)}</span>
-                </div>`).join('');
+            seatsList.innerHTML = selectedSeats.map(s => `<div class="summary-item"><span class="summary-label">${s.name}</span><span class="summary-value">${fmt(s.price)}</span></div>`).join('');
 
             const combosList = document.getElementById('final-combos-list');
             let comboTotal = 0, comboHtml = "";
@@ -386,7 +393,7 @@
 
             const finalTotal = ticketTotal + comboTotal;
             document.getElementById('final-total-all').innerText = fmt(finalTotal);
-            document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BKL-PAYMENT-${finalTotal}`;
+            document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=BKL-PAYMENT-${finalTotal}`;
             
             bootstrap.Modal.getInstance(document.getElementById('comboModal')).hide();
             new bootstrap.Modal(document.getElementById('paymentModal')).show();

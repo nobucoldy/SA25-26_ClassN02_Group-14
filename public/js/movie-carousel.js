@@ -4,10 +4,10 @@ const commonConfigs = {
     spaceBetween: 0,       
     loop: true,
     // THÊM TỰ ĐỘNG CHẠY MỖI 3 GIÂY
-    autoplay: {
-        delay: 3000,
-        disableOnInteraction: false, // Vẫn tự chạy sau khi người dùng bấm
-    },
+    //autoplay: {
+        //delay: 3000,
+        //disableOnInteraction: false, // Vẫn tự chạy sau khi người dùng bấm
+    //},
     pagination: {
         el: ".swiper-pagination",
         clickable: true,
