@@ -8,6 +8,10 @@ use App\Http\Controllers\Web\BookingController;
 use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Admin\ShowtimeController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Web\MovieController as AdminMovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,16 +64,44 @@ Route::get('/schedule', function () {
     return view('movies.schedule'); 
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+//ADMIN
+Route::prefix('admin')
+    ->middleware(['auth', 'admin'])
+    ->name('admin.')
+    ->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
 
-    Route::resource('movies', MovieController::class);
-    Route::get('/showtimes', [ShowtimeController::class, 'index'])
-        ->name('showtimes.index');
-    Route::get('/bookings', [BookingController::class, 'index'])
-        ->name('bookings.index');
-    Route::get('/users', [UserController::class, 'index'])
-        ->name('users.index');
+    Route::get('/', [
+        App\Http\Controllers\Admin\DashboardController::class,
+        'index'
+    ])->name('dashboard');
+
+
+    Route::resource('movies',
+        App\Http\Controllers\Admin\MovieController::class
+    );
+
+
+    Route::resource('showtimes',
+        App\Http\Controllers\Admin\ShowtimeController::class
+    );
+
+  
+    Route::get('bookings', [
+        App\Http\Controllers\Admin\BookingController::class,
+        'index'
+    ])->name('bookings.index');
+
+    Route::get('bookings/{id}', [
+        App\Http\Controllers\Admin\BookingController::class,
+        'show'
+    ])->name('bookings.show');
+
+    Route::put('bookings/{id}/status', [
+        App\Http\Controllers\Admin\BookingController::class,
+        'updateStatus'
+    ])->name('bookings.updateStatus');
+
+
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 });

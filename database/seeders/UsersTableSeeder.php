@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'quebac@gmail.com'],
             [
-                'name'     => 'Admin User',
+                'name'     => 'Nobu',
                 'password' => Hash::make('123456789'),
                 'role'     => 'admin',
                 'phone'    => null,
