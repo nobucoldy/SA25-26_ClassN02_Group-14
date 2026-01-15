@@ -59,12 +59,29 @@
         }
 
         .logo-circle img {
-            width: 35px;
-            height: 35px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 2px;
-}
+        }
+
+        .logo-circle-footer {
+            width: 80px;   /* tăng từ 60px lên 80px hoặc hơn */
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden; /* đảm bảo ảnh không tràn */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-circle-footer img {
+            width: 100%;   /* full vòng tròn */
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
         .pick-ticket {
             color: var(--bkl-yellow);

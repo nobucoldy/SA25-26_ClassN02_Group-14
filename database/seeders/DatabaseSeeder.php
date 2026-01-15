@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             \Database\Seeders\RoomsTableSeeder::class,
             \Database\Seeders\SeatsTableSeeder::class,
             \Database\Seeders\ShowtimesTableSeeder::class,
+            \Database\Seeders\BookingSeeder::class,
         ]);
     }
 }

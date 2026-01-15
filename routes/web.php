@@ -102,6 +102,10 @@ Route::prefix('admin')
         'updateStatus'
     ])->name('bookings.updateStatus');
 
+    Route::post('bookings/{booking}/cancel', [
+    App\Http\Controllers\Admin\BookingController::class,
+    'cancel'
+])->name('bookings.cancel');
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 });
