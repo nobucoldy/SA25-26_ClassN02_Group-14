@@ -1,34 +1,42 @@
 const commonConfigs = {
-    slidesPerView: 4,      
+    slidesPerView: 4,      // Cố định 4 phim
     slidesPerGroup: 1,     
-    spaceBetween: 0,       
+    spaceBetween: 20,      // Khoảng cách giữa các phim
     loop: true,
-    // THÊM TỰ ĐỘNG CHẠY MỖI 3 GIÂY
-    //autoplay: {
-        //delay: 3000,
-        //disableOnInteraction: false, // Vẫn tự chạy sau khi người dùng bấm
-    //},
+    centeredSlides: false, // Giữ các slide sát lề
     pagination: {
         el: ".swiper-pagination",
         clickable: true,
     },
     breakpoints: {
-        1024: { slidesPerView: 4 },
-        768: { slidesPerView: 2 },
-        0: { slidesPerView: 1 }
+        // Màn hình lớn (PC): 4 phim
+        1024: { 
+            slidesPerView: 4,
+            spaceBetween: 20
+        },
+        // Màn hình máy tính bảng: 3 phim
+        768: { 
+            slidesPerView: 3,
+            spaceBetween: 15
+        },
+        // Màn hình điện thoại: 1 hoặc 2 phim
+        0: { 
+            slidesPerView: 1.5, // Hiện 1 phim rưỡi để người ta biết là còn phim bên cạnh
+            spaceBetween: 10
+        }
     }
 };
 
-// Khởi tạo phần Đang chiếu
+// Khởi tạo Phim Đang Chiếu
 new Swiper(".mySwiper", {
     ...commonConfigs,
     navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: ".main-next",
+        prevEl: ".main-prev",
     },
 });
 
-// Khởi tạo phần Sắp chiếu
+// Khởi tạo Phim Sắp Chiếu
 new Swiper(".mySwiperUpcoming", {
     ...commonConfigs,
     navigation: {

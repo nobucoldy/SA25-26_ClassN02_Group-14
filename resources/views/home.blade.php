@@ -45,24 +45,22 @@
                     @foreach($showingMovies as $movie)
                         <div class="swiper-slide">
                             <a href="{{ route('movies.show', $movie->id) }}" class="text-decoration-none text-white">
-                                <img src="{{ asset('storage/' . $movie->poster_url) }}"
-                                    alt="{{ $movie->title }}"
-                                    class="img-fluid rounded mb-2">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
                                 <p class="movie-name">{{ $movie->title }}</p>
                             </a>
                         </div>
                     @endforeach
                 </div>
+                {{-- Thanh trượt (dots) --}}
                 <div class="swiper-pagination"></div>
             </div>
 
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            {{-- Nút điều hướng - Cấu hình Class riêng biệt --}}
+            <div class="swiper-button-next main-next"></div>
+            <div class="swiper-button-prev main-prev"></div>
         </div>
     </div>
 </section>
-
-<div class="section-gap bg-light"></div>
 
 {{-- ===== PHIM SẮP CHIẾU ===== --}}
 <section class="py-5" style="background-color: #DEFE98;">
@@ -73,10 +71,9 @@
             <div class="swiper mySwiperUpcoming">
                 <div class="swiper-wrapper">
                     @foreach($upcomingMovies as $movie)
-                        <div class="swiper-slide movie-card">
+                        <div class="swiper-slide">
                             <a href="{{ route('movies.show', $movie->id) }}" class="text-decoration-none text-white">
-                                <img src="{{ asset('storage/' . $movie->poster_url) }}"
-                                    alt="{{ $movie->title }}">
+                                <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
                                 <p class="movie-name text-dark">{{ $movie->title }}</p>
                             </a>
                         </div>
@@ -92,6 +89,8 @@
 </section>
 
 <div class="section-gap bg-light"></div>
+
+
 
 {{-- ===== LỊCH CHIẾU ===== --}}
 <section class="py-5 bg-light">
@@ -113,7 +112,7 @@
                 <div class="text-center py-5">
                     <img src="https://img.icons8.com/clouds/150/video.png" alt="">
                     <p class="text-muted mt-3">Vui lòng chọn rạp để xem lịch chiếu hôm nay.</p>
-                    <span class="badge bg-danger">Nobucoldy</span>
+                    <span class="badge bg-danger">Nobucoldy vs Ekietej</span>
                 </div>
             </div>
         </div>
