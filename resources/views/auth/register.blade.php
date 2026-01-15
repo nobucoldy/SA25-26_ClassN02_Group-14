@@ -11,7 +11,14 @@
         -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
         transition: background-color 5000s ease-in-out 0s;
     }
-    .register-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; padding: 20px; min-height: 80vh; }
+    .register-wrapper { 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        width: 100%; 
+        padding: 40px 20px; 
+        min-height: 80vh; 
+    }
     
     /* KHUNG ĐĂNG KÝ MÀU DEFE98 */
     .register-card { 
@@ -24,21 +31,24 @@
         box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
     }
     
-    .logo-circle-large { width: 90px;
+    /* CĂN GIỮ LOGO */
+    .logo-circle-large { 
         width: 90px;
         height: 90px;
         border-radius: 50%;
         background: #000;
-        display: flex;
+        display: flex; /* Để căn giữa ảnh bên trong */
         align-items: center;
         justify-content: center;
-        }
+        margin: 0 auto 30px auto; /* auto ở trái/phải để đẩy vào giữa */
+        text-decoration: none;
+        overflow: hidden;
+    }
+
     .logo-circle-large img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
         object-fit: cover;
-        display: block;
     }
     
     .floating-group { position: relative; margin-bottom: 20px; }
@@ -54,23 +64,42 @@
         transition: 0.3s ease;
     }
 
-    /* HIỆU ỨNG FOCUS Ô NHẬP LIỆU SANG HỒNG */
+    /* HIỆU ỨNG FOCUS */
     .floating-group input:focus {
         border-color: #ff69b4 !important;
         box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.2) !important;
     }
 
-    .floating-group label { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #4b5563; transition: 0.3s; pointer-events: none; }
+    .floating-group label { 
+        position: absolute; 
+        top: 50%; 
+        left: 15px; 
+        transform: translateY(-50%); 
+        color: #4b5563; 
+        transition: 0.3s; 
+        pointer-events: none; 
+    }
     
-    .floating-group input:focus ~ label, .floating-group input:not(:placeholder-shown) ~ label { 
+    .floating-group input:focus ~ label, 
+    .floating-group input:not(:placeholder-shown) ~ label { 
         top: 12px; 
         font-size: 0.75rem; 
         color: #ff69b4; 
         font-weight: bold; 
     }
-    .eye-toggle { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #4b5563; font-size: 1.2rem; z-index: 10; }
+    
+    .eye-toggle { 
+        position: absolute; 
+        right: 15px; 
+        top: 50%; 
+        transform: translateY(-50%); 
+        cursor: pointer; 
+        color: #4b5563; 
+        font-size: 1.2rem; 
+        z-index: 10; 
+    }
 
-    /* NÚT ĐĂNG KÝ ff69b4 */
+    /* NÚT ĐĂNG KÝ */
     .btn-register { 
         background: #ff69b4; 
         border: none; 
@@ -83,52 +112,35 @@
         cursor: pointer; 
         transition: 0.3s ease; 
         box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        text-transform: uppercase;
     }
-    .btn-register:hover, .btn-register:focus { background: #ff47a1; transform: translateY(-2px); outline: none; }
+    .btn-register:hover { background: #ff47a1; transform: translateY(-2px); }
 
     .footer-text { margin-top: 25px; text-align: center; color: #1f2937; font-size: 0.95rem; }
-
-    /* CHỈ ĐỔI MÀU CHỮ HỒNG CHO LINK ĐĂNG NHẬP NGAY */
     .footer-text a { 
         color: #000; 
         text-decoration: none; 
         font-weight: bold; 
-        transition: all 0.3s ease;
-        display: inline-block;
+        transition: 0.3s;
     }
-    .footer-text a:hover, .footer-text a:focus { 
-        color: #ff69b4 !important; 
-        background-color: transparent !important;
-        outline: none;
-        transform: scale(1.1);
-        text-decoration: underline;
-    }
+    .footer-text a:hover { color: #ff69b4; text-decoration: underline; }
 
-    /* 2. THÔNG BÁO TOAST */
-    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
-    .custom-toast { pointer-events: auto; background: #1e293b; color: white; padding: 15px 20px; border-radius: 12px; min-width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; border-left: 5px solid #ff3131; animation: slideIn 0.4s ease-out forwards; }
+    /* TOAST & CHECKLIST */
+    .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; }
+    .custom-toast { background: #1e293b; color: white; padding: 15px 20px; border-radius: 12px; min-width: 300px; border-left: 5px solid #ff3131; animation: slideIn 0.4s ease-out; position: relative; }
     
-    @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
-    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
-
-    .close-btn { 
-        background: none; border: none; color: #94a3b8; 
-        font-size: 1.4rem; cursor: pointer; padding: 0; line-height: 1;
-        transition: 0.2s; outline: none !important; box-shadow: none !important;
-    }
-    .close-btn:hover { color: #ff3131; transform: scale(1.2); }
-
-    .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
-    @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
-
-    /* 3. CHECKLIST DÙNG CHUNG CHO PHONE & PASSWORD */
     .checklist-box {
         max-height: 0; overflow: hidden; background: rgba(255, 255, 255, 0.5);
         padding: 0 15px; border-radius: 12px; transition: all 0.4s ease; margin-bottom: 0;
     }
     .checklist-box.active { max-height: 250px; padding: 15px; margin-bottom: 20px; border: 1px solid rgba(255, 105, 180, 0.3); }
+    .checklist-box ul { padding: 0; margin: 0; }
     .checklist-box li { font-size: 0.75rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; list-style: none; }
-    .invalid { color: #dc2626; } .valid { color: #059669; }
+    .invalid { color: #dc2626; } 
+    .valid { color: #059669; }
+
+    @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
+    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 </style>
 
 <div class="toast-container">
@@ -139,8 +151,7 @@
                     <i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i>
                     <span style="font-size: 0.9rem;">{{ $error }}</span>
                 </div>
-                <button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button>
-                <div class="toast-progress"></div>
+                <button type="button" style="background:none; border:none; color:white; float:right;" onclick="this.parentElement.remove()">&times;</button>
             </div>
         @endforeach
     @endif
@@ -148,25 +159,23 @@
 
 <div class="register-wrapper">
     <div class="register-card">
-            <a href="/" class="logo-circle-large">
-                <img src="{{ asset('storage/logo2.jpg') }}" alt="Logo">
-            </a>
+        {{-- LOGO ĐÃ ĐƯỢC CĂN GIỮ --}}
+        <a href="/" class="logo-circle-large">
+            <img src="{{ asset('storage/logo2.jpg') }}" alt="Logo">
+        </a>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            {{-- HỌ TÊN --}}
             <div class="floating-group">
                 <input type="text" name="name" id="name" placeholder=" " value="{{ old('name') }}" required>
                 <label for="name">Họ và tên</label>
             </div>
 
-            {{-- ĐỊA CHỈ EMAIL --}}
             <div class="floating-group">
                 <input type="email" name="email" id="email" placeholder=" " value="{{ old('email') }}" required>
                 <label for="email">Địa chỉ Email</label>
             </div>
 
-            {{-- SỐ ĐIỆN THOẠI --}}
             <div class="floating-group">
                 <input type="text" name="phone" id="phone" placeholder=" " value="{{ old('phone') }}" required maxlength="10">
                 <label for="phone">Số điện thoại</label>
@@ -180,7 +189,6 @@
                 </ul>
             </div>
 
-            {{-- MẬT KHẨU --}}
             <div class="floating-group">
                 <input type="password" name="password" id="password" placeholder=" " required>
                 <label for="password">Mật khẩu</label>
@@ -197,14 +205,13 @@
                 </ul>
             </div>
 
-            {{-- XÁC NHẬN MẬT KHẨU --}}
             <div class="floating-group">
                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder=" " required>
                 <label for="password_confirmation">Xác nhận mật khẩu</label>
                 <i class="bi bi-eye eye-toggle" onclick="togglePass('password_confirmation', this)"></i>
             </div>
             
-            <button type="submit" class="btn btn-register">ĐĂNG KÝ NGAY</button>
+            <button type="submit" class="btn-register">ĐĂNG KÝ NGAY</button>
             
             <div class="footer-text">
                 Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập ngay</a>
@@ -220,13 +227,11 @@
         icon.classList.toggle('bi-eye'); icon.classList.toggle('bi-eye-slash');
     }
 
-    // --- LOGIC CHO SỐ ĐIỆN THOẠI ---
+    // Logic xử lý Phone & Password giữ nguyên như cũ
     const phone = document.getElementById('phone');
     const phone_info = document.getElementById('phone_info');
-
     phone.addEventListener('focus', () => phone_info.classList.add('active'));
     phone.addEventListener('blur', () => phone_info.classList.remove('active'));
-
     phone.addEventListener('input', function() {
         const val = this.value;
         validateItem('p_start', /^(03|05|07|08|09)/.test(val));
@@ -234,13 +239,10 @@
         validateItem('p_number', /^[0-9]+$/.test(val) && val.length > 0);
     });
 
-    // --- LOGIC CHO MẬT KHẨU ---
     const pswd = document.getElementById('password');
     const pswd_info = document.getElementById('pswd_info');
-
     pswd.addEventListener('focus', () => pswd_info.classList.add('active'));
     pswd.addEventListener('blur', () => pswd_info.classList.remove('active'));
-
     pswd.addEventListener('keyup', function() {
         const val = this.value;
         validateItem('length', val.length >= 8);
@@ -250,7 +252,6 @@
         validateItem('space', !/\s/.test(val) && val.length > 0);
     });
 
-    // Hàm dùng chung để đổi màu icon tích
     function validateItem(id, isValid) {
         const el = document.getElementById(id); 
         if(!el) return;
@@ -263,15 +264,5 @@
             icon.classList.replace('bi-check-lg', 'bi-x-lg'); 
         }
     }
-
-    function removeToast(toastElement) {
-        if (!toastElement) return;
-        toastElement.style.animation = "slideOut 0.4s ease-in forwards";
-        setTimeout(() => toastElement.remove(), 400);
-    }
-
-    document.querySelectorAll('.custom-toast').forEach(toast => {
-        setTimeout(() => removeToast(toast), 3000);
-    });
 </script>
 @endsection
