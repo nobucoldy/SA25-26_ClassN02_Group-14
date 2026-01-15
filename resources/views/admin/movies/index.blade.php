@@ -93,11 +93,7 @@
 
                             {{-- Actions --}}
                             <td class="text-center">
-                                <a href="{{ route('admin.movies.show', $movie->id) }}"
-                                   class="btn btn-sm btn-info">
-                                    View
-                                </a>
-
+                                
                                 <a href="{{ route('admin.movies.edit', $movie->id) }}"
                                    class="btn btn-sm btn-warning">
                                     Edit
@@ -129,7 +125,7 @@
 
     {{-- Phân trang --}}
     <div class="mt-3">
-        {{ $movies->links() }}
+        {{ $movies->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 
 </div>
