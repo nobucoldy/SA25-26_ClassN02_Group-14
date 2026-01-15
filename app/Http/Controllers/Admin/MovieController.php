@@ -43,16 +43,31 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'         => 'required|string|max:255',
-            'duration'      => 'required|integer',
-            'genre'         => 'required|string|max:255',
-            'release_date'  => 'required|date',
-            'status'        => 'required|in:showing,coming_soon,stopped',
-            'description'   => 'nullable|string',
-            'poster_url'    => 'nullable|string',
+            'title'        => 'required|string|max:255',
+            'duration'     => 'required|integer',
+            'genre'        => 'required|string|max:255',
+            'release_date' => 'required|date',
+            'status'       => 'required|in:showing,coming_soon,stopped',
+            'description'  => 'nullable|string',
+            'poster'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Movie::create($request->all());
+        $data = $request->only([
+            'title',
+            'duration',
+            'genre',
+            'release_date',
+            'status',
+            'description'
+        ]);
+
+        // 📸 Upload poster
+        if ($request->hasFile('poster')) {
+            $data['poster_url'] = $request->file('poster')
+                                        ->store('posters', 'public');
+        }
+
+        Movie::create($data);
 
         return redirect()->route('admin.movies.index')
             ->with('success', 'Thêm phim thành công');
@@ -78,16 +93,37 @@ class MovieController extends Controller
         $movie = Movie::findOrFail($id);
 
         $request->validate([
-            'title'         => 'required|string|max:255',
-            'duration'      => 'required|integer',
-            'genre'         => 'required|string|max:255',
-            'release_date'  => 'required|date',
-            'status'        => 'required|in:showing,coming_soon,stopped',
-            'description'   => 'nullable|string',
-            'poster_url'    => 'nullable|string',
+            'title'        => 'required|string|max:255',
+            'duration'     => 'required|integer',
+            'genre'        => 'required|string|max:255',
+            'release_date' => 'required|date',
+            'status'       => 'required|in:showing,coming_soon,stopped',
+            'description'  => 'nullable|string',
+            'poster'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $movie->update($request->all());
+        $data = $request->only([
+            'title',
+            'duration',
+            'genre',
+            'release_date',
+            'status',
+            'description'
+        ]);
+
+        // 📸 Nếu upload poster mới
+        if ($request->hasFile('poster')) {
+
+            // Xóa ảnh cũ (nếu có)
+            if ($movie->poster_url && \Storage::disk('public')->exists($movie->poster_url)) {
+                \Storage::disk('public')->delete($movie->poster_url);
+            }
+
+            $data['poster_url'] = $request->file('poster')
+                                        ->store('posters', 'public');
+        }
+
+        $movie->update($data);
 
         return redirect()->route('admin.movies.index')
             ->with('success', 'Cập nhật phim thành công');
