@@ -15,7 +15,7 @@ class MoviesTableSeeder extends Seeder
                 'duration' => 197,
                 'genre' => 'Sci-Fi, Adventure, Action',
                 'release_date' => '2025-12-19',
-                'poster_url' => 'posters/avatar.png',
+                'poster_url' => 'posters/avatar.jpg',
                 'status' => 'showing',
                 'created_at' => now(),
                 'updated_at' => now(), 

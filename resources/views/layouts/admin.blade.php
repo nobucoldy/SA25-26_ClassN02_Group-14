@@ -14,7 +14,7 @@
          width="30"
          height="30"
          class="me-2 rounded-circle">
-    Cinema Admin
+    BKL Cinema Admin
 </a>
 
     <div>
