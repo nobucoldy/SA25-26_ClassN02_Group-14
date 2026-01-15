@@ -42,23 +42,29 @@
         .logo-group {
             display: flex;
             align-items: center;
-            text-decoration: none !important;
+            text-decoration: none;
+            color: inherit;
         }
 
         .logo-circle {
-            width: 45px;
-            height: 45px;
-            background-color: var(--bkl-red);
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background: #000;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            line-height: 1;
+            justify-content: center;
+            position: relative;
         }
 
-        .logo-circle .bkl { color: var(--bkl-yellow); font-family: 'Oswald'; font-size: 14px; font-weight: bold; }
-        .logo-circle .cinema { color: #fff; font-size: 7px; text-transform: uppercase; }
+        .logo-circle img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2px;
+}
 
         .pick-ticket {
             color: var(--bkl-yellow);
@@ -66,7 +72,7 @@
             font-size: 14px;
             text-transform: uppercase;
             width: 40px;
-            margin-left: 10px;
+            margin-left: 0px;
             line-height: 1.1;
         }
 

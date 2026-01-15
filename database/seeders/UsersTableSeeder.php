@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
                 'name'     => 'Nobu',
                 'password' => Hash::make('123456789'),
                 'role'     => 'admin',
-                'phone'    => null,
+                'phone'    => '0328230825',
                 'hobbies'  => null,
                 'avatar'   => null,
             ]

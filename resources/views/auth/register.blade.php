@@ -24,7 +24,22 @@
         box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
     }
     
-    .logo-circle-large { width: 90px; height: 90px; background: #000; border: 3px solid #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Permanent Marker'; margin: 0 auto 25px; }
+    .logo-circle-large { width: 90px;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+    .logo-circle-large img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+    }
     
     .floating-group { position: relative; margin-bottom: 20px; }
     .floating-group input { 
@@ -133,12 +148,9 @@
 
 <div class="register-wrapper">
     <div class="register-card">
-        <div class="logo-circle-large">
-            <div style="font-size: 2.4rem; line-height: 1; display: flex; font-family: 'Permanent Marker';">
-                <span style="color:#ff3131;">B</span><span style="color:#39ff14;">K</span><span style="color:#1f51ff;">L</span>
-            </div>
-            <div style="font-size: 0.85rem; color: #fff; text-transform: uppercase; border-top: 2px solid #fff; width: 75%; text-align: center;">Cinema</div>
-        </div>
+            <a href="/" class="logo-circle-large">
+                <img src="{{ asset('storage/logo2.jpg') }}" alt="Logo">
+            </a>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf

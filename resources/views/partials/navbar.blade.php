@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
         <a class="logo-group" href="/">
-            <div class="logo-circle">
-                <span class="bkl">BKL</span>
-                <span class="cinema">CINEMA</span>
-            </div>
-            <div class="pick-ticket">Pick A Ticket</div>
-        </a>
+    <div class="logo-circle">
+        <img src="{{ asset('storage/logo2.jpg') }}" alt="BKL Cinema Logo">
+    </div>
+    <div class="pick-ticket">Pick A Ticket</div>
+</a>
+
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>

@@ -75,10 +75,21 @@
 
     .logo-container { display: flex; justify-content: center; margin-bottom: 25px; }
     .logo-circle-large {
-        width: 90px; height: 90px; background: #000; border: 3px solid #fff;
-        border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        font-family: 'Permanent Marker', cursive;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: #000;          /* màu nền hình tròn */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
     }
+    .logo-circle-large img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;        /* đảm bảo ảnh cũng tròn */
+    object-fit: cover; 
+}
 
     .floating-group { position: relative; margin-bottom: 20px; }
     .floating-group input {
@@ -188,12 +199,9 @@
 <div class="login-wrapper">
     <div class="login-card">
         <div class="logo-container">
-            <div class="logo-circle-large">
-                <div style="font-size: 2.4rem; line-height: 1; display: flex; font-family: 'Permanent Marker';">
-                    <span style="color:#ff3131;">B</span><span style="color:#39ff14;">K</span><span style="color:#1f51ff;">L</span>
-                </div>
-                <div style="font-size: 0.85rem; color: #fff; text-transform: uppercase; border-top: 2px solid #fff; width: 75%; text-align: center;">Cinema</div>
-            </div>
+            <a href="/" class="logo-circle-large">
+                <img src="{{ asset('storage/logo2.jpg') }}" alt="Logo">
+            </a>
         </div>
 
         <form method="POST" action="/login">
@@ -232,7 +240,7 @@
     <div class="modal-content-custom">
         <div style="font-size: 4rem; margin-bottom: 10px;">🤫</div>
         <h2 style="font-family: 'Permanent Marker', cursive; color: #000; margin-bottom: 10px;">COMING SOON</h2>
-        <p style="color: #4b5563; font-weight: 500;">Tính năng này đang được ekiet phát triển. Quay lại sau nhé!</p>
+        <p style="color: #4b5563; font-weight: 500;">Tính năng này đang được chúng tôi phát triển. Quay lại sau nhé!</p>
         <button onclick="closeComingSoon()" style="background: #ff69b4; border: none; padding: 10px 30px; border-radius: 12px; color: white; font-weight: bold; margin-top: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);">OK CẬU ƠI</button>
     </div>
 </div>

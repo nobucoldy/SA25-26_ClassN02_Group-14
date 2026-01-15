@@ -8,7 +8,15 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="{{ route('admin.dashboard') }}">Cinema Admin</a>
+    <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
+    <img src="{{ asset('storage/logo2.jpg') }}"
+         alt="Logo"
+         width="30"
+         height="30"
+         class="me-2 rounded-circle">
+    Cinema Admin
+</a>
+
     <div>
         <a class="text-white me-3" href="{{ route('admin.movies.index') }}">Movies</a>
         <a class="text-white me-3" href="{{ route('admin.showtimes.index') }}">Showtimes</a>
