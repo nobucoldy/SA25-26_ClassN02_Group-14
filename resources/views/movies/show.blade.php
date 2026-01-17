@@ -2,6 +2,7 @@
 
 @section('content')
 <style>
+    /* KEEP ALL ORIGINAL STYLES */
     .movie-detail-page { background-color: #efe6f5; padding: 40px 0; min-height: 100vh; }
     
     .main-card {
@@ -28,7 +29,7 @@
     }
     .time-slot:hover { background: #90ff00; transform: translateY(-3px); color: black !important; border-color: #90ff00; }
 
-    /* --- TOAST THÔNG BÁO --- */
+    /* --- TOAST NOTIFICATION --- */
     #toast-container { position: fixed; top: 80px; right: 20px; z-index: 9999; }
     .custom-toast {
         background: #1a1a1a; color: white; padding: 12px 20px; border-radius: 12px;
@@ -62,9 +63,15 @@
                         <h2>{{ $movie->title }} <span class="badge-t13">T13</span></h2>
                     </div>
                     <p class="text-muted">{{ $movie->duration }} minutes | {{ $movie->genre }}</p>
-                    <button class="btn-trailer mt-3" style="background: #90ff00; border:none; padding: 10px 20px; border-radius: 10px; font-weight: bold;">
+                    
+                    <button class="btn-trailer mt-3" 
+                            style="background: #90ff00; border:none; padding: 10px 20px; border-radius: 10px; font-weight: bold;"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#trailerModal" 
+                            data-url="{{ $movie->trailer_url }}">
                         <i class="bi bi-play-fill"></i> Watch Trailer
                     </button>
+
                     <div class="description-text mt-4">{{ $movie->description }}</div>
                 </div>
             </div>
@@ -99,7 +106,7 @@
                                 {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
                             </a>
                         @empty
-                            <p class="text-muted small">No schedule available today.</p>
+                            <p class="text-muted small">No showtimes available today.</p>
                         @endforelse
                     </div>
                 </div>
@@ -113,7 +120,25 @@
 
 <div id="toast-container"></div>
 
+<div class="modal fade" id="trailerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background: #000; border: 2px solid #90ff00; border-radius: 15px; overflow: hidden;">
+            <div class="modal-header border-0" style="position: absolute; right: 0; z-index: 10;">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="ratio ratio-16x9">
+                    <iframe id="trailerVideo" src="" title="YouTube video player" frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    /* --- TOAST FUNCTION --- */
     function showToast(message) {
         const container = document.getElementById('toast-container');
         if (!container) return;
@@ -144,26 +169,47 @@
         setTimeout(() => { if (toast && toast.parentNode) toast.remove(); }, 500);
     }
 
+    /* --- CHANGE DATE FUNCTION --- */
     function changeDate(element, dateId) {
-    // 1. Change date button color
-    document.querySelectorAll('.date-item').forEach(item => item.classList.remove('active'));
-    element.classList.add('active');
+        document.querySelectorAll('.date-item').forEach(item => item.classList.remove('active'));
+        element.classList.add('active');
 
-    // 2. Hide all old schedules
-    document.querySelectorAll('.schedule-content').forEach(c => c.classList.add('d-none'));
+        document.querySelectorAll('.schedule-content').forEach(c => c.classList.add('d-none'));
 
-    // 3. Show new day schedule
-    const target = document.getElementById(dateId);
-    if (target) {
-        target.classList.remove('d-none');
-        
-        // Check if there are any time slot buttons inside
-        const hasTimeSlots = target.querySelector('.time-slot');
-        
-        // If there are no time slot buttons, show notification
-        if (!hasTimeSlots) {
-            showToast("No schedule available for this date!");
+        const target = document.getElementById(dateId);
+        if (target) {
+            target.classList.remove('d-none');
+            const hasTimeSlots = target.querySelector('.time-slot');
+            if (!hasTimeSlots) {
+                showToast("There are currently no showtimes for this date.");
+            }
         }
     }
-}</script>
+
+    /* --- TRAILER HANDLING --- */
+    document.addEventListener('DOMContentLoaded', function() {
+        const trailerModal = document.getElementById('trailerModal');
+        const iframe = document.getElementById('trailerVideo');
+
+        if (trailerModal && iframe) {
+            trailerModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                let url = button.getAttribute('data-url');
+                
+                if (url) {
+                    if (url.includes('watch?v=')) {
+                        url = url.replace('watch?v=', 'embed/');
+                    } else if (url.includes('youtu.be/')) {
+                        url = url.replace('youtu.be/', 'youtube.com/embed/');
+                    }
+                    iframe.src = url + "?autoplay=1";
+                }
+            });
+
+            trailerModal.addEventListener('hide.bs.modal', function () {
+                iframe.src = "";
+            });
+        }
+    });
+</script>
 @endsection

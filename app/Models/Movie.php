@@ -11,7 +11,7 @@ class Movie extends Model
 
     protected $fillable = [
         'title', 'description', 'duration', 'genre',
-        'release_date', 'poster_url', 'status'
+        'release_date', 'poster_url', 'trailer_url', 'status'
     ];
 
     public function showtimes()

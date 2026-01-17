@@ -18,7 +18,9 @@ return new class extends Migration
     $table->integer('duration');
     $table->string('genre')->nullable();
     $table->date('release_date')->nullable();
+    
     $table->string('poster_url')->nullable();
+    $table->string('trailer_url')->nullable();
     $table->enum('status', ['showing', 'coming_soon', 'stopped'])->default('coming_soon');
     $table->timestamps();
 });
