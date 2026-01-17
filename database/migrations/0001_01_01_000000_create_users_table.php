@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->text('hobbies')->nullable();
             
             $table->string('password');
-            $table->enum('role', ['customer', 'admin'])->default('customer');
+            $table->enum('role', ['user', 'admin'])->default('user');
             
             // DÒNG NÀY ĐỂ FIX LỖI "GHI NHỚ TÔI" (Rất quan trọng)
             $table->rememberToken(); 

@@ -22,12 +22,26 @@
         BKL Cinema Admin
     </a>
 
-    <div>
+    <div class="d-flex align-items-center">
+
         <a class="text-white me-3" href="{{ route('admin.movies.index') }}">Movies</a>
         <a class="text-white me-3" href="{{ route('admin.showtimes.index') }}">Showtimes</a>
         <a class="text-white me-3" href="{{ route('admin.bookings.index') }}">Bookings</a>
-        <a class="text-white" href="{{ route('admin.users.index') }}">Users</a>
+        <a class="text-white me-3" href="{{ route('admin.users.index') }}">Users</a>
+
+        {{-- LOGOUT --}}
+        <span class="me-3">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit"
+                        class="btn btn-link text-white p-0 text-decoration-underline">
+                    Logout
+                </button>
+            </form>
+        </span>
+
     </div>
+
 </nav>
 
 {{-- TOAST --}}
