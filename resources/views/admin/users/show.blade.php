@@ -11,6 +11,7 @@
             <p><strong>ID:</strong> {{ $user->id }}</p>
             <p><strong>Name:</strong> {{ $user->name }}</p>
             <p><strong>Email:</strong> {{ $user->email }}</p>
+            <p><strong>Phone:</strong> {{ $user->phone ?? '-' }}</p> {{-- Add this line --}}
             <p>
                 <strong>Role:</strong>
                 <span class="badge bg-{{ $user->role=='admin' ? 'danger' : 'secondary' }}">

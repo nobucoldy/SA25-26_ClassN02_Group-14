@@ -40,6 +40,15 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text"
+                name="phone"
+                class="form-control"
+                value="{{ old('phone', $user->phone) }}"
+                placeholder="VD: 0987654321">
+        </div>
+
+        <div class="mb-3">
             <label class="form-label">Role</label>
             <select name="role" class="form-control" required>
                 <option value="user" {{ $user->role=='user'?'selected':'' }}>

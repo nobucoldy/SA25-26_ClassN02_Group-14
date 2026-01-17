@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Đánh giá phim - BKL Cinema')
+@section('title', 'Movie Reviews - BKL Cinema')
 
 @section('content')
 <style>
-    /* Màu nền tím than đậm đặc trưng của Figma */
+    /* Dark purple background color characteristic of Figma */
     .review-page { 
         background-color: #3b2d3d; 
         color: white; 
@@ -27,7 +27,7 @@
         letter-spacing: 1px;
     }
 
-    /* Card bài viết to (Avatar 3, Zootopia 2) */
+    /* Large article cards (Avatar 3, Zootopia 2) */
     .review-card-large {
         position: relative;
         border-radius: 20px;
@@ -49,10 +49,10 @@
     }
     .title-large { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
     
-    /* Grid bài viết nhỏ */
+    /* Small article grid */
     .review-card-small { margin-bottom: 30px; cursor: pointer; }
     .img-small-wrapper {
-        background-color: #d9d9d9; /* Màu xám như trong Figma cậu gửi */
+        background-color: #d9d9d9; /* Gray color like in the Figma */
         border-radius: 12px;
         aspect-ratio: 1/1;
         overflow: hidden;
@@ -61,7 +61,7 @@
     .img-small-wrapper img { width: 100%; height: 100%; object-fit: cover; }
     .title-small { font-size: 0.85rem; font-weight: 600; line-height: 1.4; color: #fff; }
 
-    /* Badge điểm số màu đỏ */
+    /* Rating badge red color */
     .rating-badge {
         background-color: #ff0000;
         color: white;
@@ -74,7 +74,7 @@
         margin-top: 5px;
     }
 
-    /* Nút Xem tiếp màu vàng xanh neon */
+    /* Load more button neon yellow color */
     .btn-load-more {
         background-color: #e2ff8d;
         color: #000;
@@ -91,16 +91,16 @@
 
 <div class="review-page">
     <div class="container">
-        <div class="breadcrumb-custom">Trang chủ > Đánh giá</div>
+        <div class="breadcrumb-custom">Home > Reviews</div>
         
-        <h1 class="review-header">Đánh giá từ BKL Cinema</h1>
+        <h1 class="review-header">Reviews from BKL Cinema</h1>
 
         <div class="row">
             <div class="col-md-6">
                 <div class="review-card-large">
                     <img src="https://m.media-amazon.com/images/M/MV5BMzVjZWUzOTUtYmZlNC00Y2VmLTlhMDktZTM4YmI3ZGRmN2EzXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" alt="Avatar 3">
                     <div class="overlay-content">
-                        <div class="title-large">Đánh giá Avatar 3: Siêu phẩm nâng tầm kỹ xảo điện ảnh</div>
+                        <div class="title-large">Avatar 3 Review: Blockbuster elevates cinematography standards</div>
                         <div class="rating-badge"><i class="bi bi-star-fill"></i> 9/10</div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="review-card-large">
                     <img src="https://m.media-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzMzNjgzOTE@._V1_.jpg" alt="Zootopia 2">
                     <div class="overlay-content">
-                        <div class="title-large">Đánh giá Zootopia 2: Siêu phẩm hoạt hình 'càn quét' cụm rạp</div>
+                        <div class="title-large">Zootopia 2 Review: Animated masterpiece dominates the box office</div>
                         <div class="rating-badge"><i class="bi bi-star-fill"></i> 8.5/10</div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     <div class="img-small-wrapper">
                         <img src="https://upload.wikimedia.org/wikipedia/vi/a/a9/B%E1%BB%91_gi%C3%A0_2021.jpg" alt="Bố Già">
                     </div>
-                    <div class="title-small">Đánh giá Bố già - Tựa phim gia đình gần gũi, kịch tính</div>
+                    <div class="title-small">The Father Review - A touching family film, dramatic and engaging</div>
                     <div class="rating-badge"><i class="bi bi-star-fill"></i> 8/10</div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <button class="btn btn-load-more shadow-sm">Xem tiếp</button>
+            <button class=\"btn btn-load-more shadow-sm\">Load More</button>
         </div>
     </div>
 </div>

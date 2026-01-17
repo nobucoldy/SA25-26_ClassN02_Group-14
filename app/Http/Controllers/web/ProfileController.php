@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage; // Quan trọng: Thêm dòng này để xử lý file
+use Illuminate\Support\Facades\Storage; // Important: Add this line to handle files
 
 class ProfileController extends Controller
 {
@@ -21,7 +21,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // Validate thêm các trường mới
+        // Validate add new fields
         $request->validate([
             'name'   => 'required|string|max:255',
             'email'  => 'required|email|unique:users,email,' . $user->id,
@@ -60,13 +60,13 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->with('error', 'Mật khẩu hiện tại không đúng');
+            return back()->with('error', 'Current password is incorrect');
         }
 
         $user->update([
             'password' => Hash::make($request->password)
         ]);
 
-        return back()->with('success', 'Đổi mật khẩu thành công');
+        return back()->with('success', 'Password changed successfully');
     }
 }

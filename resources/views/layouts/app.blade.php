@@ -103,7 +103,7 @@
 
         .nav-link:hover { color: var(--bkl-yellow) !important; }
 
-        /* --- HIỆU ỨNG HOVER DROPDOWN PHIM --- */
+        /* --- HOVER EFFECT DROPDOWN MOVIES --- */
         @media (min-width: 992px) {
             .nav-item.dropdown:hover .dropdown-menu {
                 display: block;

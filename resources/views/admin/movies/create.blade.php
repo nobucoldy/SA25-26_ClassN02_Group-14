@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <h3 class="mb-4">➕ Thêm phim mới</h3>
+    <h3 class="mb-4">➕ Add New Movie</h3>
 
     {{-- Error --}}
     @if ($errors->any())

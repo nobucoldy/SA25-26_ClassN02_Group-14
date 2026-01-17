@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Thư viện icon và font --}}
+{{-- Icon library and fonts --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
-    /* 1. Giao diện tổng thể */
+    /* 1. Overall interface */
     .schedule-wrapper {
         background-color: #f4f4f4;
         min-height: 100vh;
@@ -25,7 +25,7 @@
         border-bottom: 1px solid #eee;
     }
 
-    /* 2. Cột bên trái: Danh sách rạp */
+    /* 2. Left column: Theater list */
     .theater-sidebar {
         background: #fff;
         max-height: 700px;
@@ -72,7 +72,7 @@
         flex-shrink: 0;
     }
 
-    /* 3. Cột bên phải: Lịch chiếu */
+    /* 3. Right column: Showtimes */
     .showtime-main {
         padding: 25px;
         background: #fff;
@@ -113,7 +113,7 @@
         font-size: 18px;
     }
 
-    /* 4. Khung phim */
+    /* 4. Movie frame */
     .movie-item {
         display: flex;
         gap: 20px;
@@ -156,7 +156,7 @@
         border-color: #ff69b4;
     }
 
-    /* Thanh cuộn đẹp cho Sidebar */
+    /* Beautiful scrollbar for Sidebar */
     .theater-sidebar::-webkit-scrollbar { width: 5px; }
     .theater-sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 </style>
@@ -165,12 +165,12 @@
     <div class="container">
         <div class="schedule-card">
             <div class="schedule-header d-flex justify-content-between align-items-center">
-                <h3 class="mb-0 fw-bold">LỊCH CHIẾU PHIM</h3>
+                <h3 class="mb-0 fw-bold">MOVIE SCHEDULE</h3>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="text-muted small">Vị trí:</span>
+                    <span class="text-muted small">Location:</span>
                     <select class="form-select form-select-sm shadow-none" style="width: 150px;">
-                        <option>Hà Nội</option>
-                        <option>Hồ Chí Minh</option>
+                        <option>Hanoi</option>
+                        <option>Ho Chi Minh</option>
                     </select>
                 </div>
             </div>
@@ -180,18 +180,18 @@
                     <div class="search-container border-bottom">
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control bg-light border-start-0 shadow-none" placeholder="Tìm theo tên rạp...">
+                            <input type="text" class="form-control bg-light border-start-0 shadow-none" placeholder="Search by theater name...">
                         </div>
                     </div>
                     
                     <div class="theater-list">
-                        {{-- Render rạp mẫu --}}
+                        {{-- Sample theaters --}}
                         @php
                             $theaters = [
-                                ['name' => 'BKL Hà Đông', 'addr' => 'Tầng 25, KĐT Phenikaa, Hà Đông'],
-                                ['name' => 'BKL Mỹ Đình', 'addr' => 'Tòa nhà Hàm Nghi, Nam Từ Liêm'],
-                                ['name' => 'BKL Cầu Giấy', 'addr' => 'Số 1 Xuân Thủy, Cầu Giấy'],
-                                ['name' => 'BKL Hoàn Kiếm', 'addr' => '24 Tràng Tiền, Hoàn Kiếm'],
+                                ['name' => 'BKL Ha Dong', 'addr' => 'Floor 25, Phenikaa Urban, Ha Dong'],
+                                ['name' => 'BKL My Dinh', 'addr' => 'Ham Nghi Building, Nam Tu Liem'],
+                                ['name' => 'BKL Cau Giay', 'addr' => '1 Xuan Thuy, Cau Giay'],
+                                ['name' => 'BKL Hoan Kiem', 'addr' => '24 Trang Tien, Hoan Kiem'],
                             ];
                         @endphp
 
@@ -209,27 +209,27 @@
 
                 <div class="col-md-8 showtime-main">
                     <div class="selected-theater-info mb-4">
-                        <h4 class="fw-bold mb-1 text-danger"><i class="bi bi-geo-alt-fill"></i> BKL Hà Đông</h4>
-                        <p class="text-muted small">Tầng 25, Đại học Phenikaa, Nguyễn Trác, Yên Nghĩa, Hà Đông, Hà Nội</p>
+                        <h4 class="fw-bold mb-1 text-danger"><i class="bi bi-geo-alt-fill"></i> BKL Ha Dong</h4>
+                        <p class="text-muted small">Floor 25, Phenikaa University, Nguyen Trac, Yen Nghia, Ha Dong, Hanoi</p>
                     </div>
 
                     <div class="date-scroller">
-                        <div class="date-btn active"><span>Hôm nay</span><strong>28</strong></div>
-                        <div class="date-btn"><span>Thứ Hai</span><strong>29</strong></div>
-                        <div class="date-btn"><span>Thứ Ba</span><strong>30</strong></div>
-                        <div class="date-btn"><span>Thứ Tư</span><strong>31</strong></div>
-                        <div class="date-btn"><span>Thứ Năm</span><strong>01</strong></div>
-                        <div class="date-btn"><span>Thứ Sáu</span><strong>02</strong></div>
+                        <div class="date-btn active"><span>Today</span><strong>28</strong></div>
+                        <div class="date-btn"><span>Monday</span><strong>29</strong></div>
+                        <div class="date-btn"><span>Tuesday</span><strong>30</strong></div>
+                        <div class="date-btn"><span>Wednesday</span><strong>31</strong></div>
+                        <div class="date-btn"><span>Thursday</span><strong>01</strong></div>
+                        <div class="date-btn"><span>Friday</span><strong>02</strong></div>
                     </div>
 
                     <div class="movie-list">
-                        {{-- Phim 1 --}}
+                        {{-- Movie 1 --}}
                         <div class="movie-item shadow-sm">
                             <img src="https://i.ebayimg.com/images/g/H0YAAOSw30JmG9xN/s-l1200.jpg" class="movie-poster">
                             <div class="movie-info w-100">
-                                <h4 class="fw-bold mb-1">ZOOTOPIA 2: PHI VỤ ĐỘNG TRỜI</h4>
-                                <p class="text-muted small mb-3">Hành động, Hoạt hình, Gia đình | 107 phút</p>
-                                <div class="type-badge mb-2"><span class="badge bg-dark">2D - Thuyết minh</span></div>
+                                <h4 class="fw-bold mb-1">ZOOTOPIA 2: MISSION IMPOSSIBLE</h4>
+                                <p class="text-muted small mb-3">Action, Animation, Family | 107 minutes</p>
+                                <div class="type-badge mb-2"><span class="badge bg-dark">2D - Dubbed</span></div>
                                 <div class="time-slot-container">
                                     <a href="#" class="time-slot">09:30 - 11:17</a>
                                     <a href="#" class="time-slot">12:00 - 13:47</a>
@@ -239,13 +239,13 @@
                             </div>
                         </div>
 
-                        {{-- Phim 2 --}}
+                        {{-- Movie 2 --}}
                         <div class="movie-item shadow-sm">
                             <img src="https://m.media-amazon.com/images/M/MV5BMjMwMDU5MTQxN15BMl5BanBnXkFtZTgwNjM5NDM1MDE@._V1_.jpg" class="movie-poster">
                             <div class="movie-info w-100">
                                 <h4 class="fw-bold mb-1">DEADPOOL & WOLVERINE</h4>
-                                <p class="text-muted small mb-3">Hành động, Hài hước | 128 phút</p>
-                                <div class="type-badge mb-2"><span class="badge bg-dark">2D - Phụ đề</span></div>
+                                <p class="text-muted small mb-3">Action, Comedy | 128 minutes</p>
+                                <div class="type-badge mb-2"><span class="badge bg-dark">2D - Subtitled</span></div>
                                 <div class="time-slot-container">
                                     <a href="#" class="time-slot">10:00 - 12:08</a>
                                     <a href="#" class="time-slot">14:20 - 16:28</a>
@@ -261,7 +261,7 @@
 </div>
 
 <script>
-    // JS đơn giản để chuyển đổi Active cho rạp và ngày
+    // Simple JS to toggle Active for theater and date
     document.querySelectorAll('.theater-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelector('.theater-item.active').classList.remove('active');

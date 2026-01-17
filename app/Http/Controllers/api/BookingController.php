@@ -28,11 +28,11 @@ class BookingController extends Controller
             'seat_ids.*' => 'exists:seats,id',
         ]);
 
-        // 🎬 Lấy suất chiếu + phòng
+        // 🎬 Get showtime + room
         $showtime = Showtime::with(['movie', 'room'])
             ->findOrFail($validated['showtime_id']);
 
-        // 1️⃣ Kiểm tra ghế có thuộc phòng không
+        // 1️⃣ Check if seat belongs to room
         $validSeatCount = Seat::where('room_id', $showtime->room_id)
             ->whereIn('id', $validated['seat_ids'])
             ->count();
@@ -43,7 +43,7 @@ class BookingController extends Controller
             ], 422);
         }
 
-        // 2️⃣ Kiểm tra ghế đã bị đặt chưa
+        // 2️⃣ Check if seat has been booked
         $bookedSeats = DB::table('booking_seats')
             ->join('bookings', 'booking_seats.booking_id', '=', 'bookings.id')
             ->where('bookings.showtime_id', $showtime->id)

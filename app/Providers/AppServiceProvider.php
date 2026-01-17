@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Pagination\Paginator; // 👈 BẮT BUỘC
+use Illuminate\Pagination\Paginator; // 👈 REQUIRED
 
 class AppServiceProvider extends ServiceProvider
 {

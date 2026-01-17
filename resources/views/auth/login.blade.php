@@ -57,7 +57,7 @@
 
     @keyframes progress { from { width: 100%; } to { width: 0%; } }
 
-    /* 2. GIAO DIỆN CHÍNH MÀU DEFE98 */
+    /* 2. MAIN INTERFACE COLOR DEFE98 */
     .login-wrapper {
         height: calc(100vh - 80px); 
         display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -208,29 +208,29 @@
             @csrf
             <div class="floating-group">
                 <input type="text" name="login_field" id="login_field" placeholder=" " value="{{ old('login_field') }}" required autocomplete="off">
-                <label for="login_field">Email/Số điện thoại</label>
+                <label for="login_field">Email/Phone Number</label>
             </div>
 
             <div class="floating-group">
                 <input type="password" name="password" id="password" placeholder=" " required>
-                <label for="password">Mật khẩu</label>
+                <label for="password">Password</label>
                 <i class="bi bi-eye position-absolute" id="togglePassword" style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #4b5563;"></i>
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="form-check d-flex align-items-center gap-2">
                     <input type="checkbox" name="remember" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label style="color: #1f2937;" for="remember">Ghi nhớ tôi</label>
+                    <label style="color: #1f2937;" for="remember">Remember me</label>
                 </div>
-                {{-- SỬA LINK QUÊN MẬT KHẨU TẠI ĐÂY --}}
-                <a href="javascript:void(0)" class="small forgot-link" onclick="showComingSoon()">Quên mật khẩu?</a>
+                {{-- EDIT FORGOT PASSWORD LINK HERE --}}
+                <a href="javascript:void(0)" class="small forgot-link" onclick="showComingSoon()">Forgot Password?</a>
             </div>
 
-            <button type="submit" class="btn btn-login w-100 shadow">ĐĂNG NHẬP NGAY</button>
+            <button type="submit" class="btn btn-login w-100 shadow">LOGIN NOW</button>
         </form>
 
         <div class="signup-text">
-            Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+            Don't have an account? <a href="/register">Sign up now</a>
         </div>
     </div>
 </div>
@@ -240,7 +240,7 @@
     <div class="modal-content-custom">
         <div style="font-size: 4rem; margin-bottom: 10px;">🤫</div>
         <h2 style="font-family: 'Permanent Marker', cursive; color: #000; margin-bottom: 10px;">COMING SOON</h2>
-        <p style="color: #4b5563; font-weight: 500;">Tính năng này đang được chúng tôi phát triển. Quay lại sau nhé!</p>
+        <p style="color: #4b5563; font-weight: 500;">This feature is currently being developed by us. Check back later!</p>
         <button onclick="closeComingSoon()" style="background: #ff69b4; border: none; padding: 10px 30px; border-radius: 12px; color: white; font-weight: bold; margin-top: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);">OK CẬU ƠI</button>
     </div>
 </div>

@@ -9,17 +9,17 @@ use App\Http\Controllers\Controller;
 
 class MovieController extends Controller
 {
-    // Danh sách phim
+    // Movie list
     public function index(Request $request)
 {
     $query = Movie::query();
 
-    // 🔍 Tìm theo tên phim
+    // 🔍 Search by movie title
     if ($request->filled('keyword')) {
         $query->where('title', 'like', '%' . $request->keyword . '%');
     }
 
-    // 🎯 Lọc theo trạng thái
+    // 🎯 Filter by status
     if ($request->filled('status')) {
         $query->where('status', $request->status);
     }
@@ -34,13 +34,13 @@ class MovieController extends Controller
 
 
 
-    // Form thêm phim
+    // Add movie form
     public function create()
     {
         return view('admin.movies.create');
     }
 
-    // Lưu phim mới
+    // Save new movie
     public function store(Request $request)
     {
         $request->validate([
@@ -71,24 +71,24 @@ class MovieController extends Controller
         Movie::create($data);
 
         return redirect()->route('admin.movies.index')
-            ->with('success', 'Thêm phim thành công');
+            ->with('success', 'Movie added successfully');
     }
 
-    // Xem chi tiết phim
+    // View movie details
     public function show($id)
     {
         $movie = Movie::with('showtimes.room')->findOrFail($id);
         return view('admin.movies.show', compact('movie'));
     }
 
-    // Form sửa phim
+    // Edit movie form
     public function edit($id)
     {
         $movie = Movie::findOrFail($id);
         return view('admin.movies.edit', compact('movie'));
     }
 
-    // Cập nhật phim
+    // Update movie
     public function update(Request $request, $id)
     {
         $movie = Movie::findOrFail($id);
@@ -112,10 +112,10 @@ class MovieController extends Controller
             'description'
         ]);
 
-        // 📸 Nếu upload poster mới
+        // 📸 If uploading new poster
         if ($request->hasFile('poster')) {
 
-            // Xóa ảnh cũ (nếu có)
+            // Delete old image (if exists)
             if ($movie->poster_url && Storage::disk('public')->exists($movie->poster_url)) {
                 \Storage::disk('public')->delete($movie->poster_url);
             }
@@ -127,23 +127,23 @@ class MovieController extends Controller
         $movie->update($data);
 
         return redirect()->route('admin.movies.index')
-            ->with('success', 'Cập nhật phim thành công');
+            ->with('success', 'Movie updated successfully');
     }
 
-    // Xóa phim
+    // Delete movie
     public function destroy($id)
     {
         $movie = Movie::findOrFail($id);
 
-        // Có lịch chiếu thì không cho xóa
+        // Cannot delete if movie has showtimes
         if ($movie->showtimes()->count() > 0) {
             return redirect()->back()
-                ->with('error', 'Không thể xóa phim đang có lịch chiếu');
+                ->with('error', 'Cannot delete a movie that has showtimes scheduled');
         }
 
         $movie->delete();
 
         return redirect()->route('admin.movies.index')
-            ->with('success', 'Xóa phim thành công');
+            ->with('success', 'Movie deleted successfully');
     }
 }

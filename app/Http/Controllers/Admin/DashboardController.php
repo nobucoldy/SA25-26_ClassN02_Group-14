@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $bookings  = Booking::count();
         $users     = User::count();
 
-        // 💰 THỐNG KÊ DOANH THU (chỉ tính booking đã xác nhận)
+        // 💰 REVENUE STATISTICS (only count confirmed bookings)
         $totalRevenue = Booking::where('status', 'confirmed')
             ->sum('total_amount');
 

@@ -49,7 +49,7 @@
 <div class="movie-detail-page">
     <div class="container">
         <nav class="mb-4" style="font-size: 0.85rem; color: #888;">
-            Trang chủ &nbsp; > &nbsp; Phim đang chiếu &nbsp; > &nbsp; {{ $movie->title }}
+            Home &nbsp; > &nbsp; Now Showing &nbsp; > &nbsp; {{ $movie->title }}
         </nav>
 
         <div class="main-card">
@@ -61,23 +61,23 @@
                     <div class="movie-info-header">
                         <h2>{{ $movie->title }} <span class="badge-t13">T13</span></h2>
                     </div>
-                    <p class="text-muted">{{ $movie->duration }} phút | {{ $movie->genre }}</p>
+                    <p class="text-muted">{{ $movie->duration }} minutes | {{ $movie->genre }}</p>
                     <button class="btn-trailer mt-3" style="background: #90ff00; border:none; padding: 10px 20px; border-radius: 10px; font-weight: bold;">
-                        <i class="bi bi-play-fill"></i> Xem trailer
+                        <i class="bi bi-play-fill"></i> Watch Trailer
                     </button>
                     <div class="description-text mt-4">{{ $movie->description }}</div>
                 </div>
             </div>
         </div>
 
-        <h2 class="schedule-title">Lịch chiếu phim</h2>
+        <h2 class="schedule-title">Movie Schedule</h2>
         
         <div class="date-picker">
             @php 
                 $dates = [
-                    ['label' => 'Hôm nay', 'day' => '06/01', 'id' => 'date-1'],
-                    ['label' => 'Thứ tư', 'day' => '07/01', 'id' => 'date-2'],
-                    ['label' => 'Thứ năm', 'day' => '08/01', 'id' => 'date-3'],
+                    ['label' => 'Today', 'day' => '06/01', 'id' => 'date-1'],
+                    ['label' => 'Wednesday', 'day' => '07/01', 'id' => 'date-2'],
+                    ['label' => 'Thursday', 'day' => '08/01', 'id' => 'date-3'],
                 ];
             @endphp
             @foreach($dates as $index => $d)
@@ -92,14 +92,14 @@
         <div id="schedule-wrapper">
             <div class="cinema-accordion schedule-content" id="date-1">
                 <div class="p-4">
-                    <strong>BKL Cinema Hà Đông</strong>
+                    <strong>BKL Cinema Ha Dong</strong>
                     <div class="mt-3">
                         @forelse($showtimes as $st)
                             <a href="{{ route('booking.create', $st->id) }}" class="time-slot">
                                 {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
                             </a>
                         @empty
-                            <p class="text-muted small">Chưa có lịch chiếu hôm nay trong DB.</p>
+                            <p class="text-muted small">No schedule available today.</p>
                         @endforelse
                     </div>
                 </div>
@@ -145,24 +145,24 @@
     }
 
     function changeDate(element, dateId) {
-    // 1. Đổi màu nút ngày
+    // 1. Change date button color
     document.querySelectorAll('.date-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
 
-    // 2. Ẩn tất cả lịch cũ
+    // 2. Hide all old schedules
     document.querySelectorAll('.schedule-content').forEach(c => c.classList.add('d-none'));
 
-    // 3. Hiển thị lịch ngày mới
+    // 3. Show new day schedule
     const target = document.getElementById(dateId);
     if (target) {
         target.classList.remove('d-none');
         
-        // Kiểm tra xem bên trong có nút bấm (time-slot) nào không
+        // Check if there are any time slot buttons inside
         const hasTimeSlots = target.querySelector('.time-slot');
         
-        // Nếu không có nút bấm nào thì mới hiện Toast thông báo
+        // If there are no time slot buttons, show notification
         if (!hasTimeSlots) {
-            showToast("Lịch chiếu cho ngày này hiện chưa có suất nào!");
+            showToast("No schedule available for this date!");
         }
     }
 }</script>

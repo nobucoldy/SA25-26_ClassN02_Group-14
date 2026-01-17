@@ -64,7 +64,7 @@
         transition: 0.3s ease;
     }
 
-    /* HIỆU ỨNG FOCUS */
+    /* FOCUS EFFECT */
     .floating-group input:focus {
         border-color: #ff69b4 !important;
         box-shadow: 0 0 0 4px rgba(255, 105, 180, 0.2) !important;
@@ -159,7 +159,7 @@
 
 <div class="register-wrapper">
     <div class="register-card">
-        {{-- LOGO ĐÃ ĐƯỢC CĂN GIỮ --}}
+        {{-- LOGO ALREADY CENTERED --}}
         <a href="/" class="logo-circle-large">
             <img src="{{ asset('storage/logo2.jpg') }}" alt="Logo">
         </a>
@@ -173,25 +173,25 @@
 
             <div class="floating-group">
                 <input type="email" name="email" id="email" placeholder=" " value="{{ old('email') }}" required>
-                <label for="email">Địa chỉ Email</label>
+                <label for="email">Email Address</label>
             </div>
 
             <div class="floating-group">
                 <input type="text" name="phone" id="phone" placeholder=" " value="{{ old('phone') }}" required maxlength="10">
-                <label for="phone">Số điện thoại</label>
+                <label for="phone">Phone Number</label>
             </div>
 
             <div id="phone_info" class="checklist-box">
                 <ul>
                     <li id="p_start" class="invalid"><i class="bi bi-x-lg"></i> Đầu số VN (03, 05, 07, 08, 09)</li>
                     <li id="p_length" class="invalid"><i class="bi bi-x-lg"></i> Đúng 10 chữ số</li>
-                    <li id="p_number" class="invalid"><i class="bi bi-x-lg"></i> Chỉ chứa ký tự số</li>
+                    <li id="p_number" class="invalid"><i class="bi bi-x-lg"></i> Only contains numbers</li>
                 </ul>
             </div>
 
             <div class="floating-group">
                 <input type="password" name="password" id="password" placeholder=" " required>
-                <label for="password">Mật khẩu</label>
+                <label for="password">Password</label>
                 <i class="bi bi-eye eye-toggle" onclick="togglePass('password', this)"></i>
             </div>
 
@@ -207,14 +207,14 @@
 
             <div class="floating-group">
                 <input type="password" name="password_confirmation" id="password_confirmation" placeholder=" " required>
-                <label for="password_confirmation">Xác nhận mật khẩu</label>
+                <label for="password_confirmation">Confirm Password</label>
                 <i class="bi bi-eye eye-toggle" onclick="togglePass('password_confirmation', this)"></i>
             </div>
             
-            <button type="submit" class="btn-register">ĐĂNG KÝ NGAY</button>
+            <button type="submit" class="btn-register">SIGN UP NOW</button>
             
             <div class="footer-text">
-                Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập ngay</a>
+                Already have an account? <a href="{{ route('login') }}">Login now</a>
             </div>
         </form>
     </div>

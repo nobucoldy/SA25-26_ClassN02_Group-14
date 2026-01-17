@@ -26,13 +26,13 @@
 
 <div class="upcoming-page">
     <div class="container">
-        <h2 class="fw-bold mb-4">PHIM SẮP CHIẾU</h2>
+        <h2 class="fw-bold mb-4">COMING SOON</h2>
         <div class="movie-grid">
             @forelse($movies as $movie)
                 <a href="{{ route('movies.show', $movie->id) }}" class="movie-card">
                     <div class="poster-box">
                         <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
-                        <div class="badge-upcoming">Sắp chiếu</div>
+                        <div class="badge-upcoming">Coming Soon</div>
                     </div>
                     <div class="movie-info">
                         <h6>{{ $movie->title }}</h6>
@@ -40,7 +40,7 @@
                 </a>
             @empty
                 <div class="text-center w-100 py-5">
-                    <p class="text-muted">Hiện chưa có phim sắp chiếu.</p>
+                    <p class="text-muted">No upcoming movies at the moment.</p>
                 </div>
             @endforelse
         </div>

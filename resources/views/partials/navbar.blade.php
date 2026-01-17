@@ -14,28 +14,28 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
-                {{-- SỬA TẠI ĐÂY: Trỏ link về trang lịch chiếu --}}
+                {{-- EDIT HERE: Point link to schedule page --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="/schedule">Lịch chiếu</a>
+                    <a class="nav-link" href="/schedule">Schedule</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        Phim
+                        Movies
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('movies.status') }}">Phim đang chiếu</a></li>
-                        <li><a class="dropdown-item" href="{{ route('movies.upcoming') }}">Phim sắp chiếu</a></li>
+                        <li><a class="dropdown-item" href="{{ route('movies.status') }}">Now Showing</a></li>
+                        <li><a class="dropdown-item" href="{{ route('movies.upcoming') }}">Coming Soon</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item"><a class="nav-link" href="#">Rạp phim</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Theaters</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('review.index') }}">Đánh giá</a>
+                    <a class="nav-link" href="{{ route('review.index') }}">Reviews</a>
                 </li>
             </ul>
 
-            {{-- KIỂM TRA ĐĂNG NHẬP --}}
+            {{-- CHECK LOGIN --}}
             @auth
                 <div class="dropdown">
                     <a href="#"
@@ -55,7 +55,7 @@
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li>
                             <a class="dropdown-item" href="{{ route('profile.index') }}">
-                                👤 Tài khoản
+                                👤 Account
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
@@ -63,16 +63,16 @@
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button class="dropdown-item text-danger border-0 bg-transparent w-100 text-start">
-                                    🚪 Đăng xuất
+                                    🚪 Logout
                                 </button>
                             </form>
                         </li>
                     </ul>
                 </div>
             @else
-                {{-- Nếu chưa đăng nhập thì hiện nút Đăng nhập --}}
+                {{-- If not logged in, show Login button --}}
                 <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm px-3" style="border-radius: 20px;">
-                    Đăng nhập
+                    Login
                 </a>
             @endauth
         </div>

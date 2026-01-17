@@ -44,37 +44,39 @@
 
 </nav>
 
-{{-- TOAST --}}
+{{-- TOAST CONTAINER --}}
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999">
 
+    {{-- Success --}}
     @if(session('success'))
-        <div class="toast text-bg-success border-0"
-             role="alert"
-             data-bs-delay="2500">
+        <div class="toast text-bg-success border-0" role="alert" data-bs-delay="2500">
             <div class="d-flex">
-                <div class="toast-body">
-                    ✅ {{ session('success') }}
-                </div>
-                <button type="button"
-                        class="btn-close btn-close-white me-2 m-auto"
-                        data-bs-dismiss="toast"></button>
+                <div class="toast-body">✅ {{ session('success') }}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
         </div>
     @endif
 
+    {{-- Error --}}
     @if(session('error'))
-        <div class="toast text-bg-danger border-0"
-             role="alert"
-             data-bs-delay="2500">
+        <div class="toast text-bg-danger border-0" role="alert" data-bs-delay="2500">
             <div class="d-flex">
-                <div class="toast-body">
-                    ❌ {{ session('error') }}
-                </div>
-                <button type="button"
-                        class="btn-close btn-close-white me-2 m-auto"
-                        data-bs-dismiss="toast"></button>
+                <div class="toast-body">❌ {{ session('error') }}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
         </div>
+    @endif
+
+    {{-- Validation Errors --}}
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div class="toast text-bg-danger border-0" role="alert" data-bs-delay="3000">
+                <div class="d-flex">
+                    <div class="toast-body">❌ {{ $error }}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        @endforeach
     @endif
 
 </div>
@@ -89,15 +91,15 @@
 
 {{-- Toast Auto Show --}}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const toastElList = document.querySelectorAll('.toast')
-        toastElList.forEach(function (toastEl) {
-            const toast = new bootstrap.Toast(toastEl, {
-                delay: 2500
-            })
-            toast.show()
+document.addEventListener('DOMContentLoaded', function () {
+    const toastElList = document.querySelectorAll('.toast')
+    toastElList.forEach(function (toastEl) {
+        const toast = new bootstrap.Toast(toastEl, {
+            delay: parseInt(toastEl.dataset.bsDelay) || 2500
         })
+        toast.show()
     })
+})
 </script>
 
 </body>

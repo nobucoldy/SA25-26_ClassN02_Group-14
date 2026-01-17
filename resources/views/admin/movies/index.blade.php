@@ -13,7 +13,7 @@
 
     
 
-    {{-- Form tìm kiếm & lọc --}}
+    {{-- Search and filter form --}}
     <form method="GET" class="row mb-4">
         <div class="col-md-4">
             <input type="text"
@@ -51,7 +51,7 @@
         </div>
     </form>
 
-    {{-- Bảng danh sách phim --}}
+    {{-- Movie list table --}}
     <div class="card">
         <div class="card-body p-0">
             <table class="table table-bordered table-hover mb-0">

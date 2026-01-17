@@ -27,7 +27,7 @@ class AuthController extends Controller
             'password' => $request->password
         ], $request->remember)) {
             return back()->withErrors([
-                'login_field' => 'Email / SĐT hoặc mật khẩu không đúng'
+                'login_field' => 'Email / Phone or password is incorrect'
             ]);
         }
 

@@ -14,19 +14,19 @@ class ShowtimeController extends Controller
 {
     $query = Showtime::with(['movie', 'room']);
 
-    // 🔍 Tìm theo tên phim
+    // 🔍 Search by movie title
     if ($request->filled('movie')) {
         $query->whereHas('movie', function ($q) use ($request) {
             $q->where('title', 'like', '%' . $request->movie . '%');
         });
     }
 
-    // 📅 Lọc theo ngày
+    // 📅 Filter by date
     if ($request->filled('date')) {
         $query->where('show_date', $request->date);
     }
 
-    // ❌ TUYỆT ĐỐI KHÔNG groupBy movie_id
+    // ❌ ABSOLUTELY DO NOT groupBy movie_id
     $showtimes = $query
         ->orderBy('show_date')
         ->orderBy('start_time')
@@ -39,11 +39,11 @@ class ShowtimeController extends Controller
     {
         $showtime = Showtime::findOrFail($id);
 
-        // Không cho xóa nếu đã có booking
+        // Cannot delete if there are bookings
         if ($showtime->bookings()->count() > 0) {
             return back()->with(
                 'error',
-                'Không thể xóa lịch chiếu đã có vé được đặt'
+                'Cannot delete a showtime that already has ticket bookings'
             );
         }
 
@@ -51,7 +51,7 @@ class ShowtimeController extends Controller
 
         return back()->with(
             'success',
-            'Xóa lịch chiếu thành công'
+            'Delete showtime successfully'
         );
     }
     public function edit($id)
@@ -103,7 +103,7 @@ class ShowtimeController extends Controller
             'price'      => 'required|numeric|min:0',
         ]);
 
-        // Lấy phim để lấy duration
+        // Get movie to get duration
         $movie = Movie::findOrFail($request->movie_id);
 
         // Tính end_time nếu không nhập
@@ -115,7 +115,7 @@ class ShowtimeController extends Controller
             $end = (clone $start)->addMinutes($movie->duration);
         }
 
-        // ❌ Kiểm tra trùng suất chiếu (cùng phòng – cùng ngày)
+        // ❌ Check for duplicate showtime (same room – same day)
         $conflict = Showtime::where('room_id', $request->room_id)
             ->where('show_date', $request->show_date)
             ->where(function ($q) use ($start, $end) {
@@ -131,7 +131,7 @@ class ShowtimeController extends Controller
         if ($conflict) {
             return back()
                 ->withInput()
-                ->with('error', 'Suất chiếu bị trùng thời gian trong cùng phòng');
+                ->with('error', 'Showtime conflicts with another in the same room');
         }
 
         // ✅ Lưu DB
@@ -146,7 +146,7 @@ class ShowtimeController extends Controller
 
         return redirect()
             ->route('admin.showtimes.index')
-            ->with('success', 'Thêm suất chiếu thành công');
+            ->with('success', 'Showtime added successfully');
     }
 
 }

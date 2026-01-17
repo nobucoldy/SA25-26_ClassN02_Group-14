@@ -31,7 +31,7 @@
     .movie-footer-info { padding: 15px; text-align: center; }
     .movie-footer-info h6 { font-weight: 700; color: #333; text-transform: uppercase; margin: 0; font-size: 0.9rem; }
     
-    /* Style mới cho ngày tháng thực tế */
+    /* New style for actual date and time */
     .real-time-sub { color: #888; font-size: 1rem; margin-top: 5px; }
 </style>
 
@@ -39,14 +39,14 @@
     <div class="container">
         <div class="filter-bar">
             <div>
-                <h2 class="fw-bold m-0">PHIM ĐANG CHIẾU</h2>
-                {{-- Dòng này sẽ tự cập nhật ngày tháng theo thời gian thực mỗi khi load trang --}}
+                <h2 class="fw-bold m-0">NOW SHOWING</h2>
+                {{-- This line will automatically update the date in real time each time the page loads --}}
                 <div class="real-time-sub">
-                    Lịch chiếu hôm nay, {{ \Carbon\Carbon::now()->translatedFormat('d/m/Y') }}
+                    Schedule for today, {{ \Carbon\Carbon::now()->translatedFormat('d/m/Y') }}
                 </div>
             </div>
             <select class="form-select" style="width: auto; border-radius: 8px;">
-                <option>Tất cả</option>
+                <option>All</option>
             </select>
         </div>
 
@@ -55,7 +55,7 @@
                 <a href="{{ route('movies.show', $movie->id) }}" class="movie-item-box">
                     <div class="poster-container">
                         <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}">
-                        <div class="red-label">Đang chiếu</div>
+                        <div class="red-label">Now Showing</div>
                     </div>
                     <div class="movie-footer-info">
                         <h6>{{ $movie->title }}</h6>
@@ -63,7 +63,7 @@
                 </a>
             @empty
                 <div class="text-center w-100 py-5">
-                    <p class="text-muted">Chưa có dữ liệu phim đang chiếu cho ngày hôm nay.</p>
+                    <p class="text-muted">No movie data for today's showing.</p>
                 </div>
             @endforelse
         </div>

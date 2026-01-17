@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // 1️⃣ Danh sách + tìm kiếm + lọc
+    // 1️⃣ List + search + filter
     public function index(Request $request)
     {
         $query = User::query();
 
-        // Tìm kiếm
+        // Search
         if ($request->keyword) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', "%{$request->keyword}%")
@@ -31,7 +31,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    // 2️⃣ Form thêm
+    // 2️⃣ Add form
     public function create()
     {
         return view('admin.users.create');
@@ -39,26 +39,30 @@ class UserController extends Controller
 
     // 3️⃣ Lưu user mới
     public function store(Request $request)
-    {
-        $request->validate([
-            'name'  => 'required',
-            'email' => 'required|email|unique:users',
-            'role'  => 'required|in:admin,user',
-            'password' => 'required|min:6'
-        ]);
+{
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'phone'    => ['nullable','regex:/^\+?[0-9\s\-]{9,15}$/'], // optional, hỗ trợ +84
+        'password' => 'required|string|min:6',
+        'role'     => 'required|in:user,admin',
+    ]);
 
-        User::create([
-            'name' => $request->name,
-            'email'=> $request->email,
-            'role' => $request->role,
-            'password' => bcrypt($request->password),
-        ]);
+    User::create([
+        'name'     => $request->name,
+        'email'    => $request->email,
+        'phone'    => $request->phone,
+        'role'     => $request->role,
+        'password' => bcrypt($request->password),
+    ]);
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Thêm tài khoản thành công');
-    }
+    return redirect()->route('admin.users.index')
+        ->with('success', 'Account added successfully');
+}
 
-    // 4️⃣ Xem chi tiết
+
+
+    // 4️⃣ View details
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -81,13 +85,16 @@ class UserController extends Controller
             'name'  => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'role'  => 'required|in:admin,user',
+            'phone' => 'nullable|regex:/^[0-9]{9,11}$/', // validate phone
         ]);
 
-        $user->update($request->only('name','email','role'));
+        // add 'phone' here
+        $user->update($request->only('name','email','role','phone'));
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Cập nhật thành công');
     }
+
 
     // 7️⃣ Xóa
     public function destroy($id)

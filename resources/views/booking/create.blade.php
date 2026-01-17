@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt vé - BKL Cinema</title>
+    <title>Book Tickets - BKL Cinema</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
         .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
 
-        /* GIAO DIỆN CHỌN GHẾ VÀ THANH TOÁN (GIỮ NGUYÊN CSS) */
+        /* SEAT SELECTION AND PAYMENT INTERFACE (KEEP ORIGINAL CSS) */
         .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
         .summary-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
         .movie-title { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 15px; }
@@ -98,25 +98,25 @@
                 <div style="color: #d63384; font-weight: 600;">BKL CINEMA HÀ ĐÔNG</div>
                 <h2 class="movie-title">{{ $showtime->movie->title }}</h2>
                 <div class="info-details-grid">
-                    <div class="info-box"><label>Suất chiếu</label><span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span></div>
-                    <div class="info-box"><label>Ngày</label><span>{{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</span></div>
-                    <div class="info-box"><label>Phòng</label><span>{{ $showtime->room->name }}</span></div>
-                    <div class="info-box"><label>Rạp</label><span>BKL Hà Đông</span></div>
+                    <div class="info-box"><label>Showtime</label><span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span></div>
+                    <div class="info-box"><label>Date</label><span>{{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</span></div>
+                    <div class="info-box"><label>Room</label><span>{{ $showtime->room->name }}</span></div>
+                    <div class="info-box"><label>Theater</label><span>BKL Ha Dong</span></div>
                 </div>
             </div>
         </div>
 
         <div class="seat-legend">
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Thường</div><div class="legend-price">36.000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49.000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Ghế đôi</div><div class="legend-price">90.000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Đang chọn</div><div class="legend-price">-</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Đã bán</div><div class="legend-price">-</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Regular</div><div class="legend-price">36,000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49,000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Couple Seat</div><div class="legend-price">90,000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Selected</div><div class="legend-price">-</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Sold</div><div class="legend-price">-</div></div>
         </div>
 
         <div class="zoom-wrapper">
             <div id="main-booking-area">
-                <div class="screen-container"><div class="screen"></div><div class="screen-text">MÀN HÌNH</div></div>
+                <div class="screen-container"><div class="screen"></div><div class="screen-text">SCREEN</div></div>
                 <div class="seat-grid" id="seat-grid">
                     @php $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']; $normalRows = ['A', 'B', 'C']; $soldSeats = $soldSeats ?? []; @endphp
                     @foreach($rows as $row)
@@ -141,15 +141,15 @@
     <div class="checkout-card">
         <div class="d-flex justify-content-between align-items-center w-100">
             <div>
-                <div class="text-muted small" id="seat-counter">Đã chọn 0 ghế:</div>
+                <div class="text-muted small" id="seat-counter">Selected 0 seats:</div>
                 <div id="display-seats" class="fw-bold text-dark fs-5">-</div>
             </div>
             <div class="d-flex align-items-center gap-4">
                 <div class="text-end">
-                    <div class="text-muted small">Tổng tiền vé:</div>
+                    <div class="text-muted small">Total Ticket Price:</div>
                     <div id="display-total-tickets" class="total-price">0đ</div>
                 </div>
-                <button id="next-button" class="btn btn-next-step shadow-sm">Tiếp tục</button>
+                <button id="next-button" class="btn btn-next-step shadow-sm">Continue</button>
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title w-100 text-center fw-bold fs-4">Lựa chọn combo bỏng nước</h5>
+                <h5 class="modal-title w-100 text-center fw-bold fs-4">Select popcorn and drink combo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
@@ -167,7 +167,7 @@
                     <img src="https://momo.vn/su-kien/cinema/images/details/combo-1.png" width="90" class="rounded">
                     <div class="ms-3 flex-grow-1">
                         <h6 class="fw-bold mb-1">COMBO SOLO</h6>
-                        <small class="text-muted d-block mb-1">1 Bắp lớn + 1 Nước ngọt lớn</small>
+                        <small class="text-muted d-block mb-1">1 Large Popcorn + 1 Large Soft Drink</small>
                         <span class="fw-bold text-danger">103.000đ</span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
@@ -180,7 +180,7 @@
                     <img src="https://momo.vn/su-kien/cinema/images/details/combo-2.png" width="90" class="rounded">
                     <div class="ms-3 flex-grow-1">
                         <h6 class="fw-bold mb-1">COMBO COUPLE</h6>
-                        <small class="text-muted d-block mb-1">1 Bắp lớn + 2 Nước ngọt lớn</small>
+                        <small class="text-muted d-block mb-1">1 Large Popcorn + 2 Large Soft Drinks</small>
                         <span class="fw-bold text-danger">135.000đ</span>
                     </div>
                     <div class="d-flex align-items-center gap-2">
@@ -192,10 +192,10 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                     <div>
-                        <div class="text-muted small">Tổng tiền đồ ăn và đồ uống</div>
+                        <div class="text-muted small">Total Food & Drinks Price</div>
                         <div id="modal-combo-total" class="fw-bold fs-4">0đ</div>
                     </div>
-                    <button class="btn vnpay-blue-btn" id="btn-to-payment">Tiếp tục</button>
+                    <button class="btn vnpay-blue-btn" id="btn-to-payment">Continue</button>
                 </div>
             </div>
         </div>
@@ -209,38 +209,38 @@
 
             <div class="modal-body p-0 d-flex flex-column flex-md-row">
                 <div class="p-4 flex-grow-1 bg-white border-end">
-                    <h5 class="fw-bold mb-4">XÁC NHẬN ĐẶT VÉ</h5>
-                    <p class="mb-1 small">Phim: <strong>{{ $showtime->movie->title }}</strong></p>
-                    <p class="mb-1 small">Rạp: <strong>BKL Cinema Hà Đông</strong></p>
-                    <p class="mb-4 small">Suất: <strong>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }} | {{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</strong></p>
+                    <h5 class="fw-bold mb-4">BOOKING CONFIRMATION</h5>
+                    <p class="mb-1 small">Movie: <strong>{{ $showtime->movie->title }}</strong></p>
+                    <p class="mb-1 small">Theater: <strong>BKL Cinema Ha Dong</strong></p>
+                    <p class="mb-4 small">Showtime: <strong>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }} | {{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</strong></p>
 
-                    <h6 class="fw-bold border-bottom pb-2 mb-3">Ghế đã chọn</h6>
+                    <h6 class="fw-bold border-bottom pb-2 mb-3">Selected Seats</h6>
                     <div id="final-seats-list" class="mb-3"></div>
 
-                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Đồ ăn & Đồ uống</h6>
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4">Food & Drinks</h6>
                     <div id="final-combos-list" class="mb-3"></div>
 
                     <div class="mt-4 pt-3 border-top">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-bold fs-5">TỔNG THANH TOÁN</span>
+                            <span class="fw-bold fs-5">TOTAL PAYMENT</span>
                             <span class="fw-bold text-danger fs-3" id="final-total-all">0đ</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="p-4 bg-light" style="min-width: 480px;">
-                    <p class="fw-bold mb-4 text-center fs-5">PHƯƠNG THỨC THANH TOÁN</p>
+                    <p class="fw-bold mb-4 text-center fs-5">PAYMENT METHOD</p>
                     <div class="row g-3 mb-4">
                         <div class="col-6">
                             <div class="payment-choice-card active" id="tab-qr-btn" onclick="togglePayTab('qr')">
                                 <i class="bi bi-qr-code-scan"></i>
-                                <span>Quét mã QR</span>
+                                <span>Scan QR Code</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="payment-choice-card" id="tab-app-btn" onclick="togglePayTab('app')">
                                 <i class="bi bi-phone-vibrate"></i>
-                                <span>App Ngân hàng</span>
+                                <span>Banking App</span>
                             </div>
                         </div>
                     </div>
@@ -249,20 +249,20 @@
                         <div class="qr-frame-box mb-3">
                             <img id="qr-image" src="" style="width: 210px; height: 210px; object-fit: contain;">
                         </div>
-                        <p class="text-muted small px-4 mb-4">Mở ứng dụng Ngân hàng hoặc Ví điện tử để quét mã thanh toán</p>
+                        <p class="text-muted small px-4 mb-4">Open Banking App or E-wallet to scan payment code</p>
                         <button class="btn btn-success w-100 py-3 rounded-3 shadow-sm fw-bold mb-3" onclick="simulateFinalSuccess()">
-                            <i class="bi bi-patch-check-fill me-2"></i>XÁC NHẬN ĐÃ QUÉT MÃ
+                            <i class="bi bi-patch-check-fill me-2"></i>CONFIRM SCANNED
                         </button>
                         <button class="btn btn-link text-decoration-none text-muted fw-bold small" onclick="goBackToCombo()">
-                            <i class="bi bi-arrow-left me-1"></i> QUAY LẠI ĐỔI COMBO
+                            <i class="bi bi-arrow-left me-1"></i> BACK TO COMBO
                         </button>
                     </div>
 
                     <div id="view-app" class="text-center d-none" style="padding-top: 60px;">
                         <div style="font-size: 5rem; margin-bottom: 20px;">🚧</div>
                         <h4 class="fw-bold">COMING SOON</h4>
-                        <p class="text-muted px-4 small">Tính năng liên kết ứng dụng trực tiếp đang được ekiet phát triển. Vui lòng sử dụng Quét mã QR.</p>
-                        <button class="btn btn-outline-primary btn-sm mt-3 fw-bold" onclick="togglePayTab('qr')">SỬ DỤNG QUÉT MÃ QR</button>
+                        <p class="text-muted px-4 small">Direct app integration feature is being developed. Please use QR Code Scan.</p>
+                        <button class="btn btn-outline-primary btn-sm mt-3 fw-bold" onclick="togglePayTab('qr')">USE QR CODE SCAN</button>
                     </div>
                 </div>
             </div>
@@ -273,9 +273,9 @@
 <div id="successModalOverlay">
     <div class="success-box-popup">
         <div style="font-size: 6rem; margin-bottom: 20px;">🎟️</div>
-        <h2 style="font-weight: 900; color: #000; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;">Đặt vé thành công!</h2>
-        <p style="color: #000; font-weight: 600; font-size: 1.1rem; margin-bottom: 35px; line-height: 1.5;">Cảm ơn cậu đã tin tưởng BKL Cinema. Chúc cậu có những giây phút xem phim thật tuyệt vời nhé!</p>
-        <button onclick="location.href='/movies/status'" style="background: #000; border: none; padding: 18px 50px; border-radius: 20px; color: #90ff00; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; width: 100%;">OK CẬU ƠI!</button>
+        <h2 style="font-weight: 900; color: #000; margin-bottom: 15px; letter-spacing: -2px; text-transform: uppercase;">Booking Successful!</h2>
+        <p style="color: #000; font-weight: 600; font-size: 1.1rem; margin-bottom: 35px; line-height: 1.5;">Thank you for choosing BKL Cinema. We wish you an amazing movie experience!</p>
+        <button onclick="location.href='/movies/status'" style="background: #000; border: none; padding: 18px 50px; border-radius: 20px; color: #90ff00; font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; width: 100%;">OK!</button>
     </div>
 </div>
 
@@ -283,11 +283,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
             <div class="modal-body p-4 text-center">
-                <h5 class="fw-bold mb-3">Bạn có chắc muốn hủy giao dịch?</h5>
-                <p class="text-muted small mb-4">Hủy giao dịch mua vé này và quay lại xem trạng thái các phim khác?</p>
+                <h5 class="fw-bold mb-3">Are you sure you want to cancel this transaction?</h5>
+                <p class="text-muted small mb-4">Cancel this ticket purchase and go back to view other movies?</p>
                 <div class="d-flex gap-3 justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Tiếp tục mua vé</button>
-                    <a href="/movies/status" class="btn btn-primary px-5 fw-bold" style="background-color: #0056b3; border:none;">Đồng ý</a>
+                    <button type="button" class="btn btn-outline-secondary px-4 fw-bold" data-bs-dismiss="modal">Continue Booking</button>
+                    <a href="/movies/status" class="btn btn-primary px-5 fw-bold" style="background-color: #0056b3; border:none;">Agree</a>
                 </div>
             </div>
         </div>
@@ -330,13 +330,13 @@
         let selectedCombos = {};
         const fmt = n => new Intl.NumberFormat('vi-VN').format(n) + 'đ';
 
-        // LOGIC GHẾ
+        // SEAT SELECTION LOGIC
         document.querySelectorAll('.seat:not(.seat-sold)').forEach(seat => {
             seat.addEventListener('click', function() {
                 const name = this.dataset.name, price = parseInt(this.dataset.price);
                 const isSelected = this.classList.contains('seat-selected');
                 if (!isSelected) {
-                    if (selectedSeats.length >= 8) { createToast("Bạn chỉ được chọn tối đa 8 ghế!"); return; }
+                    if (selectedSeats.length >= 8) { createToast("You can select a maximum of 8 seats!"); return; }
                     this.classList.add('seat-selected');
                     selectedSeats.push({ name, price });
                 } else {
@@ -349,13 +349,13 @@
 
         function updateCheckoutUI() {
             const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            document.getElementById('seat-counter').innerText = `Đã chọn ${selectedSeats.length} ghế:`;
+            document.getElementById('seat-counter').innerText = `Selected ${selectedSeats.length} seats:`;
             document.getElementById('display-seats').innerText = selectedSeats.map(s => s.name).join(', ') || '-';
             document.getElementById('display-total-tickets').innerText = fmt(ticketTotal);
         }
 
         document.getElementById('next-button').addEventListener('click', function() {
-            if (selectedSeats.length === 0) createToast("Vui lòng chọn ít nhất một ghế!");
+            if (selectedSeats.length === 0) createToast("Please select at least one seat!");
             else new bootstrap.Modal(document.getElementById('comboModal')).show();
         });
 
@@ -374,7 +374,7 @@
             });
         });
 
-        // CHUYỂN SANG THANH TOÁN
+        // SWITCH TO PAYMENT
         document.getElementById('btn-to-payment').addEventListener('click', function() {
             const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
             const seatsList = document.getElementById('final-seats-list');

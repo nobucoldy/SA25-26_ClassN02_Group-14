@@ -21,13 +21,13 @@ class AuthController extends Controller
             'login_field' => ['required'],
             'password' => ['required'],
         ], [
-            'login_field.required' => 'Vui lòng nhập Email hoặc Số điện thoại.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'login_field.required' => 'Please enter Email or Phone Number.',
+            'password.required' => 'Please enter password.',
         ]);
 
         $loginValue = $request->input('login_field');
         
-        // 2. Tự động nhận diện Email hay Phone
+        // 2. Auto-detect whether Email or Phone
         $fieldType = filter_var($loginValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
         $credentials = [
@@ -35,27 +35,27 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
 
-        // 3. Thực hiện đăng nhập
+        // 3. Perform login
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $request->session()->regenerate();
 
             $user = Auth::user();
 
-            // Nếu là ADMIN → trang quản trị
+            // If ADMIN → admin panel
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard')
-                    ->with('success', "Chào mừng Admin {$user->name}!");
+                    ->with('success', "Welcome Admin {$user->name}!");
             }
 
-            // Nếu là USER → trang người dùng
+            // If USER → user page
             return redirect('/')
-                ->with('success', "Xin chào {$user->name} đến với BKL Cinema!");
+                ->with('success', "Hello {$user->name}, welcome to BKL Cinema!");
         }
 
 
-        // Nếu thất bại
+        // If login fails
         return back()->withErrors([
-            'login_field' => 'Thông tin đăng nhập hoặc mật khẩu không chính xác.',
+            'login_field' => 'Login credentials or password is incorrect.',
         ])->withInput($request->only('login_field', 'remember'));
     }
 
@@ -64,7 +64,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login')->with('success', 'Bạn đã đăng xuất tài khoản.');
+        return redirect('/login')->with('success', 'You have successfully logged out.');
     }
 
     public function showRegister()
@@ -80,23 +80,23 @@ class AuthController extends Controller
             'phone' => [
             'required', 
             'numeric', 
-            'digits:10',                // Khớp với mục "Đúng 10 chữ số"
-            'regex:/^(03|05|07|08|09)/', // Khớp với mục "Đầu số VN"
-            'unique:users,phone'        // Đảm bảo không trùng số
+            'digits:10',                // Matches "Correct 10 digits"
+            'regex:/^(03|05|07|08|09)/', // Matches "Vietnamese area code"
+            'unique:users,phone'        // Ensure no duplicate numbers
             ],
             'password' => ['required', 'confirmed', 'min:8'],
         ], [
-            'name.required' => 'Họ và tên không được để trống.',
-            'email.required' => 'Email không được để trống.',
-            'email.email' => 'Định dạng Email không hợp lệ.',
-            'email.unique' => 'Email này đã tồn tại trong hệ thống.',
-            'phone.required' => 'Số điện thoại không được để trống.',
-            'phone.unique' => 'Số điện thoại này đã được sử dụng bởi tài khoản khác.',
-            'phone.numeric' => 'Số điện thoại phải là định dạng số.',
-            'phone.digits_between' => 'Số điện thoại phải từ 10 đến 11 chữ số.',
-            'password.required' => 'Mật khẩu không được để trống.',
-            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
-            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+            'name.required' => 'Full name cannot be empty.',
+            'email.required' => 'Email cannot be empty.',
+            'email.email' => 'Invalid email format.',
+            'email.unique' => 'This email already exists in the system.',
+            'phone.required' => 'Phone number cannot be empty.',
+            'phone.unique' => 'This phone number has been used by another account.',
+            'phone.numeric' => 'Phone number must be numeric format.',
+            'phone.digits_between' => 'Phone number must be between 10 and 11 digits.',
+            'password.required' => 'Password cannot be empty.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password.min' => 'Password must be at least 8 characters.',
         ]);
 
         $user = User::create([
@@ -107,6 +107,6 @@ class AuthController extends Controller
             'role' => 'customer', 
         ]);
 
-        return redirect()->route('login')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập tài khoản mới.');
+        return redirect()->route('login')->with('success', 'Registration successful! Please log in with your new account.');
     }
 }
