@@ -47,7 +47,7 @@ class MoviesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'title' => 'The Search for Long Dien Huong',
+                'title' => 'Truy tim Long Dien Huong',
                 'description' => 'The treasured artifact of a coastal village is stolen, triggering a thrilling journey to recover it. The film blends spectacular martial arts, humor, and deep human values.',
                 'duration' => 111,
                 'genre' => 'Comedy, Action',
@@ -71,8 +71,8 @@ class MoviesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'title' => 'Bloody Paradise',
-                'description' => 'Bloody Paradise is the first Vietnamese film depicting human trafficking scams abroad. Lured by promises of easy jobs and high salaries, many victims are imprisoned and forced to scam their own people.',
+                'title' => 'Thien Duong Mau',
+                'description' => 'Thien Duong Mau is the first Vietnamese film depicting human trafficking scams abroad. Lured by promises of easy jobs and high salaries, many victims are imprisoned and forced to scam their own people.',
                 'duration' => 120,
                 'genre' => 'Action, Crime',
                 'release_date' => '2025-12-31',
@@ -83,7 +83,7 @@ class MoviesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'title' => 'The Demon Prince',
+                'title' => 'Hoang Tu Quy',
                 'description' => 'The story follows Than Duc, a prince born through dark magic. After escaping the forbidden palace, he seeks to free the Bone Demon from the Eye Gate to restore the Bone Demon Cult.',
                 'duration' => 117,
                 'genre' => 'Horror',
