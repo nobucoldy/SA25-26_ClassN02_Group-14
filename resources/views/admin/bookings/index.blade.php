@@ -1,90 +1,136 @@
 @extends('layouts.admin')
 
 @section('content')
-<h3 class="mb-3">Bookings Management</h3>
+<div class="container-fluid">
 
-{{-- FILTER --}}
-<form method="GET" class="row g-2 mb-3">
-    <div class="col-md-3">
-        <input type="text"
-               name="keyword"
-               class="form-control"
-               placeholder="Search user / movie"
-               value="{{ request('keyword') }}">
+    <h3 class="mb-3">Bookings Management</h3>
+
+    {{-- FILTER --}}
+    <form method="GET" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input type="text"
+                   name="keyword"
+                   class="form-control"
+                   placeholder="Search user / movie"
+                   value="{{ request('keyword') }}">
+        </div>
+
+        <div class="col-md-3">
+            <select name="status" class="form-control">
+                <option value="">-- All Status --</option>
+
+                <option value="pending"
+                    {{ request('status')=='pending'?'selected':'' }}>
+                    Pending
+                </option>
+
+                <option value="confirmed"
+                    {{ request('status')=='confirmed'?'selected':'' }}>
+                    Confirmed
+                </option>
+
+                <option value="cancelled"
+                    {{ request('status')=='cancelled'?'selected':'' }}>
+                    Cancelled
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-primary">Filter</button>
+            <a href="{{ route('admin.bookings.index') }}"
+               class="btn btn-secondary">
+                Reset
+            </a>
+        </div>
+    </form>
+
+    {{-- TABLE --}}
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="5%">STT</th>
+                        <th>User</th>
+                        <th>Movie</th>
+                        <th>Showtime</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th width="160">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @forelse($bookings as $b)
+                    <tr>
+                        {{-- STT --}}
+                        <td>
+                            {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $loop->iteration }}
+                        </td>
+
+                        <td>{{ $b->user->name }}</td>
+
+                        <td>{{ $b->showtime->movie->title }}</td>
+
+                        <td>
+                            {{ $b->showtime->show_date }} <br>
+                            <small class="text-muted">
+                                {{ $b->showtime->start_time }}
+                            </small>
+                        </td>
+
+                        <td>{{ number_format($b->total_amount) }} đ</td>
+
+                        {{-- STATUS --}}
+                        <td>
+                            @if($b->status == 'confirmed')
+                                <span class="badge bg-success">Confirmed</span>
+                            @elseif($b->status == 'pending')
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            @else
+                                <span class="badge bg-danger">Cancelled</span>
+                            @endif
+                        </td>
+
+                        {{-- ACTION --}}
+                        <td class="text-center">
+                            <a href="{{ route('admin.bookings.show', $b->id) }}"
+                               class="btn btn-sm btn-info">
+                                View
+                            </a>
+
+                            @if(in_array($b->status, ['pending', 'confirmed']))
+                                <form action="{{ route('admin.bookings.cancel', $b->id) }}"
+                                      method="POST"
+                                      class="d-inline"
+                                      onsubmit="return confirm('Cancel this booking?')">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-sm btn-danger">
+                                        Cancel
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7"
+                            class="text-center text-muted py-3">
+                            No bookings found
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="col-md-3">
-        <select name="status" class="form-control">
-            <option value="">-- All Status --</option>
-            <option value="confirmed" {{ request('status')=='confirmed'?'selected':'' }}>Confirmed</option>
-            <option value="cancelled" {{ request('status')=='cancelled'?'selected':'' }}>Cancelled</option>
-        </select>
+    {{-- PAGINATION --}}
+    <div class="mt-3 d-flex justify-content-center">
+        {{ $bookings->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 
-    <div class="col-md-2">
-        <button class="btn btn-primary">Filter</button>
-        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">Reset</a>
-    </div>
-</form>
-
-{{-- TABLE --}}
-<table class="table table-bordered table-hover align-middle">
-    <thead class="table-dark">
-        <tr>
-            <th>#</th>
-            <th>User</th>
-            <th>Movie</th>
-            <th>Showtime</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th width="160">Action</th>
-        </tr>
-    </thead>
-
-    <tbody>
-    @forelse($bookings as $b)
-        <tr>
-            <td>{{ $b->id }}</td>
-            <td>{{ $b->user->name }}</td>
-            <td>{{ $b->showtime->movie->title }}</td>
-            <td>
-                {{ $b->showtime->show_date }}
-                {{ $b->showtime->start_time }}
-            </td>
-            <td>{{ number_format($b->total_amount) }} đ</td>
-
-            <td>
-                <span class="badge bg-{{ $b->status == 'confirmed' ? 'success' : 'danger' }}">
-                    {{ ucfirst($b->status) }}
-                </span>
-            </td>
-
-            <td>
-                <a href="{{ route('admin.bookings.show', $b->id) }}"
-                   class="btn btn-sm btn-info">View</a>
-
-                @if($b->status == 'confirmed')
-                <form action="{{ route('admin.bookings.cancel', $b->id) }}"
-                      method="POST"
-                      class="d-inline"
-                      onsubmit="return confirm('Cancel this booking?')">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-sm btn-danger">Cancel</button>
-                </form>
-                @endif
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="7" class="text-center">No bookings found</td>
-        </tr>
-    @endforelse
-    </tbody>
-</table>
-
-{{-- PAGINATION --}}
-<div class="d-flex justify-content-center">
-    {{ $bookings->links('pagination::bootstrap-5') }}
 </div>
 @endsection

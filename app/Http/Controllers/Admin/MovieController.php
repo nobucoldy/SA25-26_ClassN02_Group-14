@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Storage;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MovieController extends Controller
 {
@@ -115,7 +116,7 @@ class MovieController extends Controller
         if ($request->hasFile('poster')) {
 
             // Xóa ảnh cũ (nếu có)
-            if ($movie->poster_url && \Storage::disk('public')->exists($movie->poster_url)) {
+            if ($movie->poster_url && Storage::disk('public')->exists($movie->poster_url)) {
                 \Storage::disk('public')->delete($movie->poster_url);
             }
 

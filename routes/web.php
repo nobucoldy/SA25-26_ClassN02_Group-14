@@ -69,24 +69,16 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
-
-
     Route::get('/', [
         App\Http\Controllers\Admin\DashboardController::class,
         'index'
     ])->name('dashboard');
-
-
     Route::resource('movies',
         App\Http\Controllers\Admin\MovieController::class
     );
-
-
     Route::resource('showtimes',
         App\Http\Controllers\Admin\ShowtimeController::class
     );
-
-  
     Route::get('bookings', [
         App\Http\Controllers\Admin\BookingController::class,
         'index'

@@ -11,14 +11,7 @@
         </a>
     </div>
 
-    {{-- Thông báo --}}
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
+    
 
     {{-- Form tìm kiếm & lọc --}}
     <form method="GET" class="row mb-4">
@@ -64,7 +57,7 @@
             <table class="table table-bordered table-hover mb-0">
                 <thead class="table-dark">
                     <tr>
-                        <th width="5%">ID</th>
+                        <th width="5%">STT</th>
                         <th>Title</th>
                         <th width="10%">Duration</th>
                         <th width="15%">Release Date</th>
@@ -75,7 +68,10 @@
                 <tbody>
                     @forelse($movies as $movie)
                         <tr>
-                            <td>{{ $movie->id }}</td>
+                            <td>
+                                {{ ($movies->currentPage() - 1) * $movies->perPage() + $loop->iteration }}
+                            </td>
+
                             <td>{{ $movie->title }}</td>
                             <td>{{ $movie->duration }} min</td>
                             <td>{{ \Carbon\Carbon::parse($movie->release_date)->format('d/m/Y') }}</td>

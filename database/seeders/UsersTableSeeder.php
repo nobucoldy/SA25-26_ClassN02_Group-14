@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'name'     => 'Customer User',
                 'password' => Hash::make('987654321'),
                 'role'     => 'customer',
-                'phone'    => null,
+                'phone'    => '0123456789',
                 'hobbies'  => null,
                 'avatar'   => null,
             ]

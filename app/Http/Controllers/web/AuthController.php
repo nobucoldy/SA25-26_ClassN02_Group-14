@@ -38,13 +38,20 @@ class AuthController extends Controller
         // 3. Thực hiện đăng nhập
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $request->session()->regenerate();
-            
-            // Lấy tên người dùng vừa đăng nhập để chào mừng
-            $userName = Auth::user()->name;
-            
-            // Redirect về trang chủ với thông báo cá nhân hóa
-            return redirect('/')->with('success', "Xin chào $userName đến với BKL Cinema!");
+
+            $user = Auth::user();
+
+            // Nếu là ADMIN → trang quản trị
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard')
+                    ->with('success', "Chào mừng Admin {$user->name}!");
+            }
+
+            // Nếu là USER → trang người dùng
+            return redirect('/')
+                ->with('success', "Xin chào {$user->name} đến với BKL Cinema!");
         }
+
 
         // Nếu thất bại
         return back()->withErrors([

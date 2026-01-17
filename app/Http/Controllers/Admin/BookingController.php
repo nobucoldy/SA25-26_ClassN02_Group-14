@@ -12,22 +12,31 @@ class BookingController extends Controller
     {
         $query = Booking::with(['user', 'showtime.movie']);
 
-        if ($request->keyword) {
-            $query->whereHas('user', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->keyword . '%');
-            })->orWhereHas('showtime.movie', function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->keyword . '%');
+        // 🔍 Search user / movie
+        if ($request->filled('keyword')) {
+            $query->where(function ($q) use ($request) {
+                $q->whereHas('user', function ($u) use ($request) {
+                    $u->where('name', 'like', '%' . $request->keyword . '%');
+                })
+                ->orWhereHas('showtime.movie', function ($m) use ($request) {
+                    $m->where('title', 'like', '%' . $request->keyword . '%');
+                });
             });
         }
 
-        if ($request->status) {
+        // 🎯 Filter status (pending, confirmed, cancelled, expired)
+        if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        $bookings = $query->orderByDesc('created_at')->paginate(10);
+        $bookings = $query
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.bookings.index', compact('bookings'));
     }
+
 
     public function show($id)
     {

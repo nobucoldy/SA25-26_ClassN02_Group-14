@@ -17,7 +17,7 @@ return new class extends Migration
     $table->foreignId('showtime_id')->constrained('showtimes')->onDelete('cascade');
     $table->timestamp('booking_time')->useCurrent();
     $table->decimal('total_amount', 8, 2);
-    $table->enum('status', ['pending', 'confirmed', 'canceled'])->default('pending');
+    $table->enum('status', ['pending', 'confirmed', 'canceled','expired'])->default('pending');
     $table->timestamps();
 });
 
