@@ -29,7 +29,9 @@
                     </ul>
                 </li>
 
-                <li class="nav-item"><a class="nav-link" href="#">Theaters</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('theaters.index') }}">Theaters</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('review.index') }}">Reviews</a>
                 </li>

@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             \Database\Seeders\UsersTableSeeder::class,
             \Database\Seeders\MoviesTableSeeder::class,
-            \Database\Seeders\CinemasTableSeeder::class,
+            \Database\Seeders\TheaterSeeder::class,
             \Database\Seeders\RoomsTableSeeder::class,
             \Database\Seeders\SeatsTableSeeder::class,
             \Database\Seeders\ShowtimesTableSeeder::class,

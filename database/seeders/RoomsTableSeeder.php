@@ -17,7 +17,7 @@ class RoomsTableSeeder extends Seeder
         DB::table('rooms')->insert([
             [
                 'id' => 1, 
-                'cinema_id' => 1, 
+                'theater_id' => 1, 
                 'name' => 'Room 1', 
                 'total_seats' => 100, 
                 'created_at' => now(), 
@@ -25,7 +25,7 @@ class RoomsTableSeeder extends Seeder
             ],
             [
                 'id' => 2, 
-                'cinema_id' => 1, 
+                'theater_id' => 1, 
                 'name' => 'Room 2', 
                 'total_seats' => 100, 
                 'created_at' => now(), 
@@ -33,7 +33,7 @@ class RoomsTableSeeder extends Seeder
             ],
             [
                 'id' => 3, 
-                'cinema_id' => 2, 
+                'theater_id' => 2, 
                 'name' => 'Room 3', 
                 'total_seats' => 100, 
                 'created_at' => now(), 

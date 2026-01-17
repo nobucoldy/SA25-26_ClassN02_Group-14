@@ -10,8 +10,16 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'total_seats'
+        'theater_id', // BẮT BUỘC THÊM DÒNG NÀY
+        'name', 
+        'total_seats'
     ];
+
+    // Quan hệ ngược lại: Một phòng thuộc về một rạp
+    public function theater()
+    {
+        return $this->belongsTo(Theater::class);
+    }
 
     public function seats()
     {

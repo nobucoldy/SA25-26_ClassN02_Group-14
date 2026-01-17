@@ -18,6 +18,7 @@ class ShowtimesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'movie_id' => 1, 
+                'theater_id' => 1,
                 'room_id' => 1,  
                 'show_date' => '2026-01-06', // Đổi 'date' thành 'show_date'
                 'start_time' => '09:30:00',
@@ -25,10 +26,12 @@ class ShowtimesTableSeeder extends Seeder
                 'price' => 50000,
                 'created_at' => now(), 
                 'updated_at' => now(),
+                
             ],
             [
                 'id' => 2,
                 'movie_id' => 1,
+                'theater_id' => 1,
                 'room_id' => 1,
                 'show_date' => '2026-01-06', // Đổi 'date' thành 'show_date'
                 'start_time' => '12:45:00',

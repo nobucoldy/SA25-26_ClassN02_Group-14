@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\MovieController;
 use App\Http\Controllers\Web\BookingController;
 use App\Http\Controllers\Web\ProfileController;
+use App\Http\Controllers\TheaterController;
 use App\Http\Controllers\Admin\ShowtimeController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -60,10 +61,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/reviews', [MovieController::class, 'index'])->name('review.index');
-Route::get('/schedule', function () {
-    return view('movies.schedule'); 
-});
+// Thay 'TheaterController' bằng tên Controller thật của cậu
+Route::get('/schedule', [App\Http\Controllers\TheaterController::class, 'showSchedule'])->name('schedule.show');
 
+Route::get('/theaters', [TheaterController::class, 'index'])->name('theaters.index');
 //ADMIN
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])
