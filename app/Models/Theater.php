@@ -9,11 +9,15 @@ class Theater extends Model
 {
     use HasFactory;
 
-    // Cho phép lưu dữ liệu vào các cột này
     protected $fillable = [
         'name',
         'location',
         'city',
         'description'
     ];
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }

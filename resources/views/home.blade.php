@@ -92,32 +92,98 @@
 
 
 
-{{-- ===== SCHEDULE ===== --}}
+{{-- ===== SCHEDULE WIDGET FIXED HEIGHT ===== --}}
 <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="section-header text-center mb-5 text-dark">MOVIE SCHEDULE</h2>
+        <h2 class="section-header text-center mb-4 text-dark">MOVIE SCHEDULE</h2>
 
-        <div class="row g-0">
-            <div class="col-md-4 p-3 bg-white">
-                <input type="text" class="form-control mb-3" placeholder="Search theater...">
+        {{-- Card wrapper --}}
+        <div class="schedule-card mx-auto d-flex" style="max-width: 900px; height: 500px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow:hidden;">
+
+            {{-- Sidebar: Theater list --}}
+            <div class="col-md-4 p-3 border-end" style="overflow-y:auto;">
+                <input type="text" id="theaterSearch" class="form-control mb-3" placeholder="Search theater...">
                 <div class="theater-list">
-                    <div class="theater-item"><span class="text-danger">●</span> CGV Vincom Royal</div>
-                    <div class="theater-item"><span class="text-warning">●</span> Lotte Cinema</div>
-                    <div class="theater-item"><span class="text-success">●</span> BKL Cinema Ha Dong</div>
-                    <div class="theater-item"><span class="text-primary">●</span> Beta Cinema</div>
+                    @foreach($theaters as $t)
+                        <a href="{{ url()->current() }}?theater_id={{ $t->id }}&show_date={{ $selectedDate }}" 
+                           class="theater-item d-flex align-items-center gap-2 mb-2 {{ $selectedTheaterId == $t->id ? 'active' : '' }}"
+                           style="text-decoration:none; color:inherit; padding:8px; border-radius:6px; transition:0.2s;">
+                            <span class="theater-dot" style="color:#28A745;">●</span>
+                            <span>{{ $t->name }}</span>
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="col-md-8 d-flex align-items-center justify-content-center bg-white">
-                <div class="text-center py-5">
-                    <img src="https://img.icons8.com/clouds/150/video.png" alt="">
-                    <p class="text-muted mt-3">Please select a theater to view today's schedule.</p>
-                    <span class="badge bg-danger">Nobucoldy vs Ekietej</span>
-                </div>
+            {{-- Main: Showtimes --}}
+            <div class="col-md-8 p-3 d-flex flex-column" style="overflow-y:auto;">
+                @if($selectedTheater)
+                    {{-- Date scroller --}}
+                    <div class="date-scroller mb-3 d-flex gap-2 overflow-auto flex-shrink-0">
+                        @php
+                            $dates = collect(range(0,6))->map(fn($i) => \Carbon\Carbon::today()->addDays($i));
+                        @endphp
+                        @foreach($dates as $date)
+                            <a href="{{ url()->current() }}?theater_id={{ $selectedTheaterId }}&show_date={{ $date->toDateString() }}"
+                               class="date-btn px-3 py-2 border rounded {{ $selectedDate == $date->toDateString() ? 'active' : '' }}"
+                               style="text-decoration:none; text-align:center;">
+                                <span>{{ $date->format('D') }}</span><br>
+                                <strong>{{ $date->format('d') }}</strong>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    {{-- Movie list with showtimes --}}
+                    <div class="movie-list flex-grow-1 overflow-auto">
+                        @forelse($showtimesGroupedByMovie as $movieId => $showtimes)
+                            @php $movie = $showtimes->first()->movie; @endphp
+                            <div class="movie-item d-flex gap-3 mb-3 p-2 border rounded">
+                                <img src="{{ asset($movie->poster_url) }}" alt="{{ $movie->title }}" style="width:100px; height:150px; object-fit:cover; border-radius:6px;">
+                                <div class="movie-info w-100">
+                                    <h5 class="fw-bold mb-1">{{ $movie->title }}</h5>
+                                    <p class="text-muted small mb-2">{{ $movie->genre }} | {{ $movie->duration }} mins</p>
+                                    <div class="time-slot-container d-flex flex-wrap gap-2">
+                                        @foreach($showtimes as $st)
+                                            <a href="{{ route('booking.create', $st->id) }}" 
+                                               class="time-slot px-3 py-1 border rounded bg-light text-dark">
+                                                {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-5">
+                                <i class="bi bi-calendar-x" style="font-size:3rem;color:#ccc;"></i>
+                                <p class="text-muted mt-3">No showtimes available for this theater on selected date.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                @else
+                    <div class="text-center py-5">
+                        <i class="bi bi-info-circle" style="font-size:3rem;color:#ccc;"></i>
+                        <p class="text-muted mt-3">Please select a theater to view schedule.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    document.getElementById('theaterSearch').addEventListener('input', function(e){
+        let term = e.target.value.toLowerCase();
+        document.querySelectorAll('.theater-item').forEach(item=>{
+            item.style.display = item.innerText.toLowerCase().includes(term) ? 'flex' : 'none';
+        });
+    });
+</script>
+
+<style>
+    .date-btn.active { background:#DEFE98; border-color:#DEFE98; font-weight:bold; }
+    .theater-item.active { background:#DEFE98; }
+</style>
+
 
 {{-- SCRIPT TO HANDLE CLOSING TOAST --}}
 <script>

@@ -6,16 +6,16 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $this->call([
-            \Database\Seeders\UsersTableSeeder::class,
-            \Database\Seeders\MoviesTableSeeder::class,
-            \Database\Seeders\TheaterSeeder::class,
-            \Database\Seeders\RoomsTableSeeder::class,
-            \Database\Seeders\SeatsTableSeeder::class,
-            \Database\Seeders\ShowtimesTableSeeder::class,
-            \Database\Seeders\BookingSeeder::class,
+            UsersTableSeeder::class,      // users
+            TheaterSeeder::class,         // theaters
+            MoviesTableSeeder::class,     // movies
+            RoomsTableSeeder::class,      // rooms
+            SeatsTableSeeder::class,      // seats
+            ShowtimeSeeder::class,  // showtimes
+            BookingSeeder::class,         // bookings + booking_seats
         ]);
     }
 }

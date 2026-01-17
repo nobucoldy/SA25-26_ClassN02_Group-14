@@ -47,7 +47,7 @@ class ProfileController extends Controller
         // Cập nhật tất cả vào database
         $user->update($data);
 
-        return back()->with('success', 'Cập nhật thông tin thành công');
+        return back()->with('success', 'Information updated successfully');
     }
 
     public function updatePassword(Request $request)

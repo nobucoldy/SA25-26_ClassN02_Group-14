@@ -92,7 +92,7 @@ class UserController extends Controller
         $user->update($request->only('name','email','role','phone'));
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Cập nhật thành công');
+            ->with('success', 'Update successful');
     }
 
 
@@ -102,11 +102,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->role === 'admin') {
-            return back()->with('error','Không thể xóa admin');
+            return back()->with('error','Cannot delete admin');
         }
 
         $user->delete();
 
-        return back()->with('success','Xóa thành công');
+        return back()->with('success','Deleted successfully');
     }
 }

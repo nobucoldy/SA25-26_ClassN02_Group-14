@@ -14,6 +14,13 @@
     .theater-item:hover { background: #f9f9f9; }
     .theater-item.active { background: #DEFE98; }
     .theater-logo { width: 40px; height: 40px; background: #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #90ff00; font-weight: bold; font-size: 8px; flex-shrink: 0; text-align: center; line-height: 1; }
+    .theater-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
     .showtime-main { padding: 25px; background: #fff; }
     .date-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 25px; }
     .date-btn { min-width: 80px; padding: 10px; text-align: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; }
@@ -54,7 +61,9 @@
                         @foreach($theaters as $t)
                         <a href="{{ url()->current() }}?theater_id={{ $t->id }}&city={{ request('city') }}" 
                            class="theater-item {{ $selectedTheaterId == $t->id ? 'active' : '' }}">
-                            <div class="theater-logo">BKL<br>CINEMA</div>
+                            <div class="theater-logo">
+                                <img src="{{ asset('storage/logo2.jpg') }}" alt="BKL Cinema">
+                            </div>
                             <div class="theater-info overflow-hidden">
                                 <h6 class="mb-0 fw-bold text-truncate">{{ $t->name }}</h6>
                                 <p class="mb-0 text-muted small text-truncate">{{ $t->location }}</p>
@@ -72,9 +81,20 @@
                         </div>
 
                         <div class="date-scroller">
-                            <div class="date-btn active"><span>Today</span><strong>{{ now()->format('d') }}</strong></div>
-                            {{-- Bạn có thể làm vòng lặp cộng thêm ngày ở đây --}}
-                        </div>
+    @php
+    $dates = collect(range(0, 6))->map(fn($i) => \Carbon\Carbon::today()->addDays($i));
+@endphp
+
+@foreach($dates as $date)
+    <a href="{{ url()->current() }}?theater_id={{ $selectedTheaterId }}&city={{ request('city') }}&show_date={{ $date->toDateString() }}" 
+       class="date-btn {{ $selectedDate == $date->toDateString() ? 'active' : '' }}">
+        <span>{{ $date->format('D') }}</span>
+        <strong>{{ $date->format('d') }}</strong>
+    </a>
+@endforeach
+
+</div>
+
 
                         <div class="movie-list">
                             @forelse($showtimesGroupedByMovie as $movieId => $showtimes)
