@@ -21,6 +21,7 @@ return new class extends Migration
     
     $table->string('poster_url')->nullable();
     $table->string('trailer_url')->nullable();
+    $table->string('movie_backdrop')->nullable();
     $table->enum('status', ['showing', 'coming_soon', 'stopped'])->default('coming_soon');
     $table->timestamps();
 });
