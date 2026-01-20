@@ -100,7 +100,7 @@
                             @forelse($showtimesGroupedByMovie as $movieId => $showtimes)
                                 @php $movie = $showtimes->first()->movie; @endphp
                                 <div class="movie-item shadow-sm">
-                                    <img src="{{ asset($movie->poster_url) }}" class="movie-poster">
+                                    <img src="{{ Storage::url($movie->poster_url) }}" class="movie-poster">
                                     <div class="movie-info w-100">
                                         <h4 class="fw-bold mb-1 text-uppercase">{{ $movie->title }}</h4>
                                         <p class="text-muted small mb-3">{{ $movie->genre }} | {{ $movie->duration }} mins</p>
