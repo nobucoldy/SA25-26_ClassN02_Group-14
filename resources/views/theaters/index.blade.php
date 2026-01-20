@@ -2,6 +2,31 @@
 
 @section('content')
 <style>
+    /* --- BREADCRUMB CĂN TÂM & KHÔNG ĐƯỜNG KẺ --- */
+    .breadcrumb-container {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        border: none !important;
+    }
+    .breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #ccc !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+    .breadcrumb-item a { color: #888 !important; text-decoration: none; transition: 0.3s; }
+    .breadcrumb-item a:hover { color: #ff69b4 !important; }
+    .breadcrumb-item.active { color: #333; font-weight: 600; }
     /* --- GIỮ NGUYÊN STYLE CỦA CẬU --- */
     .theaters-page { background-color: #efe6f5; padding: 60px 0; min-height: 100vh; }
     .page-title { font-weight: 800; text-transform: uppercase; margin-bottom: 40px; color: #1a1a1a; }
@@ -54,7 +79,17 @@
         to { opacity: 1; transform: translateY(0); }
     }
 </style>
-
+{{-- BREADCRUMB CĂN GIỮA --}}
+<div class="breadcrumb-container">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Theaters</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <div class="theaters-page">
     <div class="container">
         <h2 class="page-title text-center">BKL Cinema System</h2>

@@ -2,6 +2,45 @@
 
     @section('content')
     <style>
+        /* --- BREADCRUMB STYLE MỚI --- */
+    .breadcrumb-container {
+        background: transparent !important; 
+        border: none !important; /* Mất đường kẻ đen */
+        padding: 0; /* Xóa padding cũ để kiểm soát bằng chiều cao */
+        height: 50px; /* Cố định chiều cao dải này */
+        display: flex;
+        align-items: center; /* CĂN GIỮA TRÊN DƯỚI */
+        justify-content: center; /* CĂN GIỮA TRÁI PHẢI */
+        box-shadow: none !important;
+    }
+    .breadcrumb {
+        font-size: 13px;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        display: flex !important;
+        align-items: center !important; /* ÉP CHỮ CĂN GIỮA TRÊN DƯỚI */
+        list-style: none;
+    }
+    .breadcrumb-item a {
+        color: #888 !important;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .breadcrumb-item a:hover {
+        color: #ff69b4 !important; /* Màu hồng khi di chuột */
+    }
+    .breadcrumb-item.active {
+        color: #333;
+        font-weight: 600;
+    }
+    /* Đổi dấu / thành > */
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #ccc !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
         /* --- GIỮ NGUYÊN TOÀN BỘ STYLE GỐC CỦA CẬU --- */
         .movie-detail-page { background-color: #efe6f5; padding: 40px 0; min-height: 100vh; }
         .main-card {
@@ -110,6 +149,27 @@
             transform: scale(1);
         }
     </style>
+    {{-- THANH BREADCRUMB ĐÚNG CẤP BẬC --}}
+<div class="breadcrumb-container">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                
+                {{-- Kiểm tra nếu trạng thái phim là 'showing' thì hiện Now Showing, ngược lại hiện Coming Soon --}}
+                <li class="breadcrumb-item">
+                    @if($movie->status == 'showing')
+                        <a href="{{ route('movies.status') }}">Now Showing</a>
+                    @else
+                        <a href="{{ route('movies.upcoming') }}">Coming Soon</a>
+                    @endif
+                </li>
+
+                <li class="breadcrumb-item active" aria-current="page">{{ $movie->title }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
     <div class="movie-detail-page">
         <div class="container">

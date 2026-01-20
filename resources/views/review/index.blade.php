@@ -4,6 +4,31 @@
 
 @section('content')
 <style>
+    /* --- BREADCRUMB CĂN TÂM & ĐỒNG BỘ --- */
+    .breadcrumb-container {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        border: none !important;
+    }
+    .breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #a3a3a3 !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+    .breadcrumb-item a { color: #a3a3a3 !important; text-decoration: none; transition: 0.3s; }
+    .breadcrumb-item a:hover { color: #ff69b4 !important; }
+    .breadcrumb-item.active { color: #fff; font-weight: 600; }
     /* Dark purple background color characteristic of Figma */
     .review-page { 
         background-color: #3b2d3d; 
@@ -88,13 +113,24 @@
     }
     .btn-load-more:hover { background-color: #39ff14; box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); }
 </style>
-
+{{-- BREADCRUMB CĂN GIỮA ĐÃ SỬA LỖI HIỂN THỊ --}}
+<div class="breadcrumb-container" style="background-color: #3b2d3d;">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('home') }}">Home</a>
+                </li>
+                {{-- Chữ Reviews ở đây tớ đã ép màu trắng sáng để nổi bật trên nền tím --}}
+                <li class="breadcrumb-item active" aria-current="page" style="color: #000000 !important; font-weight: 600;">
+                    Reviews
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <div class="review-page">
     <div class="container">
-        <div class="breadcrumb-custom">Home > Reviews</div>
-        
-        <h1 class="review-header">Reviews from BKL Cinema</h1>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="review-card-large">

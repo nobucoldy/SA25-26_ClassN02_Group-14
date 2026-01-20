@@ -4,6 +4,46 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
+    /* --- BREADCRUMB CĂN TÂM & KHÔNG ĐƯỜNG KẺ --- */
+    .breadcrumb-container {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #ccc !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+
+    .breadcrumb-item a {
+        color: #888 !important;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .breadcrumb-item a:hover {
+     color: #ff69b4 !important;
+    }
+
+    .breadcrumb-item.active {
+        color: #333;
+        font-weight: 600;
+    }
+
     /* --- GIỮ NGUYÊN TOÀN BỘ CSS GỐC CỦA CẬU --- */
     .schedule-wrapper { background-color: #f4f4f4; min-height: 100vh; padding-top: 30px; }
     .schedule-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #e0e0e0; }
@@ -59,6 +99,17 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
+{{-- THANH BREADCRUMB CĂN GIỮA --}}
+<div class="breadcrumb-container">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Movie Schedule</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
 <div class="schedule-wrapper">
     <div class="container">

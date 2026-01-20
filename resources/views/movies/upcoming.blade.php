@@ -2,6 +2,31 @@
 
 @section('content')
 <style>
+    /* --- BREADCRUMB CĂN TÂM & KHÔNG ĐƯỜNG KẺ (ĐỒNG BỘ 100%) --- */
+    .breadcrumb-container {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        border: none !important;
+    }
+    .breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #ccc !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+    .breadcrumb-item a { color: #888 !important; text-decoration: none; transition: 0.3s; }
+    .breadcrumb-item a:hover { color: #ff69b4 !important; }
+    .breadcrumb-item.active { color: #333; font-weight: 600; }
     .upcoming-page { background-color: #efe6f5; width: 100%; min-height: 100vh; padding: 50px 0; }
     .movie-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
     @media (max-width: 992px) { .movie-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -23,7 +48,17 @@
     .movie-info { padding: 15px; text-align: center; }
     .movie-info h6 { font-weight: 700; color: #333; text-transform: uppercase; margin: 0; }
 </style>
-
+{{-- BREADCRUMB CĂN GIỮA --}}
+<div class="breadcrumb-container">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Coming Soon</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 <div class="upcoming-page">
     <div class="container">
         <h2 class="fw-bold mb-4">COMING SOON</h2>

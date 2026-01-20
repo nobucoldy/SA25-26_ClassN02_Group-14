@@ -5,7 +5,33 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+
 <style>
+    /* --- BREADCRUMB CĂN TÂM & KHÔNG ĐƯỜNG KẺ (ĐỒNG BỘ 100%) --- */
+    .breadcrumb-container {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+        border: none !important;
+    }
+    .breadcrumb {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 13px;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">" !important;
+        color: #ccc !important;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+    .breadcrumb-item a { color: #888 !important; text-decoration: none; transition: 0.3s; }
+    .breadcrumb-item a:hover { color: #ff69b4 !important; }
+    .breadcrumb-item.active { color: #333; font-weight: 600; }
     /* 1. TOAST NOTIFICATION SYNCHRONIZED 100% */
     .toast-container-profile {
         position: fixed;
@@ -98,7 +124,17 @@
     .bg-custom-theme { background-color: #DEFE98 !important; color: #000 !important; }
     .password-toggle { cursor: pointer; border-left: none !important; }
 </style>
-
+{{-- BREADCRUMB CĂN GIỮA --}}
+<div class="breadcrumb-container">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Account</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 {{-- NOTIFICATION TOAST --}}
 <div class="toast-container-profile">
     @if(session('success'))
