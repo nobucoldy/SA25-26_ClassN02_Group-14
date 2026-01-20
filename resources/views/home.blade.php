@@ -18,13 +18,15 @@
 
 {{-- 2. BANNER HERO --}}
 <section class="hero-slider-wrapper">
-    <div class="swiper heroSwiper"> {{-- Trả lại class gốc của cậu --}}
+    <div class="swiper heroSwiper">
         <div class="swiper-wrapper">
             @foreach($featuredMovies as $movie)
                 <div class="swiper-slide">
-                    <header class="hero-section" style="background-image: url('{{ asset('storage/' . $movie->movie_backdrop) }}');">
-                        <div class="hero-overlay"></div>
-                    </header>
+                    <a href="{{ route('movies.show', $movie->id) }}">
+                        <header class="hero-section" style="background-image: url('{{ asset('storage/' . $movie->movie_backdrop) }}');">
+                            <div class="hero-overlay"></div>
+                        </header>
+                    </a>
                 </div>
             @endforeach
         </div>
@@ -33,6 +35,7 @@
         <div class="nav-click-area nav-next"></div>
     </div>
 </section>
+
 
 <div class="section-gap bg-light"></div>
 
