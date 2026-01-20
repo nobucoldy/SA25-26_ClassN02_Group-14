@@ -25,38 +25,42 @@ class TheaterController extends Controller
     }
 
     // LỊCH CHIẾU
-   public function showSchedule(Request $request)
-{
-    $cities = Theater::select('city')->distinct()->pluck('city');
+    public function showSchedule(Request $request)
+    {
+        // Lấy danh sách thành phố
+        $cities = Theater::select('city')->distinct()->pluck('city');
 
-    $theaters = Theater::when($request->filled('city'), function ($q) use ($request) {
-        $q->where('city', $request->city);
-    })->get();
+        // Lọc rạp theo thành phố nếu có
+        $theaters = Theater::when($request->filled('city'), function ($q) use ($request) {
+            $q->where('city', $request->city);
+        })->get();
 
-    $selectedTheaterId = $request->get('theater_id', optional($theaters->first())->id);
-    $selectedTheater = Theater::find($selectedTheaterId);
+        // Rạp được chọn
+        $selectedTheaterId = $request->get('theater_id', optional($theaters->first())->id);
+        $selectedTheater   = Theater::find($selectedTheaterId);
 
-    // Lấy ngày được chọn (mặc định hôm nay)
-    $selectedDate = $request->get('show_date', now()->toDateString());
+        // Ngày được chọn
+        $selectedDate = $request->get('show_date', now()->toDateString());
 
-    // Lấy showtimes theo rạp và ngày
-    $showtimesGroupedByMovie = collect(); // mặc định rỗng
-    if ($selectedTheater) {
-        $showtimesGroupedByMovie = Showtime::where('theater_id', $selectedTheater->id)
-            ->where('show_date', $selectedDate) // lọc theo cột show_date
-            ->with('movie')
-            ->get()
-            ->groupBy('movie_id');
+        $showtimesGroupedByMovie = collect();
+
+        if ($selectedTheater) {
+            $showtimesGroupedByMovie = Showtime::with('movie')
+                ->where('theater_id', $selectedTheater->id)
+                ->whereDate('show_date', $selectedDate)
+                ->orderBy('start_time')
+                ->get()
+                ->groupBy('movie_id');
+        }
+
+        return view('theaters.schedule', compact(
+            'theaters',
+            'cities',
+            'selectedTheater',
+            'selectedTheaterId',
+            'selectedDate',
+            'showtimesGroupedByMovie'
+        ));
     }
-
-    return view('theaters.schedule', compact(
-        'theaters',
-        'cities',
-        'selectedTheater',
-        'selectedTheaterId',
-        'showtimesGroupedByMovie',
-        'selectedDate' // gửi sang view
-    ));
-}
 
 }

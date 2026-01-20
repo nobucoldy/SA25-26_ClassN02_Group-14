@@ -34,13 +34,14 @@ class ShowtimeSeeder extends Seeder
                             'movie_id'   => $movie->id,
                             'theater_id' => $theater->id,
                             'room_id'    => $room->id,
-                            'show_date'  => $showDate->toDateString(),      // chỉ lấy ngày
-                            'start_time' => Carbon::parse($slot)->format('H:i:s'), // chỉ giờ
-                            'end_time'   => Carbon::parse($slot)->addHours(2)->format('H:i:s'), // giả sử phim 2h
+                            'show_date'  => $showDate->toDateString(),
+                            'start_time' => Carbon::parse($showDate->format('Y-m-d').' '.$slot), // full datetime
+                            'end_time'   => Carbon::parse($showDate->format('Y-m-d').' '.$slot)->addHours(2),
                             'price'      => rand(70000, 150000),
                             'created_at' => now(),
                             'updated_at' => now(),
                         ]);
+
                     }
                 }
             }

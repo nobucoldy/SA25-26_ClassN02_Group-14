@@ -10,13 +10,20 @@ class Showtime extends Model
     use HasFactory;
 
     protected $fillable = [
-        'movie_id', 
-        'theater_id', // BẮT BUỘC THÊM DÒNG NÀY
+        'movie_id',
+        'theater_id',
         'room_id',
-        'show_date', 
-        'start_time', 
-        'end_time', 
-        'price'
+        'show_date',
+        'start_time',
+        'end_time',
+        'price',
+    ];
+
+    // ✅ CAST ĐÚNG CHỖ
+    protected $casts = [
+        'show_date'  => 'date',
+        'start_time' => 'datetime',
+        'end_time'   => 'datetime',
     ];
 
     public function movie()
@@ -26,7 +33,6 @@ class Showtime extends Model
 
     public function theater()
     {
-        // Quan hệ kết nối đến rạp
         return $this->belongsTo(Theater::class);
     }
 
