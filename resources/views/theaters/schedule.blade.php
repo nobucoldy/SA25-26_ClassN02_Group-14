@@ -14,22 +14,50 @@
     .theater-item:hover { background: #f9f9f9; }
     .theater-item.active { background: #DEFE98; }
     .theater-logo { width: 40px; height: 40px; background: #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #90ff00; font-weight: bold; font-size: 8px; flex-shrink: 0; text-align: center; line-height: 1; }
-    .theater-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
-}
+    .theater-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
 
-    .showtime-main { padding: 25px; background: #fff; }
-    .date-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 25px; }
-    .date-btn { min-width: 80px; padding: 10px; text-align: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    /* --- CẬU NHÌN NÀY: PHẦN SHOWTIME-MAIN ĐƯỢC THÊM CHIỀU CAO VÀ FLEX ĐỂ CUỘN --- */
+    .showtime-main { 
+        padding: 25px; 
+        background: #fff; 
+        height: 700px; /* Khớp với chiều cao sidebar */
+        display: flex;
+        flex-direction: column;
+        position: relative; /* Để Spinner hiện ở giữa */
+    }
+
+    .date-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 25px; flex-shrink: 0; }
+    .date-btn { min-width: 80px; text-decoration: none; padding: 10px; text-align: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.3s; }
     .date-btn.active { background: #DEFE98; border-color: #DEFE98; font-weight: bold; }
+    
+    /* VÙNG CUỘN RIÊNG CHO DANH SÁCH PHIM */
+    .movie-list { 
+        flex-grow: 1; 
+        overflow-y: auto; 
+        padding-right: 10px; 
+        scroll-behavior: smooth;
+    }
+    .movie-list::-webkit-scrollbar { width: 6px; }
+    .movie-list::-webkit-scrollbar-thumb { background: #DEFE98; border-radius: 10px; }
+    .movie-list::-webkit-scrollbar-track { background: #f8f9fa; }
+
     .movie-item { display: flex; gap: 20px; padding: 20px; border: 1px solid #eee; border-radius: 12px; margin-bottom: 20px; }
     .movie-poster { width: 150px; height: 220px; object-fit: cover; border-radius: 8px; }
     .time-slot-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
     .time-slot { padding: 8px 16px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; color: #334155; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
     .time-slot:hover { background: #90ff00; color: black; border-color: #90ff00; }
+
+    /* LOADER/SPINNER CSS */
+    #schedule-loader {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        z-index: 100; display: none;
+    }
+    .spinner {
+        width: 50px; height: 50px; border: 5px solid #f3f3f3;
+        border-top: 5px solid #DEFE98; border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 
 <div class="schedule-wrapper">
@@ -73,7 +101,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 showtime-main">
+                <div class="col-md-8 showtime-main" id="schedule-display-area">
+                    {{-- SPINNER NẰM Ở ĐÂY --}}
+                    <div id="schedule-loader"><div class="spinner"></div></div>
+
                     @if($selectedTheater)
                         <div class="selected-theater-info mb-4">
                             <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-geo-alt-fill text-success"></i> {{ $selectedTheater->name }}</h4>
@@ -81,20 +112,15 @@
                         </div>
 
                         <div class="date-scroller">
-    @php
-    $dates = collect(range(0, 6))->map(fn($i) => \Carbon\Carbon::today()->addDays($i));
-@endphp
-
-@foreach($dates as $date)
-    <a href="{{ url()->current() }}?theater_id={{ $selectedTheaterId }}&city={{ request('city') }}&show_date={{ $date->toDateString() }}" 
-       class="date-btn {{ $selectedDate == $date->toDateString() ? 'active' : '' }}">
-        <span>{{ $date->format('D') }}</span>
-        <strong>{{ $date->format('d') }}</strong>
-    </a>
-@endforeach
-
-</div>
-
+                            @php $dates = collect(range(0, 6))->map(fn($i) => \Carbon\Carbon::today()->addDays($i)); @endphp
+                            @foreach($dates as $date)
+                                <a href="{{ url()->current() }}?theater_id={{ $selectedTheaterId }}&city={{ request('city') }}&show_date={{ $date->toDateString() }}" 
+                                   class="date-btn {{ $selectedDate == $date->toDateString() ? 'active' : '' }}">
+                                    <span>{{ $date->format('D') }}</span>
+                                    <strong>{{ $date->format('d') }}</strong>
+                                </a>
+                            @endforeach
+                        </div>
 
                         <div class="movie-list">
                             @forelse($showtimesGroupedByMovie as $movieId => $showtimes)
@@ -131,12 +157,68 @@
 </div>
 
 <script>
-    // JS Lọc rạp tại chỗ (Client-side Search)
+    // JS Lọc rạp tại chỗ của cậu (Giữ nguyên)
     document.getElementById('theaterSearch').addEventListener('input', function(e) {
         let term = e.target.value.toLowerCase();
         document.querySelectorAll('.theater-item').forEach(item => {
             let name = item.querySelector('h6').innerText.toLowerCase();
             item.style.display = name.includes(term) ? 'flex' : 'none';
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const displayArea = document.getElementById('schedule-display-area');
+        const loader = document.getElementById('schedule-loader');
+
+        function loadSchedule(url) {
+            // HIỆN SPINNER VÀ LÀM MỜ VÙNG CHỨA
+            loader.style.display = 'block';
+            displayArea.style.opacity = '0.5';
+            displayArea.style.transition = 'opacity 0.3s ease';
+
+            fetch(url, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.getElementById('schedule-display-area').innerHTML;
+                
+                displayArea.innerHTML = newContent;
+                
+                // ẨN SPINNER VÀ HIỆN LẠI NỘI DUNG
+                loader.style.display = 'none';
+                displayArea.style.opacity = '1';
+
+                // TỰ ĐỘNG CUỘN LÊN ĐẦU DANH SÁCH PHIM
+                const movieList = displayArea.querySelector('.movie-list');
+                if(movieList) movieList.scrollTop = 0;
+
+                window.history.pushState({}, '', url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loader.style.display = 'none';
+                displayArea.style.opacity = '1';
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('.theater-item, .date-btn');
+            if (target) {
+                e.preventDefault();
+                const url = target.getAttribute('href');
+                
+                if (target.classList.contains('theater-item')) {
+                    document.querySelectorAll('.theater-item').forEach(i => i.classList.remove('active'));
+                } else {
+                    document.querySelectorAll('.date-btn').forEach(i => i.classList.remove('active'));
+                }
+                target.classList.add('active');
+
+                loadSchedule(url);
+            }
         });
     });
 </script>
