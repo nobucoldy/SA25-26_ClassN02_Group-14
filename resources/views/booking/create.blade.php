@@ -27,7 +27,9 @@
         .close-btn { background: transparent !important; border: none !important; color: #94a3b8; font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; outline: none !important; box-shadow: none !important; }
         .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
-
+        .movie-poster{
+            width: 110px; height: 160px; border-radius: 12px; object-fit: cover; margin-right: 20px;
+        }
         /* SEAT SELECTION AND PAYMENT INTERFACE (KEEP ORIGINAL CSS) */
         .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
         .summary-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
@@ -93,7 +95,7 @@
 
     <div class="container">
         <div class="ticket-header">
-            <img src="{{ asset($showtime->movie->poster_url) }}" class="summary-poster">
+            <img src="{{ Storage::url($showtime->movie->poster_url) }}" class="movie-poster">
             <div class="flex-grow-1">
                 <div style="color: #d63384; font-weight: 600;">BKL CINEMA HÀ ĐÔNG</div>
                 <h2 class="movie-title">{{ $showtime->movie->title }}</h2>
