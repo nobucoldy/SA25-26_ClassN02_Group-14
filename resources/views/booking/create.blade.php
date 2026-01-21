@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Tickets - BKL Cinema</title>
@@ -120,19 +121,48 @@
             <div id="main-booking-area">
                 <div class="screen-container"><div class="screen"></div><div class="screen-text">SCREEN</div></div>
                 <div class="seat-grid" id="seat-grid">
-                    @php $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']; $normalRows = ['A', 'B', 'C']; $soldSeats = $soldSeats ?? []; @endphp
+                    @php 
+                        $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']; 
+                        $normalRows = ['A', 'B', 'C']; 
+                        $soldSeatCodes = $soldSeatCodes ?? []; 
+                        $seatMap = []; 
+                        // Build seat map from database
+                        foreach($showtime->room->seats as $seat) {
+                            $seatMap[$seat->seat_code] = $seat->id;
+                        }
+                    @endphp
                     @foreach($rows as $row)
                         <div class="seat-row">
                             @for($i=1; $i<=10; $i++)
-                                @php $code = $row . sprintf("%02d", $i); $isNormal = in_array($row, $normalRows); $type = $isNormal ? 'seat-normal' : 'seat-vip'; $price = $isNormal ? 36000 : 49000; $isSold = in_array($code, $soldSeats); @endphp
-                                <div class="seat {{ $isSold ? 'seat-sold' : $type }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                                @php 
+                                    $code = $row . sprintf("%02d", $i); 
+                                    $isNormal = in_array($row, $normalRows); 
+                                    $type = $isNormal ? 'seat-normal' : 'seat-vip'; 
+                                    $price = $isNormal ? 36000 : 49000; 
+                                    $isSold = in_array($code, $soldSeatCodes); 
+                                    $seatId = $seatMap[$code] ?? null;
+                                @endphp
+                                @if($seatId)
+                                    <div class="seat {{ $isSold ? 'seat-sold' : $type }}" data-id="{{ $seatId }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                                @else
+                                    <div class="seat seat-sold" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                                @endif
                             @endfor
                         </div>
                     @endforeach
                     <div class="seat-row mt-4">
                         @for($i=1; $i<=5; $i++)
-                            @php $code = "L" . sprintf("%02d", $i); $price = 90000; $isSold = in_array($code, $soldSeats); @endphp
-                            <div class="seat {{ $isSold ? 'seat-sold' : 'seat-double' }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                            @php 
+                                $code = "L" . sprintf("%02d", $i); 
+                                $price = 90000; 
+                                $isSold = in_array($code, $soldSeatCodes); 
+                                $seatId = $seatMap[$code] ?? null;
+                            @endphp
+                            @if($seatId)
+                                <div class="seat {{ $isSold ? 'seat-sold' : 'seat-double' }}" data-id="{{ $seatId }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                            @else
+                                <div class="seat seat-sold" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                            @endif
                         @endfor
                     </div>
                 </div>
@@ -298,109 +328,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    let currentZoom = 1;
-    function zoomGrid(step) { currentZoom = Math.min(Math.max(currentZoom + step, 0.6), 1.3); const area = document.getElementById('main-booking-area'); if(area) area.style.transform = `scale(${currentZoom})`; }
-    function removeToast(el) { if (el) { el.style.animation = "slideOut 0.4s ease-in forwards"; setTimeout(() => el.remove(), 400); } }
-    function createToast(msg) { const wrapper = document.getElementById('toast-wrapper'); const toast = document.createElement('div'); toast.className = 'custom-toast'; toast.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="bi bi-exclamation-circle-fill" style="color: #ff3131;"></i><span style="font-size: 0.9rem;">${msg}</span></div><button type="button" class="close-btn" onclick="removeToast(this.parentElement)">&times;</button><div class="toast-progress"></div>`; wrapper.appendChild(toast); setTimeout(() => removeToast(toast), 3000); }
-
-    function togglePayTab(type) {
-        const qrBtn = document.getElementById('tab-qr-btn'), appBtn = document.getElementById('tab-app-btn');
-        const viewQr = document.getElementById('view-qr'), viewApp = document.getElementById('view-app');
-        if (type === 'qr') {
-            qrBtn.classList.add('active'); appBtn.classList.remove('active');
-            viewQr.classList.remove('d-none'); viewApp.classList.add('d-none');
-        } else {
-            appBtn.classList.add('active'); qrBtn.classList.remove('active');
-            viewApp.classList.remove('d-none'); viewQr.classList.add('d-none');
-        }
-    }
-
-    function goBackToCombo() {
-        const payModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-        if(payModal) payModal.hide();
-        setTimeout(() => { new bootstrap.Modal(document.getElementById('comboModal')).show(); }, 400);
-    }
-
-    function simulateFinalSuccess() {
-        const payModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-        if(payModal) payModal.hide();
-        setTimeout(() => { document.getElementById('successModalOverlay').style.display = 'flex'; }, 400);
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        let selectedSeats = [];
-        let selectedCombos = {};
-        const fmt = n => new Intl.NumberFormat('vi-VN').format(n) + 'đ';
-
-        // SEAT SELECTION LOGIC
-        document.querySelectorAll('.seat:not(.seat-sold)').forEach(seat => {
-            seat.addEventListener('click', function() {
-                const name = this.dataset.name, price = parseInt(this.dataset.price);
-                const isSelected = this.classList.contains('seat-selected');
-                if (!isSelected) {
-                    if (selectedSeats.length >= 8) { createToast("You can select a maximum of 8 seats!"); return; }
-                    this.classList.add('seat-selected');
-                    selectedSeats.push({ name, price });
-                } else {
-                    this.classList.remove('seat-selected');
-                    selectedSeats = selectedSeats.filter(s => s.name !== name);
-                }
-                updateCheckoutUI();
-            });
-        });
-
-        function updateCheckoutUI() {
-            const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            document.getElementById('seat-counter').innerText = `Selected ${selectedSeats.length} seats:`;
-            document.getElementById('display-seats').innerText = selectedSeats.map(s => s.name).join(', ') || '-';
-            document.getElementById('display-total-tickets').innerText = fmt(ticketTotal);
-        }
-
-        document.getElementById('next-button').addEventListener('click', function() {
-            if (selectedSeats.length === 0) createToast("Please select at least one seat!");
-            else new bootstrap.Modal(document.getElementById('comboModal')).show();
-        });
-
-        // LOGIC COMBO
-        document.querySelectorAll('.btn-qty-vnpay').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.combo-modal-item'), name = card.dataset.name, price = parseInt(card.dataset.price);
-                const qEl = card.querySelector('.qty');
-                let qty = parseInt(qEl.innerText);
-                qty = this.classList.contains('plus') ? qty + 1 : Math.max(0, qty - 1);
-                qEl.innerText = qty;
-                selectedCombos[name] = { qty, price };
-                let comboTotal = 0;
-                for (let k in selectedCombos) comboTotal += selectedCombos[k].qty * selectedCombos[k].price;
-                document.getElementById('modal-combo-total').innerText = fmt(comboTotal);
-            });
-        });
-
-        // SWITCH TO PAYMENT
-        document.getElementById('btn-to-payment').addEventListener('click', function() {
-            const ticketTotal = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            const seatsList = document.getElementById('final-seats-list');
-            seatsList.innerHTML = selectedSeats.map(s => `<div class="summary-item"><span class="summary-label">${s.name}</span><span class="summary-value">${fmt(s.price)}</span></div>`).join('');
-
-            const combosList = document.getElementById('final-combos-list');
-            let comboTotal = 0, comboHtml = "";
-            for (let k in selectedCombos) {
-                if (selectedCombos[k].qty > 0) {
-                    const p = selectedCombos[k].qty * selectedCombos[k].price;
-                    comboTotal += p;
-                    comboHtml += `<div class="summary-item"><span class="summary-label">${k} x${selectedCombos[k].qty}</span><span class="summary-value">${fmt(p)}</span></div>`;
-                }
-            }
-            combosList.innerHTML = comboHtml || '<div class="text-muted small">Không chọn đồ ăn</div>';
-
-            const finalTotal = ticketTotal + comboTotal;
-            document.getElementById('final-total-all').innerText = fmt(finalTotal);
-            document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=BKL-PAYMENT-${finalTotal}`;
-            
-            bootstrap.Modal.getInstance(document.getElementById('comboModal')).hide();
-            new bootstrap.Modal(document.getElementById('paymentModal')).show();
-        });
-    });
+    window.bookingConfig = {
+        showtimeId: {{ $showtime->id }},
+        movieTitle: @json($showtime->movie->title),
+        soldSeatCodes: @json($soldSeatCodes),
+        bookingStoreUrl: "{{ route('booking.store') }}"
+    };
 </script>
+<script src="{{ asset('js/booking-create.js') }}"></script>
 </body>
 </html>

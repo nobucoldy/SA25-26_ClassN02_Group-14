@@ -47,7 +47,7 @@
             background: white; border-radius: 30px; padding: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px;
         }
-        .movie-poster { width: 100%; border-radius: 15px; height: 500px; object-fit: cover; }
+        .movie-poster { width: auto; border-radius: 15px; height: 300px; object-fit: cover; }
         .movie-info-header h2 { font-weight: 800; text-transform: uppercase; color: #1a1a1a; }
         .badge-t13 { background: #9c27b0; color: white; padding: 3px 10px; border-radius: 5px; font-size: 0.8rem; }
         .schedule-title { text-align: center; font-family: 'Oswald'; text-transform: uppercase; margin: 40px 0; font-size: 2rem; }
@@ -179,7 +179,7 @@
 
             <div class="main-card">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <img src="{{ Storage::url($movie->poster_url) }}" class="movie-poster">
                     </div>
                     <div class="col-md-8 px-md-5">

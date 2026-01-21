@@ -26,7 +26,7 @@ class BookingSeeder extends Seeder
         }
 
         // Tạo 50 booking ngẫu nhiên
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $user = $users->random();
             $showtime = $showtimes->random();
 
