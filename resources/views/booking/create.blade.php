@@ -118,23 +118,32 @@
         <label>Showtime</label>
         <span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span>
     </div>
+
     <div class="info-box">
         <label>Date</label>
         <span>{{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</span>
     </div>
+
     <div class="info-box">
         <label>Room</label>
         <span>{{ $showtime->room->name }}</span>
     </div>
+
     <div class="info-box">
         <label>Theater</label>
-        <span>{{ $showtime->room->theater->name ?? 'BKL Cinema' }}</span>
+        <span>{{ $showtime->room->theater->name }}</span>
     </div>
+
     <div class="info-box">
-        <label>Format</label>
-        <span>{{ $showtime->format ?? '2D' }} – {{ $showtime->subtitle ?? 'SUB' }}</span>
+        <label>Type</label>
+        <span>
+            {{ $showtime->screeningType->format }}
+            -
+            {{ $showtime->screeningType->language }}
+        </span>
     </div>
 </div>
+
 
             </div>
         </div>
