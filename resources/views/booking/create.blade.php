@@ -113,7 +113,26 @@
             <div class="flex-grow-1">
                 <div style="color: #d63384; font-weight: 600;">BKL CINEMA HÀ ĐÔNG</div>
                 <h2 class="movie-title">{{ $showtime->movie->title }}</h2>
-                <div class="info-details-grid">
+                <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                    @if($showtime->movie->director)
+                        <p class="mb-1"><strong>Director:</strong> {{ $showtime->movie->director->name }}</p>
+                    @endif
+                    @if($showtime->movie->genres->count() > 0)
+                        <p class="mb-1"><strong>Genre:</strong> 
+                            @foreach($showtime->movie->genres as $genre)
+                                {{ $genre->name }}@if(!$loop->last), @endif
+                            @endforeach
+                        </p>
+                    @endif
+                    @if($showtime->movie->actors->count() > 0)
+                        <p class="mb-0"><strong>Cast:</strong> 
+                            @foreach($showtime->movie->actors as $actor)
+                                {{ $actor->name }}@if(!$loop->last), @endif
+                            @endforeach
+                        </p>
+                    @endif
+                </div>
+                <div class="info-details-grid mt-3">
     <div class="info-box">
         <label>Showtime</label>
         <span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span>

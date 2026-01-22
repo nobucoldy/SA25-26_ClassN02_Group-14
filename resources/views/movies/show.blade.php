@@ -183,7 +183,31 @@
                         <div class="movie-info-header">
                             <h2>{{ $movie->title }} <span class="badge-t13">T13</span></h2>
                         </div>
-                        <p class="text-muted">{{ $movie->duration }} minutes | {{ $movie->genre }}</p>
+                        <p class="text-muted">{{ $movie->duration }} minutes | 
+                            @forelse($movie->genres as $genre)
+                                <span>{{ $genre->name }}</span>@if(!$loop->last), @endif
+                            @empty
+                                <span>N/A</span>
+                            @endforelse
+                        </p>
+                        
+                        <p class="text-muted mt-2">
+                            <strong>Director:</strong> 
+                            @if($movie->director)
+                                {{ $movie->director->name }}
+                            @else
+                                <span>N/A</span>
+                            @endif
+                        </p>
+
+                        <p class="text-muted">
+                            <strong>Actors:</strong> 
+                            @forelse($movie->actors as $actor)
+                                <span>{{ $actor->name }}</span>@if(!$loop->last), @endif
+                            @empty
+                                <span>N/A</span>
+                            @endforelse
+                        </p>
                         
                         <button class="btn-trailer mt-3" 
                                 style="background: #90ff00; border:none; padding: 10px 20px; border-radius: 10px; font-weight: bold;"

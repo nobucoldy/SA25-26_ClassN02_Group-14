@@ -16,8 +16,8 @@ class BookingController extends Controller
      */
     public function create($showtimeId)
     {
-        // Lấy suất chiếu + thông tin phòng + ghế + phim
-        $showtime = Showtime::with(['room.seats', 'movie'])->findOrFail($showtimeId);
+        // Lấy suất chiếu + thông tin phòng + ghế + phim với director, actors, genres
+        $showtime = Showtime::with(['room.seats', 'movie.director', 'movie.actors', 'movie.genres'])->findOrFail($showtimeId);
 
         // Lấy các ghế đã được đặt (status = confirmed) - lấy seat code thay vì ID
         $soldSeatCodes = BookingSeat::whereHas('booking', function($q) use ($showtimeId){
