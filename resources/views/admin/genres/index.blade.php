@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3>Genres Management</h3>
         <a href="{{ route('admin.genres.create') }}" class="btn btn-primary">
-            ➕ Add Genre
+            + Add Genre
         </a>
     </div>
 
@@ -38,7 +38,7 @@
     @if ($genres->count() > 0)
         <div class="table-responsive">
             <table class="table table-hover">
-                <thead class="table-light">
+                <thead class="table-dark">
                     <tr>
                         <th>#</th>
                         <th>Name</th>

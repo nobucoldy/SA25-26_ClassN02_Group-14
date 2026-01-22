@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <h3 class="mb-4">➕ Add New Movie</h3>
+    <h3 class="mb-4">+ Add New Movie</h3>
 
     {{-- Error --}}
     @if ($errors->any())
@@ -41,10 +41,14 @@
 
     <div class="mb-3">
         <label class="form-label">Director</label>
-        <select name="director_id" class="form-control" required>
+        <input type="text" 
+               class="form-control mb-2" 
+               id="directorSearch" 
+               placeholder="🔍 Search director...">
+        <select name="director_id" class="form-control" id="directorSelect" required>
             <option value="">-- Select Director --</option>
             @foreach ($directors as $director)
-                <option value="{{ $director->id }}" {{ old('director_id') == $director->id ? 'selected' : '' }}>
+                <option value="{{ $director->id }}" data-name="{{ $director->name }}" {{ old('director_id') == $director->id ? 'selected' : '' }}>
                     {{ $director->name }}
                 </option>
             @endforeach
@@ -53,26 +57,48 @@
 
     <div class="mb-3">
         <label class="form-label">Genres (Select at least one)</label>
-        <select name="genres[]" class="form-control" multiple required>
+        <input type="text" 
+               class="form-control mb-2" 
+               id="genreSearch" 
+               placeholder="🔍 Search genres...">
+        <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;" id="genreContainer">
             @foreach ($genres as $genre)
-                <option value="{{ $genre->id }}" {{ in_array($genre->id, old('genres', [])) ? 'selected' : '' }}>
-                    {{ $genre->name }}
-                </option>
+                <div class="form-check" data-genre-name="{{ strtolower($genre->name) }}">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           name="genres[]" 
+                           value="{{ $genre->id }}"
+                           id="genre_{{ $genre->id }}"
+                           {{ in_array($genre->id, old('genres', [])) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="genre_{{ $genre->id }}">
+                        {{ $genre->name }}
+                    </label>
+                </div>
             @endforeach
-        </select>
-        <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+        </div>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Actors</label>
-        <select name="actors[]" class="form-control" multiple>
+        <input type="text" 
+               class="form-control mb-2" 
+               id="actorSearch" 
+               placeholder="🔍 Search actors...">
+        <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;" id="actorContainer">
             @foreach ($actors as $actor)
-                <option value="{{ $actor->id }}" {{ in_array($actor->id, old('actors', [])) ? 'selected' : '' }}>
-                    {{ $actor->name }}
-                </option>
+                <div class="form-check" data-actor-name="{{ strtolower($actor->name) }}">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           name="actors[]" 
+                           value="{{ $actor->id }}"
+                           id="actor_{{ $actor->id }}"
+                           {{ in_array($actor->id, old('actors', [])) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="actor_{{ $actor->id }}">
+                        {{ $actor->name }}
+                    </label>
+                </div>
             @endforeach
-        </select>
-        <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+        </div>
     </div>
 
     <div class="mb-3">
@@ -127,4 +153,34 @@
 </form>
 
 </div>
+
+<script>
+document.getElementById('directorSearch').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
+    const options = document.querySelectorAll('#directorSelect option');
+    options.forEach(option => {
+        if (option.dataset.name) {
+            option.style.display = option.dataset.name.toLowerCase().includes(searchTerm) ? '' : 'none';
+        }
+    });
+});
+
+document.getElementById('genreSearch').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
+    const items = document.querySelectorAll('#genreContainer .form-check');
+    items.forEach(item => {
+        const name = item.dataset.genreName;
+        item.style.display = name.includes(searchTerm) ? '' : 'none';
+    });
+});
+
+document.getElementById('actorSearch').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
+    const items = document.querySelectorAll('#actorContainer .form-check');
+    items.forEach(item => {
+        const name = item.dataset.actorName;
+        item.style.display = name.includes(searchTerm) ? '' : 'none';
+    });
+});
+</script>
 @endsection

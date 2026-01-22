@@ -107,8 +107,8 @@ class MovieController extends Controller
         $directors = Director::orderBy('name')->get();
         $actors = Actor::orderBy('name')->get();
         $genres = Genre::orderBy('name')->get();
-        $movieGenres = $movie->genres()->pluck('id')->toArray();
-        $movieActors = $movie->actors()->pluck('id')->toArray();
+        $movieGenres = $movie->genres()->pluck('genres.id')->toArray();
+        $movieActors = $movie->actors()->pluck('actors.id')->toArray();
         return view('admin.movies.edit', compact('movie', 'directors', 'actors', 'genres', 'movieGenres', 'movieActors'));
     }
 
