@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Storage;
 use App\Models\Movie;
+use App\Models\Director;
+use App\Models\Actor;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,33 +14,34 @@ class MovieController extends Controller
 {
     // Movie list
     public function index(Request $request)
-{
-    $query = Movie::query();
+    {
+        $query = Movie::query();
 
-    // 🔍 Search by movie title
-    if ($request->filled('keyword')) {
-        $query->where('title', 'like', '%' . $request->keyword . '%');
+        // 🔍 Search by movie title
+        if ($request->filled('keyword')) {
+            $query->where('title', 'like', '%' . $request->keyword . '%');
+        }
+
+        // 🎯 Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $movies = $query
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.movies.index', compact('movies'));
     }
-
-    // 🎯 Filter by status
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    $movies = $query
-        ->orderByDesc('created_at')
-        ->paginate(10)
-        ->withQueryString();
-
-    return view('admin.movies.index', compact('movies'));
-}
-
-
 
     // Add movie form
     public function create()
     {
-        return view('admin.movies.create');
+        $directors = Director::orderBy('name')->get();
+        $actors = Actor::orderBy('name')->get();
+        $genres = Genre::orderBy('name')->get();
+        return view('admin.movies.create', compact('directors', 'actors', 'genres'));
     }
 
     // Save new movie
@@ -46,20 +50,26 @@ class MovieController extends Controller
         $request->validate([
             'title'        => 'required|string|max:255',
             'duration'     => 'required|integer',
-            'genre'        => 'required|string|max:255',
+            'director_id'  => 'required|exists:directors,id',
+            'genres'       => 'required|array|min:1',
+            'genres.*'     => 'exists:genres,id',
+            'actors'       => 'nullable|array',
+            'actors.*'     => 'exists:actors,id',
             'release_date' => 'required|date',
             'status'       => 'required|in:showing,coming_soon,stopped',
             'description'  => 'nullable|string',
+            'trailer_url'  => 'nullable|url',
             'poster'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
             'title',
             'duration',
-            'genre',
+            'director_id',
             'release_date',
             'status',
-            'description'
+            'description',
+            'trailer_url'
         ]);
 
         // 📸 Upload poster
@@ -68,7 +78,16 @@ class MovieController extends Controller
                                         ->store('posters', 'public');
         }
 
-        Movie::create($data);
+        $movie = Movie::create($data);
+
+        // Attach genres and actors
+        if ($request->has('genres')) {
+            $movie->genres()->attach($request->genres);
+        }
+
+        if ($request->has('actors')) {
+            $movie->actors()->attach($request->actors);
+        }
 
         return redirect()->route('admin.movies.index')
             ->with('success', 'Movie added successfully');
@@ -85,7 +104,12 @@ class MovieController extends Controller
     public function edit($id)
     {
         $movie = Movie::findOrFail($id);
-        return view('admin.movies.edit', compact('movie'));
+        $directors = Director::orderBy('name')->get();
+        $actors = Actor::orderBy('name')->get();
+        $genres = Genre::orderBy('name')->get();
+        $movieGenres = $movie->genres()->pluck('id')->toArray();
+        $movieActors = $movie->actors()->pluck('id')->toArray();
+        return view('admin.movies.edit', compact('movie', 'directors', 'actors', 'genres', 'movieGenres', 'movieActors'));
     }
 
     // Update movie
@@ -96,25 +120,30 @@ class MovieController extends Controller
         $request->validate([
             'title'        => 'required|string|max:255',
             'duration'     => 'required|integer',
-            'genre'        => 'required|string|max:255',
+            'director_id'  => 'required|exists:directors,id',
+            'genres'       => 'required|array|min:1',
+            'genres.*'     => 'exists:genres,id',
+            'actors'       => 'nullable|array',
+            'actors.*'     => 'exists:actors,id',
             'release_date' => 'required|date',
             'status'       => 'required|in:showing,coming_soon,stopped',
             'description'  => 'nullable|string',
+            'trailer_url'  => 'nullable|url',
             'poster'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
             'title',
             'duration',
-            'genre',
+            'director_id',
             'release_date',
             'status',
-            'description'
+            'description',
+            'trailer_url'
         ]);
 
         // 📸 If uploading new poster
         if ($request->hasFile('poster')) {
-
             // Delete old image (if exists)
             if ($movie->poster_url && Storage::disk('public')->exists($movie->poster_url)) {
                 \Storage::disk('public')->delete($movie->poster_url);
@@ -125,6 +154,10 @@ class MovieController extends Controller
         }
 
         $movie->update($data);
+
+        // Update genres and actors
+        $movie->genres()->sync($request->genres ?? []);
+        $movie->actors()->sync($request->actors ?? []);
 
         return redirect()->route('admin.movies.index')
             ->with('success', 'Movie updated successfully');

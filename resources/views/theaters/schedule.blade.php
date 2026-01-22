@@ -195,8 +195,12 @@
                                         <p class="text-muted small mb-3">{{ $movie->genre }} | {{ $movie->duration }} mins</p>
                                         <div class="time-slot-container">
     @foreach($showtimes as $st)
+    @php
+        $start = \Carbon\Carbon::parse($st->start_time);
+        $end   = $start->copy()->addMinutes($movie->duration);
+    @endphp
         <a href="{{ route('booking.create', $st->id) }}" class="time-slot">
-            {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
+            {{ $start->format('H:i') }} ~ {{ $end->format('H:i') }}
             <span class="badge bg-dark ms-1">
                 {{ $st->screeningType->label }}
             </span>

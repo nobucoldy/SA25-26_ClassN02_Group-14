@@ -27,6 +27,22 @@
         <a class="text-white me-3" href="{{ route('admin.movies.index') }}">Movies</a>
         <a class="text-white me-3" href="{{ route('admin.showtimes.index') }}">Showtimes</a>
         <a class="text-white me-3" href="{{ route('admin.bookings.index') }}">Bookings</a>
+
+        {{-- Master Data Dropdown --}}
+        <div class="dropdown me-3">
+            <button class="btn btn-link text-white dropdown-toggle p-0 text-decoration-underline"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+    Master Data
+</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ route('admin.directors.index') }}">Directors</a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.actors.index') }}">Actors</a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.genres.index') }}">Genres</a></li>
+            </ul>
+        </div>
+
         <a class="text-white me-3" href="{{ route('admin.users.index') }}">Users</a>
 
         {{-- LOGOUT --}}

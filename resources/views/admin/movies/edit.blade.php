@@ -42,14 +42,43 @@
                    required>
         </div>
 
-        {{-- Genre --}}
+        {{-- Director --}}
         <div class="mb-3">
-            <label class="form-label">Genre</label>
-            <input type="text"
-                   name="genre"
-                   class="form-control"
-                   value="{{ old('genre', $movie->genre) }}"
-                   required>
+            <label class="form-label">Director</label>
+            <select name="director_id" class="form-control" required>
+                <option value="">-- Select Director --</option>
+                @foreach ($directors as $director)
+                    <option value="{{ $director->id }}" {{ old('director_id', $movie->director_id) == $director->id ? 'selected' : '' }}>
+                        {{ $director->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Genres --}}
+        <div class="mb-3">
+            <label class="form-label">Genres (Select at least one)</label>
+            <select name="genres[]" class="form-control" multiple required>
+                @foreach ($genres as $genre)
+                    <option value="{{ $genre->id }}" {{ in_array($genre->id, old('genres', $movieGenres)) ? 'selected' : '' }}>
+                        {{ $genre->name }}
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+        </div>
+
+        {{-- Actors --}}
+        <div class="mb-3">
+            <label class="form-label">Actors</label>
+            <select name="actors[]" class="form-control" multiple>
+                @foreach ($actors as $actor)
+                    <option value="{{ $actor->id }}" {{ in_array($actor->id, old('actors', $movieActors)) ? 'selected' : '' }}>
+                        {{ $actor->name }}
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
         </div>
 
         {{-- Release Date --}}
@@ -76,6 +105,16 @@
                     Stopped
                 </option>
             </select>
+        </div>
+
+        {{-- Trailer URL --}}
+        <div class="mb-3">
+            <label class="form-label">Trailer URL</label>
+            <input type="url"
+                   name="trailer_url"
+                   class="form-control"
+                   value="{{ old('trailer_url', $movie->trailer_url) }}"
+                   placeholder="https://youtube.com/watch?v=...">
         </div>
 
         {{-- Current Poster --}}

@@ -79,6 +79,15 @@ Route::prefix('admin')
     Route::resource('movies',
         App\Http\Controllers\Admin\MovieController::class
     );
+    Route::resource('directors',
+        App\Http\Controllers\Admin\DirectorController::class
+    );
+    Route::resource('actors',
+        App\Http\Controllers\Admin\ActorController::class
+    );
+    Route::resource('genres',
+        App\Http\Controllers\Admin\GenreController::class
+    );
     Route::resource('showtimes',
         App\Http\Controllers\Admin\ShowtimeController::class
     );

@@ -40,12 +40,39 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Genre</label>
-        <input type="text"
-               name="genre"
-               class="form-control"
-               value="{{ old('genre') }}"
-               required>
+        <label class="form-label">Director</label>
+        <select name="director_id" class="form-control" required>
+            <option value="">-- Select Director --</option>
+            @foreach ($directors as $director)
+                <option value="{{ $director->id }}" {{ old('director_id') == $director->id ? 'selected' : '' }}>
+                    {{ $director->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Genres (Select at least one)</label>
+        <select name="genres[]" class="form-control" multiple required>
+            @foreach ($genres as $genre)
+                <option value="{{ $genre->id }}" {{ in_array($genre->id, old('genres', [])) ? 'selected' : '' }}>
+                    {{ $genre->name }}
+                </option>
+            @endforeach
+        </select>
+        <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Actors</label>
+        <select name="actors[]" class="form-control" multiple>
+            @foreach ($actors as $actor)
+                <option value="{{ $actor->id }}" {{ in_array($actor->id, old('actors', [])) ? 'selected' : '' }}>
+                    {{ $actor->name }}
+                </option>
+            @endforeach
+        </select>
+        <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
     </div>
 
     <div class="mb-3">
@@ -61,10 +88,19 @@
         <label class="form-label">Status</label>
         <select name="status" class="form-control" required>
             <option value="">-- Select Status --</option>
-            <option value="showing">Showing</option>
-            <option value="coming_soon">Coming Soon</option>
-            <option value="stopped">Stopped</option>
+            <option value="showing" {{ old('status') == 'showing' ? 'selected' : '' }}>Showing</option>
+            <option value="coming_soon" {{ old('status') == 'coming_soon' ? 'selected' : '' }}>Coming Soon</option>
+            <option value="stopped" {{ old('status') == 'stopped' ? 'selected' : '' }}>Stopped</option>
         </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Trailer URL</label>
+        <input type="url"
+               name="trailer_url"
+               class="form-control"
+               value="{{ old('trailer_url') }}"
+               placeholder="https://youtube.com/watch?v=...">
     </div>
 
     <div class="mb-3">

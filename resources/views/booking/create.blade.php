@@ -30,13 +30,13 @@
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
         
         .movie-poster{
-            width: 110px; height: 160px; border-radius: 12px; object-fit: cover; margin-right: 20px;
+            width: auto; height: 220px; border-radius: 12px; object-fit: cover; margin-right: 20px;
         }
 
         /* HEADER & INFO */
         .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
         .movie-title { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 15px; }
-        .info-details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .info-details-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
         .info-box { background: #f8f9fa; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
         .info-box label { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; font-weight: 700; }
         .info-box span { display: block; font-size: 0.9rem; font-weight: 700; color: #333; }
@@ -134,9 +134,13 @@
                 </div>
                 <div class="info-details-grid mt-3">
     <div class="info-box">
-        <label>Showtime</label>
-        <span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span>
-    </div>
+    <label>Showtime</label>
+    @php
+        $start = \Carbon\Carbon::parse($showtime->start_time);
+        $end   = $start->copy()->addMinutes($showtime->movie->duration);
+    @endphp
+    <span>{{ $start->format('H:i') }} ~ {{ $end->format('H:i') }}</span>
+</div>
 
     <div class="info-box">
         <label>Date</label>
