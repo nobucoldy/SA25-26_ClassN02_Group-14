@@ -104,7 +104,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'role' => 'customer', 
+            'role' => 'user', 
         ]);
 
         return redirect()->route('login')->with('success', 'Registration successful! Please log in with your new account.');
