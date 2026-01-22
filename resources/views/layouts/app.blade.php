@@ -178,6 +178,36 @@
             font-size: 1.6rem;
             margin-bottom: 40px;
         }
+/* 1. Phải bọc thằng cha để ảnh không tràn */
+    /* 1. Khung bao quát (Thẻ a) */
+.home-movie-card {
+    display: block !important;
+    text-decoration: none !important;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; /* Hiệu ứng nảy nhẹ cực xịn */
+    border-radius: 12px;
+    padding: 5px; /* Tạo khoảng không gian nhỏ để khi to ra không bị "gắt" */
+}
+
+/* 2. Ảnh bên trong (Bỏ hiệu ứng scale riêng ở đây để không đè chữ) */
+.home-movie-card img {
+    width: 100% !important;
+    border-radius: 12px !important;
+    display: block !important;
+
+}
+
+/* 3. Hiệu ứng HOVER: Phóng to CẢ KHỐI (Ảnh + Chữ) */
+.home-movie-card:hover {
+    transform: scale(1.08) !important; /* Phóng to cả khối 8% */
+    z-index: 10; /* Đảm bảo khi to ra nó nổi lên trên các slide bên cạnh */
+}
+
+/* 4. Hiệu ứng cho chữ khi hover */
+.home-movie-card:hover .movie-name {
+    color: #ff69b4 !important; /* Đổi màu chữ sang hồng cho đồng bộ */
+    transform: translateY(3px); /* Nhích chữ xuống một xíu tạo cảm giác sâu */
+    transition: all 0.4s ease;
+}
 
         .movie-card {
             transition: transform 0.4s ease;
@@ -266,24 +296,6 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     @stack('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tìm cái thông báo có class là 'alert' (hoặc class cậu đang đặt cho nó)
-        const welcomeAlert = document.querySelector('.alert-success'); // Thay đổi class cho đúng với cái của cậu
-        
-        if (welcomeAlert) {
-            // Sau 3000ms (3 giây), bắt đầu hiệu ứng mờ dần
-            setTimeout(function() {
-                welcomeAlert.style.transition = "opacity 0.6s ease";
-                welcomeAlert.style.opacity = "0";
-                
-                // Sau khi mờ hẳn thì xóa hoàn toàn khỏi giao diện
-                setTimeout(function() {
-                    welcomeAlert.remove();
-                }, 600);
-            }, 3000); 
-        }
-    });
-</script>
+
 </body>
 </html>
