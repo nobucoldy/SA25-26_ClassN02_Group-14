@@ -90,16 +90,28 @@
 /* ================================================================
    4. NÚT ĐIỀU HƯỚNG < >
    ================================================================ */
+.main-prev, 
+.main-next {
+    color: #ff69b4 !important;
+}
+
+/* 2. Riêng phần Coming Soon - Ép sang màu Hồng */
+.upcoming-prev, 
+.upcoming-next {
+    color: #ff69b4 !important; /* Màu hồng thương hiệu */
+}
 .main-prev, .main-next,
 .upcoming-prev, .upcoming-next {
-    color: #DEFE98 !important;
+    color: #ff69b4 !important;
     transition: 0.3s;
     cursor: pointer;
 }
 
 .main-prev:hover, .main-next:hover,
 .upcoming-prev:hover, .upcoming-next:hover {
-    filter: brightness(1.2);
+    color: #ff1493 !important; /* Hồng đậm hơn một chút khi hover */
+    transform: scale(1.2);
+    filter: brightness(1) !important;
 }
 
 /* ================================================================

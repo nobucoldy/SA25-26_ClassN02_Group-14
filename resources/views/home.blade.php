@@ -74,7 +74,6 @@
     </div>
 </section>
 
-
 {{-- 4. COMING SOON --}}
 <section class="py-5" style="background-color: #DEFE98;">
     <div class="container text-center">
@@ -87,8 +86,6 @@
                         <div class="swiper-slide">
                             <a href="{{ route('movies.show', $movie->id) }}"
                             class="movie-card-item home-movie-card text-decoration-none">
-
-                               
                                 <img src="{{ asset('storage/' . $movie->poster_url) }}"
                                      alt="{{ $movie->title }}"
                                      style="width:100%; border-radius:12px; aspect-ratio:2/3; object-fit:cover;">
@@ -109,7 +106,6 @@
         </div>
     </div>
 </section>
-
 {{-- 5. MOVIE SCHEDULE --}}
 <section class="py-5 bg-light">
     <div class="container">
@@ -179,7 +175,7 @@
 <style>
     /* 1. NÚT ĐIỀU HƯỚNG MÀU #DEFE98 */
     .swiper-button-next, .swiper-button-prev, .main-next, .main-prev, .upcoming-next, .upcoming-prev {
-        color: #DEFE98 !important;
+        color: #ff69b4 !important;
     }
     .swiper-button-next:after, .swiper-button-prev:after { font-size: 24px !important; font-weight: bold; }
 

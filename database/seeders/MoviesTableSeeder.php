@@ -149,7 +149,7 @@ class MoviesTableSeeder extends Seeder
                 'poster_url' => 'posters/dragonball.png',
                 'trailer_url' => 'https://www.youtube.com/watch?v=FHgm89hKpXU',
                 'movie_backdrop' => 'movie_backdrops/7vnr.jpg',
-                'status' => 'showing',
+                'status' => 'coming_soon',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
