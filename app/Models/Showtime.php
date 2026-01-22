@@ -45,4 +45,8 @@ class Showtime extends Model
     {
         return $this->hasMany(Booking::class);
     }
+    public function screeningType()
+    {
+        return $this->belongsTo(ScreeningType::class);
+    }
 }

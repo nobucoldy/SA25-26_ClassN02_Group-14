@@ -193,14 +193,17 @@
                                     <div class="movie-info w-100">
                                         <h4 class="fw-bold mb-1 text-uppercase">{{ $movie->title }}</h4>
                                         <p class="text-muted small mb-3">{{ $movie->genre }} | {{ $movie->duration }} mins</p>
-                                        <div class="type-badge mb-2"><span class="badge bg-dark">2D - SUBTITLED</span></div>
                                         <div class="time-slot-container">
-                                            @foreach($showtimes as $st)
-                                                <a href="{{ route('booking.create', $st->id) }}" class="time-slot">
-                                                    {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
-                                                </a>
-                                            @endforeach
-                                        </div>
+    @foreach($showtimes as $st)
+        <a href="{{ route('booking.create', $st->id) }}" class="time-slot">
+            {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
+            <span class="badge bg-dark ms-1">
+                {{ $st->screeningType->label }}
+            </span>
+        </a>
+    @endforeach
+</div>
+
                                     </div>
                                 </div>
                             @empty

@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             MoviesTableSeeder::class,     // movies
             RoomsTableSeeder::class,      // rooms
             SeatsTableSeeder::class,      // seats
+            ScreeningTypeSeeder::class,
             ShowtimeSeeder::class,  // showtimes
             BookingSeeder::class,         // bookings + booking_seats
         ]);

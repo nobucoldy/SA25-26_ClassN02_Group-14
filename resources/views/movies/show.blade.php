@@ -223,8 +223,12 @@
                     @foreach($slots as $st)
                         <a href="{{ route('booking.create', $st->id) }}" class="time-slot">
                             {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
+                            <span class="badge bg-dark ms-1">
+                                {{ $st->screeningType->label }}
+                            </span>
                         </a>
                     @endforeach
+
                 </div>
             </div>
         @empty

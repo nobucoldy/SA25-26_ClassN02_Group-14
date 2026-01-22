@@ -34,32 +34,27 @@ class MovieController extends Controller
     $movie = Movie::findOrFail($id);
 
     // 7 ngày tới
-    $dates = collect(range(0, 6))->map(fn($i) => Carbon::today()->addDays($i)->toDateString());
+    $dates = collect(range(0, 6))
+        ->map(fn ($i) => Carbon::today()->addDays($i)->toDateString());
 
-    // Lấy tất cả showtime của phim này trong 7 ngày tới, cùng theater và room
-    $allShowtimes = Showtime::with('theater')
+    $allShowtimes = Showtime::with(['theater', 'screeningType']) // ✅ LOAD KIỂU CHIẾU
         ->where('movie_id', $movie->id)
-        ->whereBetween('show_date', [Carbon::today(), Carbon::today()->addDays(6)])
+        ->whereBetween('show_date', [
+            Carbon::today()->toDateString(),
+            Carbon::today()->addDays(6)->toDateString()
+        ])
         ->orderBy('show_date')
         ->orderBy('start_time')
         ->get();
 
-    // Lấy danh sách rạp liên quan đến phim này
-    $theaters = $allShowtimes->pluck('theater')->unique('id');
+    // Group: ngày → rạp
+    $showtimes = $allShowtimes
+        ->groupBy([
+            fn ($st) => Carbon::parse($st->show_date)->toDateString(),
+            fn ($st) => $st->theater->name
+        ]);
 
-    // Phân loại showtimes theo ngày -> rồi theo rạp
-    $showtimes = collect();
-
-    foreach ($dates as $date) {
-    $dailyShowtimes = $allShowtimes
-        ->filter(fn($st) => $st->show_date->toDateString() === $date)
-        ->groupBy(fn($st) => $st->theater->name);
-
-    $showtimes[$date] = $dailyShowtimes;
-}
-
-
-    return view('movies.show', compact('movie', 'showtimes', 'theaters'));
+    return view('movies.show', compact('movie', 'showtimes'));
 }
 
 

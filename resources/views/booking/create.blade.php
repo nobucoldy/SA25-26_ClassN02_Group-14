@@ -101,11 +101,28 @@
                 <div style="color: #d63384; font-weight: 600;">BKL CINEMA HÀ ĐÔNG</div>
                 <h2 class="movie-title">{{ $showtime->movie->title }}</h2>
                 <div class="info-details-grid">
-                    <div class="info-box"><label>Showtime</label><span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span></div>
-                    <div class="info-box"><label>Date</label><span>{{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</span></div>
-                    <div class="info-box"><label>Room</label><span>{{ $showtime->room->name }}</span></div>
-                    <div class="info-box"><label>Theater</label><span>BKL Ha Dong</span></div>
-                </div>
+    <div class="info-box">
+        <label>Showtime</label>
+        <span>{{ \Carbon\Carbon::parse($showtime->start_time)->format('H:i') }}</span>
+    </div>
+    <div class="info-box">
+        <label>Date</label>
+        <span>{{ \Carbon\Carbon::parse($showtime->show_date)->format('d/m/Y') }}</span>
+    </div>
+    <div class="info-box">
+        <label>Room</label>
+        <span>{{ $showtime->room->name }}</span>
+    </div>
+    <div class="info-box">
+        <label>Theater</label>
+        <span>{{ $showtime->room->theater->name ?? 'BKL Cinema' }}</span>
+    </div>
+    <div class="info-box">
+        <label>Format</label>
+        <span>{{ $showtime->format ?? '2D' }} – {{ $showtime->subtitle ?? 'SUB' }}</span>
+    </div>
+</div>
+
             </div>
         </div>
 

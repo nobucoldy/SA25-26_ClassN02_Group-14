@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\ScreeningType;
 use App\Models\Movie;
 use App\Models\Theater;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ class ShowtimeSeeder extends Seeder
         $movies = Movie::all();
         $theaters = Theater::all();
         $timeSlots = ['10:00', '13:00', '16:00', '19:00', '21:30'];
+        $screeningTypes = ScreeningType::pluck('id')->toArray();
 
         foreach ($theaters as $theater) {
             $rooms = $theater->rooms;
@@ -34,6 +36,7 @@ class ShowtimeSeeder extends Seeder
                             'movie_id'   => $movie->id,
                             'theater_id' => $theater->id,
                             'room_id'    => $room->id,
+                            'screening_type_id' => collect($screeningTypes)->random(),
                             'show_date'  => $showDate->toDateString(),
                             'start_time' => Carbon::parse($showDate->format('Y-m-d').' '.$slot), // full datetime
                             'end_time'   => Carbon::parse($showDate->format('Y-m-d').' '.$slot)->addHours(2),
