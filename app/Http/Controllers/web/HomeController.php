@@ -37,7 +37,7 @@ class HomeController extends Controller
         if ($selectedTheater) {
             $showtimesGroupedByMovie = Showtime::where('theater_id', $selectedTheater->id)
                 ->where('show_date', $selectedDate)
-                ->with('movie')
+                ->with(['movie.genres', 'screeningType'])
                 ->get()
                 ->groupBy('movie_id');
         }

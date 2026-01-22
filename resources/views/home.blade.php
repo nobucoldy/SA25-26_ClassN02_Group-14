@@ -151,10 +151,20 @@
                                 <img src="{{ asset('storage/' . $movie->poster_url) }}" alt="{{ $movie->title }}" style="width:100px; height:150px; object-fit:cover; border-radius:6px;">
                                 <div class="movie-info w-100">
                                     <h5 class="fw-bold mb-1">{{ $movie->title }}</h5>
-                                    <p class="text-muted small mb-2">{{ $movie->genre }} | {{ $movie->duration }} mins</p>
+                                    <p class="text-muted small mb-2">
+                                        @forelse($movie->genres as $g)
+                                            {{ $g->name }}@if(!$loop->last), @endif
+                                        @empty
+                                            N/A
+                                        @endforelse
+                                        | {{ $movie->duration }} mins
+                                    </p>
                                     <div class="time-slot-container d-flex flex-wrap gap-2">
                                         @foreach($showtimes as $st)
-                                            <a href="{{ route('booking.create', $st->id) }}" class="time-slot px-3 py-1 border rounded bg-light text-dark">{{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}</a>
+                                            <a href="{{ route('booking.create', $st->id) }}" class="time-slot px-3 py-1 border rounded bg-light text-dark" title="{{ $st->screeningType->label }}">
+                                                {{ \Carbon\Carbon::parse($st->start_time)->format('H:i') }}
+                                                <span class="badge bg-dark ms-1" style="font-size: 0.7rem;">{{ $st->screeningType->label }}</span>
+                                            </a>
                                         @endforeach
                                     </div>
                                 </div>
