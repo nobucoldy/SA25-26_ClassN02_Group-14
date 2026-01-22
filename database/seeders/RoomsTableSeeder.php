@@ -1,9 +1,11 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Theater;
 
 class RoomsTableSeeder extends Seeder
 {
@@ -14,31 +16,26 @@ class RoomsTableSeeder extends Seeder
         DB::table('rooms')->truncate();
         Schema::enableForeignKeyConstraints();
 
-        DB::table('rooms')->insert([
-            [
-                'id' => 1, 
-                'theater_id' => 1, 
-                'name' => 'Room 1', 
-                'total_seats' => 100, 
-                'created_at' => now(), 
-                'updated_at' => now()
-            ],
-            [
-                'id' => 2, 
-                'theater_id' => 1, 
-                'name' => 'Room 2', 
-                'total_seats' => 100, 
-                'created_at' => now(), 
-                'updated_at' => now()
-            ],
-            [
-                'id' => 3, 
-                'theater_id' => 2, 
-                'name' => 'Room 3', 
-                'total_seats' => 100, 
-                'created_at' => now(), 
-                'updated_at' => now()
-            ],
-        ]);
+        $theaters = Theater::all();
+        $roomCounter = 1;
+
+        // Tạo phòng cho từng rạp - mỗi rạp có số phòng khác nhau (2-5 phòng)
+        foreach ($theaters as $theater) {
+            $numRooms = rand(2, 5);
+
+            for ($i = 1; $i <= $numRooms; $i++) {
+                DB::table('rooms')->insert([
+                    'id' => $roomCounter,
+                    'theater_id' => $theater->id,
+                    'name' => 'Room ' . $i,
+                    'total_seats' => rand(80, 150),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                $roomCounter++;
+            }
+        }
+
+        $this->command->info('✅ Rooms created: Each theater has 2-5 rooms!');
     }
 }

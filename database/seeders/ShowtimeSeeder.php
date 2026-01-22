@@ -19,37 +19,38 @@ class ShowtimeSeeder extends Seeder
         $screeningTypes = ScreeningType::pluck('id')->toArray();
 
         foreach ($theaters as $theater) {
-            $rooms = $theater->rooms;
-            if ($rooms->isEmpty()) continue;
+            $rooms = $theater->rooms->toArray();
+            if (empty($rooms)) continue;
 
-            foreach ($movies as $movie) {
-                // Lặp 7 ngày riêng biệt
-                for ($i = 0; $i < 7; $i++) {
-                    $showDate = Carbon::today()->addDays($i);
+            // Lặp 7 ngày
+            for ($dayIndex = 0; $dayIndex < 7; $dayIndex++) {
+                $showDate = Carbon::today()->addDays($dayIndex);
 
-                    $slots = collect($timeSlots)->shuffle()->take(rand(3,5));
+                // Mỗi phòm trong rạp được gán 1 time slot KHÁC NHAU per ngày
+                foreach ($rooms as $roomIndex => $room) {
+                    // Mỗi phòm lấy random phim
+                    $randomMovie = $movies->random();
 
-                    foreach ($slots as $slot) {
-                        $room = $rooms->random();
+                    // Mỗi phòm lấy time slot KHÁC NHAU (modulo by room count)
+                    $slotIndex = $roomIndex % count($timeSlots);
+                    $roomTimeSlot = $timeSlots[$slotIndex];
 
-                        DB::table('showtimes')->insert([
-                            'movie_id'   => $movie->id,
-                            'theater_id' => $theater->id,
-                            'room_id'    => $room->id,
-                            'screening_type_id' => collect($screeningTypes)->random(),
-                            'show_date'  => $showDate->toDateString(),
-                            'start_time' => Carbon::parse($showDate->format('Y-m-d').' '.$slot), // full datetime
-                            'end_time'   => Carbon::parse($showDate->format('Y-m-d').' '.$slot)->addHours(2),
-                            'price'      => rand(70000, 150000),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-
-                    }
+                    DB::table('showtimes')->insert([
+                        'movie_id'   => $randomMovie->id,
+                        'theater_id' => $theater->id,
+                        'room_id'    => $room['id'],
+                        'screening_type_id' => collect($screeningTypes)->random(),
+                        'show_date'  => $showDate->toDateString(),
+                        'start_time' => Carbon::parse($showDate->format('Y-m-d').' '.$roomTimeSlot),
+                        'end_time'   => Carbon::parse($showDate->format('Y-m-d').' '.$roomTimeSlot)->addMinutes(120),
+                        'price'      => rand(70000, 150000),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
                 }
             }
         }
 
-        $this->command->info('Showtimes seeded for 7 separate days!');
+        $this->command->info('✅ Showtimes seeded without conflicts!');
     }
 }
