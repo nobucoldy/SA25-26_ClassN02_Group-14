@@ -34,15 +34,16 @@
                 <div class="col-md-6">
                     <h5>Movie & Showtime</h5>
                     <p><strong>Movie:</strong> {{ $booking->showtime->movie->title }}</p>
-                    <p><strong>Date:</strong> {{ $booking->showtime->show_date }}</p>
-                    <p><strong>Time:</strong> {{ $booking->showtime->start_time }}</p>
+                    <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($booking->showtime->show_date)->format('d M Y') }}</p>
+<p><strong>Time:</strong> {{ \Carbon\Carbon::parse($booking->showtime->start_time)->format('H:i') }}</p>
                     <p><strong>Room:</strong> {{ $booking->showtime->room->name }}</p>
                 </div>
 
                 <div class="col-md-6">
                     <h5>System Info</h5>
                     <p><strong>Booking ID:</strong> {{ $booking->id }}</p>
-                    <p><strong>Created At:</strong> {{ $booking->created_at }}</p>
+                    <p><strong>Created At:</strong> {{ \Carbon\Carbon::parse($booking->created_at)->format('d M Y H:i') }}</p>
+
                 </div>
             </div>
 
@@ -57,7 +58,7 @@
                           method="POST"
                           onsubmit="return confirm('Cancel this booking?')">
                         @csrf
-                        @method('PUT')
+                       
                         <button class="btn btn-danger">
                             Cancel Booking
                         </button>

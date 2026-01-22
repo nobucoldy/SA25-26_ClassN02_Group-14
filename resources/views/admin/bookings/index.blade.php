@@ -74,11 +74,11 @@
                         <td>{{ $b->showtime->movie->title }}</td>
 
                         <td>
-                            {{ $b->showtime->show_date }} <br>
-                            <small class="text-muted">
-                                {{ $b->showtime->start_time }}
-                            </small>
-                        </td>
+    {{ \Carbon\Carbon::parse($b->showtime->show_date)->format('d M Y') }} <br>
+    <small class="text-muted">
+        {{ \Carbon\Carbon::parse($b->showtime->start_time)->format('H:i') }}
+    </small>
+</td>
 
                         <td>{{ number_format($b->total_amount) }} đ</td>
 
@@ -106,7 +106,7 @@
                                       class="d-inline"
                                       onsubmit="return confirm('Cancel this booking?')">
                                     @csrf
-                                    @method('PUT')
+                                    
                                     <button class="btn btn-sm btn-danger">
                                         Cancel
                                     </button>

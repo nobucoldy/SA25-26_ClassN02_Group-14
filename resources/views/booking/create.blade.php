@@ -147,7 +147,6 @@
 @php
     $extra = $showtime->screeningType->extra_price ?? 0;
 @endphp
-
         <div class="seat-legend">
             <div class="legend-item">
     <div class="legend-label">
@@ -169,6 +168,8 @@
     </div>
     <div class="legend-price">{{ number_format(90000 + $extra) }}đ</div>
 </div>
+<div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Selected</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Sold</div></div>
         </div>
 
         <div class="zoom-wrapper">
