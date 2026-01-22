@@ -168,7 +168,7 @@
             @csrf
             <div class="floating-group">
                 <input type="text" name="name" id="name" placeholder=" " value="{{ old('name') }}" required>
-                <label for="name">Họ và tên</label>
+                <label for="name">Full Name</label>
             </div>
 
             <div class="floating-group">
@@ -183,8 +183,8 @@
 
             <div id="phone_info" class="checklist-box">
                 <ul>
-                    <li id="p_start" class="invalid"><i class="bi bi-x-lg"></i> Đầu số VN (03, 05, 07, 08, 09)</li>
-                    <li id="p_length" class="invalid"><i class="bi bi-x-lg"></i> Đúng 10 chữ số</li>
+                    <li id="p_start" class="invalid"><i class="bi bi-x-lg"></i> Valid Vietnam prefix (03, 05, 07, 08, 09)</li>
+                    <li id="p_length" class="invalid"><i class="bi bi-x-lg"></i> Exactly 10 digits</li>
                     <li id="p_number" class="invalid"><i class="bi bi-x-lg"></i> Only contains numbers</li>
                 </ul>
             </div>
@@ -197,11 +197,11 @@
 
             <div id="pswd_info" class="checklist-box">
                 <ul>
-                    <li id="length" class="invalid"><i class="bi bi-x-lg"></i> Ít nhất 8 ký tự</li>
-                    <li id="letter" class="invalid"><i class="bi bi-x-lg"></i> Chứa chữ cái</li>
-                    <li id="number" class="invalid"><i class="bi bi-x-lg"></i> Chứa chữ số</li>
-                    <li id="special" class="invalid"><i class="bi bi-x-lg"></i> Ký tự đặc biệt (@, $, !...)</li>
-                    <li id="space" class="valid"><i class="bi bi-check-lg"></i> Không chứa dấu cách</li>
+                    <li id="length" class="invalid"><i class="bi bi-x-lg"></i> At least 8 characters</li>
+                    <li id="letter" class="invalid"><i class="bi bi-x-lg"></i> Contains letters</li>
+                    <li id="number" class="invalid"><i class="bi bi-x-lg"></i> Contains numbers</li>
+                    <li id="special" class="invalid"><i class="bi bi-x-lg"></i> Special characters (@, $, !...)</li>
+                    <li id="space" class="valid"><i class="bi bi-check-lg"></i> No spaces</li>
                 </ul>
             </div>
 
