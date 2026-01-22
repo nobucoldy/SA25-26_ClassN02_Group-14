@@ -266,6 +266,24 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     @stack('scripts')
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tìm cái thông báo có class là 'alert' (hoặc class cậu đang đặt cho nó)
+        const welcomeAlert = document.querySelector('.alert-success'); // Thay đổi class cho đúng với cái của cậu
+        
+        if (welcomeAlert) {
+            // Sau 3000ms (3 giây), bắt đầu hiệu ứng mờ dần
+            setTimeout(function() {
+                welcomeAlert.style.transition = "opacity 0.6s ease";
+                welcomeAlert.style.opacity = "0";
+                
+                // Sau khi mờ hẳn thì xóa hoàn toàn khỏi giao diện
+                setTimeout(function() {
+                    welcomeAlert.remove();
+                }, 600);
+            }, 3000); 
+        }
+    });
+</script>
 </body>
 </html>

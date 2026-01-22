@@ -173,9 +173,6 @@
 
     <div class="movie-detail-page">
         <div class="container">
-            <nav class="mb-4" style="font-size: 0.85rem; color: #888;">
-                Home &nbsp; > &nbsp; Now Showing &nbsp; > &nbsp; {{ $movie->title }}
-            </nav>
 
             <div class="main-card">
                 <div class="row">

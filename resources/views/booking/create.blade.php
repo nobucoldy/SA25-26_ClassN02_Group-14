@@ -28,36 +28,49 @@
         .close-btn { background: transparent !important; border: none !important; color: #94a3b8; font-size: 1.4rem; cursor: pointer; padding: 0 0 0 10px; line-height: 1; outline: none !important; box-shadow: none !important; }
         .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #ff3131; width: 100%; animation: toastProgress 3s linear forwards; }
         @keyframes toastProgress { from { width: 100%; } to { width: 0%; } }
+        
         .movie-poster{
             width: 110px; height: 160px; border-radius: 12px; object-fit: cover; margin-right: 20px;
         }
-        /* SEAT SELECTION AND PAYMENT INTERFACE (KEEP ORIGINAL CSS) */
+
+        /* HEADER & INFO */
         .ticket-header { background: white; border-radius: 20px; padding: 25px; display: flex; gap: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 30px; border-left: 8px solid #90ff00; }
-        .summary-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
         .movie-title { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 15px; }
         .info-details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
         .info-box { background: #f8f9fa; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
         .info-box label { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; font-weight: 700; }
         .info-box span { display: block; font-size: 0.9rem; font-weight: 700; color: #333; }
+
+        /* LEGEND - ĐÃ SỬA: CÁC Ô CHÚ THÍCH BẰNG NHAU */
         .seat-legend { display: flex; justify-content: center; gap: 40px; margin: 0 auto 40px; padding: 15px 40px; background: #fff; border-radius: 20px; width: fit-content; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .legend-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .legend-label { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: #444; }
         .legend-price { font-size: 0.7rem; color: #ff3131; font-weight: 600; }
-        .seat-demo { width: 20px; height: 20px; border-radius: 5px; }
+        .seat-demo { width: 20px !important; 
+    height: 20px !important; 
+    border-radius: 5px; }
+
+        /* SCREEN */
         .screen-container { width: 100%; perspective: 500px; margin-bottom: 60px; text-align: center; }
         .screen { width: 70%; height: 10px; background: #ddd; margin: 0 auto; transform: rotateX(-30deg); box-shadow: 0 15px 25px rgba(0,0,0,0.1); border-radius: 5px; }
         .screen-text { color: #bbb; font-size: 0.75rem; margin-top: 20px; letter-spacing: 10px; font-weight: 800; }
+
+        /* SEAT GRID */
         .zoom-wrapper { width: 100%; display: flex; justify-content: center; }
         #main-booking-area { transition: transform 0.3s ease; transform-origin: top center; width: 100%; }
         .seat-grid { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .seat-row { display: flex; gap: 8px; align-items: center; }
         .seat-row .seat:nth-child(3), .seat-row .seat:nth-child(8) { margin-right: 35px; }
+
+        /* SEAT STYLES - ĐÃ CẬP NHẬT KÍCH THƯỚC GHẾ ĐÔI */
         .seat { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .seat-normal { background: #90ff00; color: #000; } 
         .seat-vip { background: #ff4d4d; color: white; }    
-        .seat-double { background: #ff66cc; color: white; width: 88px; } 
-        .seat-selected { background: #1a1a1a !important; color: #fff !important; transform: scale(1.15); box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
+        .seat-double { background: #ff66cc; color: white; width: 90px; height: 40px; } /* Ghế đôi thực tế to hơn */
+        .seat-selected { background: #1a1a1a !important; color: #fff !important; transform: scale(1.1); box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
         .seat-sold { background: #e0e0e0 !important; color: #aaa !important; cursor: not-allowed; } 
+
+        /* MODALS & CHECKOUT (GIỮ NGUYÊN) */
         .combo-modal-item { background: #f8f9fa; border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
         .btn-qty-vnpay { width: 32px; height: 32px; border-radius: 8px; border: none; background: #90ff00; color: #000; font-weight: 800; font-size: 1.1rem; }
         .vnpay-blue-btn { background-color: #0056b3 !important; color: white !important; border: none !important; border-radius: 10px !important; padding: 12px 45px !important; font-weight: bold !important; transition: 0.3s; }
@@ -112,7 +125,7 @@
         <div class="seat-legend">
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Regular</div><div class="legend-price">36,000đ</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49,000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Couple Seat</div><div class="legend-price">90,000đ</div></div>
+            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Couple</div><div class="legend-price">90,000đ</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Selected</div><div class="legend-price">-</div></div>
             <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Sold</div><div class="legend-price">-</div></div>
         </div>
@@ -126,11 +139,12 @@
                         $normalRows = ['A', 'B', 'C']; 
                         $soldSeatCodes = $soldSeatCodes ?? []; 
                         $seatMap = []; 
-                        // Build seat map from database
                         foreach($showtime->room->seats as $seat) {
                             $seatMap[$seat->seat_code] = $seat->id;
                         }
                     @endphp
+                    
+                    {{-- GHẾ THƯỜNG & VIP --}}
                     @foreach($rows as $row)
                         <div class="seat-row">
                             @for($i=1; $i<=10; $i++)
@@ -145,11 +159,13 @@
                                 @if($seatId)
                                     <div class="seat {{ $isSold ? 'seat-sold' : $type }}" data-id="{{ $seatId }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
                                 @else
-                                    <div class="seat seat-sold" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                                    <div class="seat seat-sold" data-name="{{ $code }}">{{ $code }}</div>
                                 @endif
                             @endfor
                         </div>
                     @endforeach
+
+                    {{-- GHẾ ĐÔI - DÒNG CUỐI CÙNG --}}
                     <div class="seat-row mt-4">
                         @for($i=1; $i<=5; $i++)
                             @php 
@@ -161,7 +177,7 @@
                             @if($seatId)
                                 <div class="seat {{ $isSold ? 'seat-sold' : 'seat-double' }}" data-id="{{ $seatId }}" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
                             @else
-                                <div class="seat seat-sold" data-name="{{ $code }}" data-price="{{ $price }}">{{ $code }}</div>
+                                <div class="seat seat-sold" style="width: 88px;">{{ $code }}</div>
                             @endif
                         @endfor
                     </div>
@@ -187,6 +203,7 @@
     </div>
 </div>
 
+{{-- MODALS GIỮ NGUYÊN --}}
 <div class="modal fade" id="comboModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 shadow">
