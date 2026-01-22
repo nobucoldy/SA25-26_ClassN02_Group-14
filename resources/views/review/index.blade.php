@@ -140,7 +140,7 @@
                     <div class="mb-3">
                         <i class="bi bi-chat-left-dots" style="font-size: 3rem; color: #ff69b4;"></i>
                     </div>
-                    <p class="text-muted">No reviews have been posted yet. Come back later!</p>
+                    <p class="text-muted; color: white;">No reviews have been posted yet. Come back later!</p>
                     <a href="{{ route('home') }}" class="btn btn-outline-light btn-sm mt-3">Back to Home</a>
                 </div>
             @endforelse

@@ -18,7 +18,7 @@ return new class extends Migration
     $table->integer('duration');
     $table->string('genre')->nullable();
     $table->date('release_date')->nullable();
-    
+    $table->integer('base_price')->default(60000);
     $table->string('poster_url')->nullable();
     $table->string('trailer_url')->nullable();
     $table->string('movie_backdrop')->nullable();

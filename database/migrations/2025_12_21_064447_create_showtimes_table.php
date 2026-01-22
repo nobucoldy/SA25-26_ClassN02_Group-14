@@ -17,6 +17,9 @@ return new class extends Migration
         // Phải là theaters chứ không được là cinemas
         $table->foreignId('theater_id')->constrained('theaters')->onDelete('cascade'); 
         $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
+        $table->foreignId('screening_type_id')
+          ->constrained('screening_types')
+          ->cascadeOnDelete();
         $table->date('show_date');
         $table->time('start_time');
         $table->time('end_time');

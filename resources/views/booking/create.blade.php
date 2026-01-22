@@ -135,25 +135,40 @@
     </div>
 
     <div class="info-box">
-        <label>Type</label>
-        <span>
-            {{ $showtime->screeningType->format }}
-            -
-            {{ $showtime->screeningType->language }}
-        </span>
-    </div>
+    <label>Type</label>
+    <span>{{ $showtime->screeningType->label }}</span>
+</div>
+
 </div>
 
 
             </div>
         </div>
+@php
+    $extra = $showtime->screeningType->extra_price ?? 0;
+@endphp
 
         <div class="seat-legend">
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-normal"></div>Regular</div><div class="legend-price">36,000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-vip"></div>VIP</div><div class="legend-price">49,000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-double"></div>Couple</div><div class="legend-price">90,000đ</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo" style="background:#1a1a1a"></div>Selected</div><div class="legend-price">-</div></div>
-            <div class="legend-item"><div class="legend-label"><div class="seat-demo seat-sold"></div>Sold</div><div class="legend-price">-</div></div>
+            <div class="legend-item">
+    <div class="legend-label">
+        <div class="seat-demo seat-normal"></div>Regular
+    </div>
+    <div class="legend-price">{{ number_format(36000 + $extra) }}đ</div>
+</div>
+
+<div class="legend-item">
+    <div class="legend-label">
+        <div class="seat-demo seat-vip"></div>VIP
+    </div>
+    <div class="legend-price">{{ number_format(49000 + $extra) }}đ</div>
+</div>
+
+<div class="legend-item">
+    <div class="legend-label">
+        <div class="seat-demo seat-double"></div>Couple
+    </div>
+    <div class="legend-price">{{ number_format(90000 + $extra) }}đ</div>
+</div>
         </div>
 
         <div class="zoom-wrapper">
@@ -178,7 +193,8 @@
                                     $code = $row . sprintf("%02d", $i); 
                                     $isNormal = in_array($row, $normalRows); 
                                     $type = $isNormal ? 'seat-normal' : 'seat-vip'; 
-                                    $price = $isNormal ? 36000 : 49000; 
+                                    $basePrice = $isNormal ? 36000 : 49000;
+                                    $price = $basePrice + $showtime->screeningType->extra_price;
                                     $isSold = in_array($code, $soldSeatCodes); 
                                     $seatId = $seatMap[$code] ?? null;
                                 @endphp
@@ -196,7 +212,7 @@
                         @for($i=1; $i<=5; $i++)
                             @php 
                                 $code = "L" . sprintf("%02d", $i); 
-                                $price = 90000; 
+                                $price = 90000 + $showtime->screeningType->extra_price;
                                 $isSold = in_array($code, $soldSeatCodes); 
                                 $seatId = $seatMap[$code] ?? null;
                             @endphp
