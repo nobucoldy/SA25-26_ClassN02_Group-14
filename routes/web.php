@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 });
-
+// --- PROFILE ---
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'updateInfo'])->name('profile.update');
@@ -65,6 +65,8 @@ Route::get('/reviews', [MovieController::class, 'index'])->name('review.index');
 Route::get('/schedule', [TheaterController::class, 'showSchedule'])->name('schedule.show');
 
 Route::get('/theaters', [TheaterController::class, 'index'])->name('theaters.index');
+// Route xem lịch chiếu của một rạp cụ thể
+Route::get('/theaters/{id}/schedule', [TheaterController::class, 'showSchedule'])->name('theaters.schedule');
 //ADMIN
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])

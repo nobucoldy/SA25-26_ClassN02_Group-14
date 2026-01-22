@@ -99,13 +99,25 @@
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
-{{-- THANH BREADCRUMB CĂN GIỮA --}}
+{{-- THANH BREADCRUMB ĐỘNG --}}
 <div class="breadcrumb-container">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Movie Schedule</li>
+                
+                {{-- Nếu có theater_id thì hiện thêm cấp Theater ở giữa --}}
+                @if(request()->has('theater_id') && $selectedTheater)
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('theaters.index') }}">Theaters</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ $selectedTheater->name }}
+                    </li>
+                @else
+                    {{-- Nếu không có theater_id thì hiện Schedule trực tiếp --}}
+                    <li class="breadcrumb-item active" aria-current="page">Movie Schedule</li>
+                @endif
             </ol>
         </nav>
     </div>

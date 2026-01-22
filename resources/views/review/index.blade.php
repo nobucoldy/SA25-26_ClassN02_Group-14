@@ -4,7 +4,7 @@
 
 @section('content')
 <style>
-    /* --- BREADCRUMB CĂN TÂM & ĐỒNG BỘ --- */
+    /* --- BREADCRUMB: Căn giữa và đổi màu trắng để nổi bật --- */
     .breadcrumb-container {
         height: 50px;
         display: flex;
@@ -28,19 +28,13 @@
     }
     .breadcrumb-item a { color: #a3a3a3 !important; text-decoration: none; transition: 0.3s; }
     .breadcrumb-item a:hover { color: #ff69b4 !important; }
-    .breadcrumb-item.active { color: #fff; font-weight: 600; }
-    /* Dark purple background color characteristic of Figma */
+    .breadcrumb-item.active { color: #ffffff !important; font-weight: 600; }
+
     .review-page { 
         background-color: #3b2d3d; 
         color: white; 
         padding: 40px 0; 
         min-height: 100vh;
-    }
-    
-    .breadcrumb-custom {
-        font-size: 0.85rem;
-        margin-bottom: 25px;
-        color: #a3a3a3;
     }
 
     .review-header {
@@ -48,135 +42,116 @@
         font-weight: 700;
         text-align: center;
         margin-bottom: 50px;
-        font-size: 1.8rem;
+        font-size: 2rem;
         letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
-    /* Large article cards (Avatar 3, Zootopia 2) */
-    .review-card-large {
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        margin-bottom: 30px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .review-card-large:hover { transform: scale(1.02); }
-    .review-card-large img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    /* Card Layout */
+    .review-card-small { margin-bottom: 30px; cursor: pointer; transition: 0.3s; }
+    .review-card-small:hover { transform: translateY(-8px); }
     
-    .overlay-content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 20px;
-        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    }
-    .title-large { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
-    
-    /* Small article grid */
-    .review-card-small { margin-bottom: 30px; cursor: pointer; }
     .img-small-wrapper {
-        background-color: #d9d9d9; /* Gray color like in the Figma */
-        border-radius: 12px;
+        background-color: #2a1f2b; /* Màu tối hơn nền một chút */
+        border-radius: 15px;
         aspect-ratio: 1/1;
         overflow: hidden;
-        margin-bottom: 12px;
+        margin-bottom: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
     .img-small-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .title-small { font-size: 0.85rem; font-weight: 600; line-height: 1.4; color: #fff; }
+    
+    .title-small { 
+        font-size: 0.95rem; 
+        font-weight: 600; 
+        line-height: 1.4; 
+        color: #fff; 
+        height: 2.8rem; /* Giữ tiêu đề tối đa 2 dòng cho đều */
+        overflow: hidden;
+    }
 
-    /* Rating badge red color */
     .rating-badge {
         background-color: #ff0000;
         color: white;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 0.7rem;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 800;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        margin-top: 5px;
+        gap: 5px;
+        margin-top: 8px;
     }
 
-    /* Load more button neon yellow color */
-    .btn-load-more {
-        background-color: #e2ff8d;
-        color: #000;
-        border: none;
-        padding: 10px 35px;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        margin-top: 30px;
-        transition: 0.3s;
+    /* Phân trang Neon */
+    .pagination-wrapper .page-link {
+        background-color: #3b2d3d;
+        border: 1px solid #ff69b4;
+        color: #ff69b4;
+        margin: 0 3px;
+        border-radius: 5px;
     }
-    .btn-load-more:hover { background-color: #39ff14; box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); }
+    .pagination-wrapper .page-item.active .page-link {
+        background-color: #ff69b4;
+        border-color: #ff69b4;
+        color: #fff;
+    }
 </style>
-{{-- BREADCRUMB CĂN GIỮA ĐÃ SỬA LỖI HIỂN THỊ --}}
+
+{{-- BREADCRUMB --}}
 <div class="breadcrumb-container" style="background-color: #3b2d3d;">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('home') }}">Home</a>
-                </li>
-                {{-- Chữ Reviews ở đây tớ đã ép màu trắng sáng để nổi bật trên nền tím --}}
-                <li class="breadcrumb-item active" aria-current="page" style="color: #000000 !important; font-weight: 600;">
-                    Reviews
-                </li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #000000 !important; font-weight: 600;">Reviews</li>
             </ol>
         </nav>
     </div>
 </div>
+
 <div class="review-page">
     <div class="container">
+        <h1 class="review-header">Movie Reviews</h1>
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="review-card-large">
-                    <img src="https://m.media-amazon.com/images/M/MV5BMzVjZWUzOTUtYmZlNC00Y2VmLTlhMDktZTM4YmI3ZGRmN2EzXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" alt="Avatar 3">
-                    <div class="overlay-content">
-                        <div class="title-large">Avatar 3 Review: Blockbuster elevates cinematography standards</div>
-                        <div class="rating-badge"><i class="bi bi-star-fill"></i> 9/10</div>
+            {{-- ĐỔ DỮ LIỆU THẬT --}}
+            @forelse($reviews as $review)
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="review-card-small">
+                        <div class="img-small-wrapper">
+                            {{-- LOGIC LẤY ẢNH: Ưu tiên ảnh riêng bài review -> Ảnh poster phim (poster_url) --}}
+                            @if($review->image)
+                                <img src="{{ asset('storage/' . $review->image) }}" alt="{{ $review->title }}">
+                            @elseif($review->movie && $review->movie->poster_url)
+                                <img src="{{ asset('storage/' . $review->movie->poster_url) }}" alt="{{ $review->movie->title }}">
+                            @else
+                                <img src="https://via.placeholder.com/400x400?text=BKL+Cinema" alt="No Image">
+                            @endif
+                        </div>
+                        <div class="title-small">{{ $review->title }}</div>
+                        <div class="rating-badge">
+                            <i class="bi bi-star-fill"></i> {{ $review->rating }}/10
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="review-card-large">
-                    <img src="https://m.media-amazon.com/images/M/MV5BOTMyMjEyNzIzMV5BMl5BanBnXkFtZTgwNzMzNjgzOTE@._V1_.jpg" alt="Zootopia 2">
-                    <div class="overlay-content">
-                        <div class="title-large">Zootopia 2 Review: Animated masterpiece dominates the box office</div>
-                        <div class="rating-badge"><i class="bi bi-star-fill"></i> 8.5/10</div>
+            @empty
+                <div class="col-12 text-center py-5">
+                    <div class="mb-3">
+                        <i class="bi bi-chat-left-dots" style="font-size: 3rem; color: #ff69b4;"></i>
                     </div>
+                    <p class="text-muted">No reviews have been posted yet. Come back later!</p>
+                    <a href="{{ route('home') }}" class="btn btn-outline-light btn-sm mt-3">Back to Home</a>
                 </div>
-            </div>
+            @endforelse
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-3 col-6">
-                <div class="review-card-small">
-                    <div class="img-small-wrapper">
-                        <img src="https://upload.wikimedia.org/wikipedia/vi/a/a9/B%E1%BB%91_gi%C3%A0_2021.jpg" alt="Bố Già">
-                    </div>
-                    <div class="title-small">The Father Review - A touching family film, dramatic and engaging</div>
-                    <div class="rating-badge"><i class="bi bi-star-fill"></i> 8/10</div>
-                </div>
+        {{-- PHẦN PHÂN TRANG --}}
+        @if($reviews->hasPages())
+            <div class="pagination-wrapper d-flex justify-content-center mt-5">
+                {{ $reviews->links('pagination::bootstrap-4') }}
             </div>
-
-            @for ($i = 0; $i < 7; $i++)
-            <div class="col-md-3 col-6">
-                <div class="review-card-small">
-                    <div class="img-small-wrapper"></div>
-                    <div class="title-small" style="background: #555; height: 15px; width: 90%; border-radius: 4px;"></div>
-                    <div class="title-small mt-2" style="background: #555; height: 15px; width: 60%; border-radius: 4px;"></div>
-                </div>
-            </div>
-            @endfor
-        </div>
-
-        <div class="text-center mt-4">
-            <button class=\"btn btn-load-more shadow-sm\">Load More</button>
-        </div>
+        @endif
     </div>
 </div>
 @endsection

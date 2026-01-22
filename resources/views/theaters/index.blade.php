@@ -130,7 +130,10 @@
                         <span class="badge" style="background: #efe6f5; color: #9c27b0; padding: 10px 20px; border-radius: 10px;">
                             <i class="bi bi-check-circle-fill me-1"></i> Active
                         </span>
-                        <a href="#" class="btn btn-action">View Schedule</a>
+                        {{-- Sửa dòng này --}}
+                        <a href="{{ route('schedule.show', ['theater_id' => $theater->id]) }}" class="btn btn-action">
+                            View Schedule
+                        </a>
                     </div>
                 </div>
             </div>
