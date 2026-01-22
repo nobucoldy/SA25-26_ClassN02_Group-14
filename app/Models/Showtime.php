@@ -13,17 +13,15 @@ class Showtime extends Model
         'movie_id',
         'theater_id',
         'room_id',
+        'screening_type_id',
         'show_date',
         'start_time',
         'end_time',
-        'price',
     ];
 
     // ✅ CAST ĐÚNG CHỖ
     protected $casts = [
         'show_date'  => 'date',
-        'start_time' => 'datetime',
-        'end_time'   => 'datetime',
     ];
 
     public function movie()

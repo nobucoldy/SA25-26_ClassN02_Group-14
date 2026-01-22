@@ -15,7 +15,9 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 Route::controller(MovieController::class)->group(function () {
     Route::get('/movies', 'index');
     Route::get('/movies/showing', 'showing');
+    Route::get('/movies/showing-filter', 'showingFilter');
     Route::get('/movies/coming-soon', 'comingSoon');
+    Route::get('/movies/filter', 'filter');
     Route::get('/movies/{id}', 'show');
 });
 

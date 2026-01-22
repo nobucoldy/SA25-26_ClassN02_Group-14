@@ -90,13 +90,28 @@
                 </div>
             </div>
             <div class="d-flex gap-2">
-                <select class="form-select shadow-none" style="width: auto; border-radius: 10px; cursor: pointer;">
-                    <option>All Genres</option>
+                <select class="form-select shadow-none" id="genreFilter" style="width: auto; border-radius: 10px; cursor: pointer;" onchange="applyFilters()">
+                    <option value="">All Genres</option>
+                    @foreach($genres as $genre)
+                        <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                    @endforeach
+                </select>
+                <select class="form-select shadow-none" id="directorFilter" style="width: auto; border-radius: 10px; cursor: pointer;" onchange="applyFilters()">
+                    <option value="">All Directors</option>
+                    @foreach($directors as $director)
+                        <option value="{{ $director->id }}">{{ $director->name }}</option>
+                    @endforeach
+                </select>
+                <select class="form-select shadow-none" id="actorFilter" style="width: auto; border-radius: 10px; cursor: pointer;" onchange="applyFilters()">
+                    <option value="">All Actors</option>
+                    @foreach($actors as $actor)
+                        <option value="{{ $actor->id }}">{{ $actor->name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
 
-        <div class="movie-grid-system">
+        <div id="movieGrid" class="movie-grid-system">
             @forelse($movies as $movie)
                 <a href="{{ route('movies.show', $movie->id) }}" class="movie-item-box">
                     <div class="poster-container">
@@ -116,4 +131,48 @@
         </div>
     </div>
 </div>
+
+<script>
+    function applyFilters() {
+        const genre = document.getElementById('genreFilter').value;
+        const director = document.getElementById('directorFilter').value;
+        const actor = document.getElementById('actorFilter').value;
+
+        const params = new URLSearchParams();
+        if (genre) params.append('genre', genre);
+        if (director) params.append('director', director);
+        if (actor) params.append('actor', actor);
+
+        fetch(`/api/movies/showing-filter?${params.toString()}`)
+            .then(response => response.json())
+            .then(data => displayMovies(data))
+            .catch(error => console.error('Error:', error));
+    }
+
+    function displayMovies(movies) {
+        const grid = document.getElementById('movieGrid');
+        
+        if (movies.length === 0) {
+            grid.innerHTML = `
+                <div class="text-center w-100 py-5" style="grid-column: 1 / -1;">
+                    <i class="bi bi-film" style="font-size: 3rem; color: #ccc;"></i>
+                    <p class="text-muted mt-3">No movies found for this filter.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = movies.map(movie => `
+            <a href="/movies/${movie.id}" class="movie-item-box">
+                <div class="poster-container">
+                    <img src="/storage/${movie.poster_url}" alt="${movie.title}">
+                    <div class="status-label">Now Showing</div>
+                </div>
+                <div class="movie-footer-info">
+                    <h6>${movie.title}</h6>
+                </div>
+            </a>
+        `).join('');
+    }
+</script>
 @endsection

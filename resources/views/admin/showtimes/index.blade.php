@@ -43,7 +43,6 @@
             <th>Room</th>
             <th>Date</th>
             <th>Time</th>
-            <th>Price</th>
             <th width="160">Actions</th>
         </tr>
     </thead>
@@ -54,9 +53,19 @@
             <td>{{ $s->id }}</td>
             <td>{{ $s->movie->title }}</td>
             <td>{{ $s->room->name }}</td>
-            <td>{{ $s->show_date }}</td>
-            <td>{{ $s->start_time }}</td>
-            <td>{{ number_format($s->price) }} đ</td>
+            <td>{{ $s->show_date->format('d/m/Y') }}</td>
+            <td>
+                @if($s->start_time && $s->movie->duration)
+                    @php
+                        $startTime = \DateTime::createFromFormat('H:i:s', $s->start_time);
+                        $endTime = clone $startTime;
+                        $endTime->add(new \DateInterval('PT' . $s->movie->duration . 'M'));
+                    @endphp
+                    {{ $startTime->format('H:i') }} ~ {{ $endTime->format('H:i') }}
+                @else
+                    -
+                @endif
+            </td>
             <td>
                 <a href="{{ route('admin.showtimes.edit', $s->id) }}"
                    class="btn btn-sm btn-warning">
@@ -77,7 +86,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="7" class="text-center text-muted">
+            <td colspan="6" class="text-center text-muted">
                 No showtimes found
             </td>
         </tr>

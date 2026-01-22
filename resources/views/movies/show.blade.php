@@ -260,6 +260,63 @@
 </div>
 
 
+
+
+            <!-- SIMILAR MOVIES SECTION -->
+            <div style="margin-top: 50px;">
+                <h2 class="schedule-title">Similar Movies</h2>
+                
+                <!-- FILTER FORM -->
+                <div class="main-card" style="background: #f8f8f8; margin-bottom: 30px;">
+                    <form id="filterForm" class="row g-3">
+                        <!-- Filter by Genre -->
+                        <div class="col-md-4">
+                            <label class="form-label"><strong>Filter by Genre</strong></label>
+                            <select class="form-select" id="genreFilter" name="genre">
+                                <option value="">All Genres</option>
+                                @foreach($movie->genres as $genre)
+                                    <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filter by Director -->
+                        <div class="col-md-4">
+                            <label class="form-label"><strong>Filter by Director</strong></label>
+                            <select class="form-select" id="directorFilter" name="director">
+                                <option value="">All Directors</option>
+                                @if($movie->director)
+                                    <option value="{{ $movie->director->id }}">{{ $movie->director->name }}</option>
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Filter by Actor -->
+                        <div class="col-md-4">
+                            <label class="form-label"><strong>Filter by Actor</strong></label>
+                            <select class="form-select" id="actorFilter" name="actor">
+                                <option value="">All Actors</option>
+                                @foreach($movie->actors as $actor)
+                                    <option value="{{ $actor->id }}">{{ $actor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="button" class="btn" style="background: #90ff00; border: none; padding: 10px 30px; border-radius: 10px; font-weight: bold;"
+                                    onclick="applyFilters()">
+                                <i class="bi bi-search"></i> Search Similar Movies
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="filterResults" class="row g-4">
+                    <!-- Results will be loaded here -->
+                </div>
+            </div>
             
         </div>
     </div>
@@ -361,5 +418,54 @@
                 });
             }
         });
+
+        /* --- FILTER MOVIES --- */
+        function applyFilters() {
+            const genre = document.getElementById('genreFilter').value;
+            const director = document.getElementById('directorFilter').value;
+            const actor = document.getElementById('actorFilter').value;
+
+            const params = new URLSearchParams();
+            if (genre) params.append('genre', genre);
+            if (director) params.append('director', director);
+            if (actor) params.append('actor', actor);
+
+            fetch(`/api/movies/filter?${params.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayFilterResults(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Error loading movies');
+                });
+        }
+
+        function resetFilters() {
+            document.getElementById('genreFilter').value = '';
+            document.getElementById('directorFilter').value = '';
+            document.getElementById('actorFilter').value = '';
+            document.getElementById('filterResults').innerHTML = '';
+        }
+
+        function displayFilterResults(movies) {
+            const resultsDiv = document.getElementById('filterResults');
+            
+            if (movies.length === 0) {
+                resultsDiv.innerHTML = '<div class="col-12 text-center text-muted py-5">No movies found</div>';
+                return;
+            }
+
+            resultsDiv.innerHTML = movies.map(movie => `
+                <div class="col-md-3">
+                    <div class="main-card" style="height: 100%;">
+                        <img src="/storage/${movie.poster_url}" class="w-100 rounded" style="height: 250px; object-fit: cover;">
+                        <h5 class="mt-3">${movie.title}</h5>
+                        <p class="text-muted small">${movie.duration} min</p>
+                        <a href="/movies/${movie.id}" class="btn btn-sm" style="background: #90ff00; border: none; border-radius: 8px;">View Details</a>
+                    </div>
+                </div>
+            `).join('');
+        }
     </script>
     @endsection

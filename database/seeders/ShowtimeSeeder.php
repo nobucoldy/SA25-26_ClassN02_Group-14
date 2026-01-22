@@ -35,17 +35,19 @@ class ShowtimeSeeder extends Seeder
                     $slotIndex = $roomIndex % count($timeSlots);
                     $roomTimeSlot = $timeSlots[$slotIndex];
 
+                    $startTime = Carbon::parse($roomTimeSlot);
+                    $endTime = $startTime->copy()->addMinutes(120);
+
                     DB::table('showtimes')->insert([
-                        'movie_id'   => $randomMovie->id,
-                        'theater_id' => $theater->id,
-                        'room_id'    => $room['id'],
-                        'screening_type_id' => collect($screeningTypes)->random(),
-                        'show_date'  => $showDate->toDateString(),
-                        'start_time' => Carbon::parse($showDate->format('Y-m-d').' '.$roomTimeSlot),
-                        'end_time'   => Carbon::parse($showDate->format('Y-m-d').' '.$roomTimeSlot)->addMinutes(120),
-                        'price'      => rand(70000, 150000),
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'movie_id'          => $randomMovie->id,
+                        'theater_id'        => $theater->id,
+                        'room_id'           => $room['id'],
+                        'screening_type_id' => $screeningTypes[array_rand($screeningTypes)],
+                        'show_date'         => $showDate->toDateString(),
+                        'start_time'        => $startTime->format('H:i:s'),
+                        'end_time'          => $endTime->format('H:i:s'),
+                        'created_at'        => now(),
+                        'updated_at'        => now(),
                     ]);
                 }
             }

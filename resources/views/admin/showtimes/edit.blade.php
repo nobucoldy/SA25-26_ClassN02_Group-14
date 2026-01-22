@@ -48,6 +48,18 @@
             </select>
         </div>
 
+        {{-- Screening Type --}}
+        <div class="mb-3">
+            <label class="form-label">Screening Type</label>
+            <select name="screening_type_id" class="form-control" required>
+                @foreach($screeningTypes as $type)
+                    <option value="{{ $type->id }}" {{ old('screening_type_id', $showtime->screening_type_id) == $type->id ? 'selected' : '' }}>
+                        {{ $type->label }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         {{-- Date & Time --}}
         <div class="row">
             <div class="col-md-4 mb-3">
@@ -72,15 +84,6 @@
                        class="form-control"
                        value="{{ old('end_time', $showtime->end_time) }}" required>
             </div>
-        </div>
-
-        {{-- Price --}}
-        <div class="mb-3">
-            <label class="form-label">Ticket Price</label>
-            <input type="number" name="price"
-                   class="form-control"
-                   value="{{ old('price', $showtime->price) }}"
-                   min="0" required>
         </div>
 
         <button class="btn btn-warning">Update Showtime</button>

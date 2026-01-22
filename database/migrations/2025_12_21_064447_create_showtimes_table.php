@@ -23,7 +23,6 @@ return new class extends Migration
         $table->date('show_date');
         $table->time('start_time');
         $table->time('end_time');
-        $table->decimal('price', 10, 0); 
         $table->timestamps();
     });
 }

@@ -20,7 +20,10 @@ class MovieController extends Controller
     public function showing()
     {
         $movies = Movie::where('status', 'showing')->paginate(12);
-        return view('movies.status', compact('movies'));
+        $genres = \App\Models\Genre::all();
+        $directors = \App\Models\Director::all();
+        $actors = \App\Models\Actor::all();
+        return view('movies.status', compact('movies', 'genres', 'directors', 'actors'));
     }
 
     public function upcoming()

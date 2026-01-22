@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Room;
 use App\Models\Movie;
+use App\Models\Theater;
 use App\Models\Showtime;
+use App\Models\ScreeningType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -59,16 +61,18 @@ class ShowtimeController extends Controller
         $showtime = Showtime::findOrFail($id);
 
         return view('admin.showtimes.edit', [
-            'showtime' => $showtime,
-            'movies'   => Movie::all(),
-            'rooms'    => Room::all(),
+            'showtime'        => $showtime,
+            'movies'          => Movie::all(),
+            'rooms'           => Room::all(),
+            'screeningTypes'  => ScreeningType::all(),
         ]);
     }
     public function create()
     {
         return view('admin.showtimes.create', [
-            'movies' => \App\Models\Movie::orderBy('title')->get(),
-            'rooms'  => \App\Models\Room::orderBy('name')->get(),
+            'movies'          => \App\Models\Movie::orderBy('title')->get(),
+            'theaters'        => \App\Models\Theater::with('rooms')->orderBy('name')->get(),
+            'screeningTypes'  => ScreeningType::all(),
         ]);
     }
     public function update(Request $request, $id)
@@ -76,17 +80,17 @@ class ShowtimeController extends Controller
         $showtime = Showtime::findOrFail($id);
 
         $request->validate([
-            'show_date'  => 'required|date',
-            'start_time' => 'required',
-            'end_time'   => 'nullable',
-            'price'      => 'required|numeric|min:0',
+            'screening_type_id' => 'required|exists:screening_types,id',
+            'show_date'         => 'required|date',
+            'start_time'        => 'required',
+            'end_time'          => 'nullable',
         ]);
 
         $showtime->update($request->only(
+            'screening_type_id',
             'show_date',
             'start_time',
-            'end_time',
-            'price'
+            'end_time'
         ));
 
         return redirect()->route('admin.showtimes.index')
@@ -95,12 +99,13 @@ class ShowtimeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'movie_id'   => 'required|exists:movies,id',
-            'room_id'    => 'required|exists:rooms,id',
-            'show_date'  => 'required|date',
-            'start_time' => 'required',
-            'end_time'   => 'nullable',
-            'price'      => 'required|numeric|min:0',
+            'theater_id'      => 'required|exists:theaters,id',
+            'movie_id'        => 'required|exists:movies,id',
+            'room_id'         => 'required|exists:rooms,id',
+            'screening_type_id' => 'required|exists:screening_types,id',
+            'show_date'       => 'required|date',
+            'start_time'      => 'required',
+            'end_time'        => 'nullable',
         ]);
 
         // Get movie to get duration
@@ -136,12 +141,14 @@ class ShowtimeController extends Controller
 
         // ✅ Lưu DB
         Showtime::create([
-            'movie_id'   => $request->movie_id,
-            'room_id'    => $request->room_id,
-            'show_date'  => $request->show_date,
-            'start_time' => $start->format('H:i'),
-            'end_time'   => $end->format('H:i'),
-            'price'      => $request->price,
+            'movie_id'          => $request->movie_id,
+            'theater_id'        => $request->theater_id,
+            'room_id'           => $request->room_id,
+            'screening_type_id' => $request->screening_type_id,
+            'show_date'         => $request->show_date,
+            'start_time'        => $start->format('H:i'),
+            'end_time'          => $end->format('H:i'),
+            'price'             => 0,
         ]);
 
         return redirect()
