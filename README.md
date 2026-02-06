@@ -48,5 +48,5 @@ The application follows a **Layered Monolithic Architecture**:
   - Eloquent ORM Models
   - 
 ## 👨‍🏫 Course Information
-- **Course Instructor:**Vu Quang Dung 
+- **Course Instructor:** Vu Quang Dung 
 - **Course:** Software Architecture 
