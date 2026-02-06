@@ -38,21 +38,23 @@ The system follows a **Layered Monolith Architecture**:
    ```bash
    git clone https://github.com/nobucoldy/SA25-26_ClassN02_Group-14
 
-2.Navigate to the project folder:
+2. Navigate to the project folder:
    ```bash
    cd SA25-26_ClassN02_Group-14
+    ```
 3. Install dependencies:
    ```bash
 composer install
 npm install
+ ```
 4. Configure environment:
 Copy .env.example to .env
-
+ ```
 Set database connection (MySQL)
 
 Run migrations:
    ```bash
-php artisan migrate
+php artisan migrate ```
 5. Start the server:
    ```bash
-php artisan serve
+php artisan serve ```
