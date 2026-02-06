@@ -49,9 +49,7 @@ npm install
  ```
 4. Configure environment:
 Copy .env.example to .env
- ```
 Set database connection (MySQL)
-
 Run migrations:
    ```bash
 php artisan migrate ```
