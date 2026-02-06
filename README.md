@@ -46,3 +46,7 @@ The application follows a **Layered Monolithic Architecture**:
 - **Database Layer**
   - MySQL Database
   - Eloquent ORM Models
+  - 
+## 👨‍🏫 Course Information
+- **Course Instructor:**Vu Quang Dung 
+- **Course:** Software Architecture 
