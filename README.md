@@ -1,6 +1,6 @@
 # 🎬 Cinema Management System
 
-## 👥 Team Members
+## 👥 Team Members (Group 14)
 - **Nguyen Que Bac** – Student ID: 23010574  
 - **Hoang Tuan Kiet** – Student ID: 23010517  
 - **Do Bao Long** – Student ID: 23010561  
@@ -46,9 +46,3 @@ The application follows a **Layered Monolithic Architecture**:
 - **Database Layer**
   - MySQL Database
   - Eloquent ORM Models
-
-
-git clone https://github.com/nobucoldy/SA25-26_ClassN02_Group-14.git
-### 1️⃣ Clone the repository
-```bash
-git clone https://github.com/nobucoldy/SA25-26_ClassN02_Group-14.git
