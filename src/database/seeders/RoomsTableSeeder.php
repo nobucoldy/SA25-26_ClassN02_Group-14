@@ -28,7 +28,7 @@ class RoomsTableSeeder extends Seeder
                     'id' => $roomCounter,
                     'theater_id' => $theater->id,
                     'name' => 'Room ' . $i,
-                    'total_seats' => rand(80, 150),
+                    'total_seats' => 85,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
